@@ -28,7 +28,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void addProduct(Product product) {
-        if (productDao.findById(product.getId()).isPresent()) {
+        if (productDao.findByName(product.getProductName()).isPresent()) {
             throw new EntityAlreadyExistException(PRODUCT_ALREADY_EXISTS);
         }
         productDao.save(product);

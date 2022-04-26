@@ -34,7 +34,7 @@ public class UserServiceTest {
                 .withId(1)
                 .withFirstName("firstName")
                 .withLastName("lastName")
-                .withLogin("login")
+                .withEmail("login")
                 .withPassword("1111")
                 .build();
 
@@ -54,7 +54,7 @@ public class UserServiceTest {
                 .withId(1)
                 .withFirstName("firstName")
                 .withLastName("lastName")
-                .withLogin("login")
+                .withEmail("login")
                 .withPassword("1111")
                 .build());
 
@@ -62,7 +62,7 @@ public class UserServiceTest {
                 .withId(2)
                 .withFirstName("firstName")
                 .withLastName("lastName")
-                .withLogin("login")
+                .withEmail("login")
                 .withPassword("1111")
                 .build());
 
@@ -77,7 +77,7 @@ public class UserServiceTest {
                 .withId(1)
                 .withFirstName("firstName")
                 .withLastName("lastName")
-                .withLogin("login")
+                .withEmail("login")
                 .withPassword("1111")
                 .build();
 
@@ -92,7 +92,7 @@ public class UserServiceTest {
                 .withId(1)
                 .withFirstName("firstName")
                 .withLastName("lastName")
-                .withLogin("login")
+                .withEmail("login")
                 .withPassword("1111")
                 .build();
 
@@ -100,4 +100,20 @@ public class UserServiceTest {
         assertThrows(EntityNotFoundException.class, () -> userService.findUserById(user.getId()));
         verifyNoMoreInteractions(userDao);
     }
+
+    @Test
+    void findUserByEmailShouldReturnCorrectResult() {
+        User user = User.builder()
+                .withId(1)
+                .withFirstName("firstName")
+                .withLastName("lastName")
+                .withEmail("login")
+                .withPassword("1111")
+                .build();
+
+        when(userDao.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
+        userService.findUserByEmail(user.getEmail());
+        verify(userDao).findByEmail(user.getEmail());
+    }
+
 }

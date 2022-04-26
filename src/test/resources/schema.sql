@@ -2,6 +2,7 @@ CREATE SCHEMA IF NOT EXISTS online_store;
 
 DROP TABLE IF EXISTS online_store.customer_address CASCADE;
 DROP TABLE IF EXISTS online_store.user CASCADE;
+DROP TABLE IF EXISTS online_store.role CASCADE;
 DROP TABLE IF EXISTS online_store.product CASCADE;
 DROP TABLE IF EXISTS online_store.catalog CASCADE;
 DROP TABLE IF EXISTS online_store.order_item CASCADE;
@@ -11,44 +12,53 @@ DROP TABLE IF EXISTS online_store.cart_order_item CASCADE;
 
 CREATE TABLE online_store.customer_address
 (
-    id integer NOT NULL,
+    id SERIAL NOT NULL,
     zipcode character varying(255) NOT NULL,
     country character varying(255) NOT NULL,
     street character varying(255) NOT NULL,
     PRIMARY KEY (id)
 );
 
+CREATE TABLE online_store.role
+(
+    role_name character varying(255) NOT NULL,
+    PRIMARY KEY (role_name)
+);
+
 CREATE TABLE online_store.user
 (
-    id integer NOT NULL,
+    id SERIAL NOT NULL,
     first_name character varying(255) NOT NULL,
     last_name character varying(255) NOT NULL,
-    login character varying(255) NOT NULL,
+    email character varying(255) NOT NULL,
     password character varying(255) NOT NULL,
+    role_name character varying(255),
     address_id integer,
     PRIMARY KEY (id),
-    FOREIGN KEY (address_id) REFERENCES online_store.customer_address ON DELETE SET NULL
+    FOREIGN KEY (address_id) REFERENCES online_store.customer_address ON DELETE SET NULL,
+    FOREIGN KEY (role_name) REFERENCES online_store.role ON DELETE SET NULL
 );
 
 CREATE TABLE online_store.product
 (
-    id integer NOT NULL,
+    id SERIAL NOT NULL,
     product_name character varying(255) NOT NULL,
-    product_description character varying(255) NOT NULL,
+    brand character varying(255) NOT NULL,
+    photo character varying(255) NOT NULL,
     price integer NOT NULL,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE online_store.catalog
 (
-    id integer NOT NULL,
+    id SERIAL NOT NULL,
     group_name character varying(255) NOT NULL,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE online_store.order_item
 (
-    id integer NOT NULL,
+    id SERIAL NOT NULL,
     amount integer NOT NULL,
     product_id integer,
     PRIMARY KEY (id),
@@ -57,7 +67,7 @@ CREATE TABLE online_store.order_item
 
 CREATE TABLE online_store.cart
 (
-    id integer NOT NULL,
+    id SERIAL NOT NULL,
     user_id integer,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES online_store.user ON DELETE SET NULL
@@ -78,3 +88,5 @@ CREATE TABLE online_store.cart_order_item
     FOREIGN KEY (cart_id) REFERENCES online_store.cart ON DELETE CASCADE,
     FOREIGN KEY (order_item_id) REFERENCES online_store.order_item ON DELETE CASCADE
 );
+
+INSERT INTO online_store.role(role_name) VALUES ('ADMIN'), ('USER');

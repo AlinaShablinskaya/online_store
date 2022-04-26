@@ -5,14 +5,16 @@ import java.util.Objects;
 public class Product {
     private final Integer id;
     private final String productName;
-    private final String productDescription;
+    private final String brand;
+    private final String photo;
     private final Integer price;
 
     private Product(Builder builder) {
         this.id = builder.id;
         this.productName = builder.productName;
-        this.productDescription = builder.productDescription;
+        this.brand = builder.brand;
         this.price = builder.price;
+        this.photo = builder.photo;
     }
 
     public static Builder builder() {
@@ -27,8 +29,12 @@ public class Product {
         return productName;
     }
 
-    public String getProductDescription() {
-        return productDescription;
+    public String getBrand() {
+        return brand;
+    }
+
+    public String getPhoto() {
+        return photo;
     }
 
     public Integer getPrice() {
@@ -46,13 +52,14 @@ public class Product {
         Product product = (Product) o;
         return Objects.equals(id, product.id)
                 && Objects.equals(productName, product.productName)
-                && Objects.equals(productDescription, product.productDescription)
+                && Objects.equals(brand, product.brand)
+                && Objects.equals(photo, product.photo)
                 && Objects.equals(price, product.price);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, productName, productDescription, price);
+        return Objects.hash(id, productName, brand, photo, price);
     }
 
     @Override
@@ -60,7 +67,8 @@ public class Product {
         return "Product{" +
                 "id=" + id +
                 ", productName='" + productName + '\'' +
-                ", productDescription='" + productDescription + '\'' +
+                ", brand='" + brand + '\'' +
+                ", photo='" + photo + '\'' +
                 ", price=" + price +
                 '}';
     }
@@ -68,7 +76,8 @@ public class Product {
     public static class Builder {
         private Integer id;
         private String productName;
-        private String productDescription;
+        private String brand;
+        private String photo;
         private Integer price;
 
         private Builder() {
@@ -84,8 +93,13 @@ public class Product {
             return this;
         }
 
-        public Builder withProductDescription(String productDescription) {
-            this.productDescription = productDescription;
+        public Builder withBrand(String brand) {
+            this.brand = brand;
+            return this;
+        }
+
+        public Builder withPhoto(String photo) {
+            this.photo = photo;
             return this;
         }
 

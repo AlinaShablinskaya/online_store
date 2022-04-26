@@ -11,10 +11,8 @@ import by.it.academy.onlinestore.dao.OrderItemDao;
 import by.it.academy.onlinestore.entities.Cart;
 import by.it.academy.onlinestore.entities.OrderItem;
 import by.it.academy.onlinestore.entities.Product;
-import by.it.academy.onlinestore.services.exeption.EntityAlreadyExistException;
 import by.it.academy.onlinestore.services.exeption.EntityNotFoundException;
 import by.it.academy.onlinestore.services.impl.OrderItemServiceImpl;
-import by.it.academy.onlinestore.services.impl.ProductServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -22,7 +20,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,7 +38,7 @@ public class OrderItemServiceTest {
         Product product = Product.builder()
                 .withId(1)
                 .withProductName("Name")
-                .withProductDescription("Description")
+                .withBrand("Description")
                 .withPrice(100)
                 .build();
 
@@ -86,7 +83,7 @@ public class OrderItemServiceTest {
         Product product = Product.builder()
                 .withId(1)
                 .withProductName("Name")
-                .withProductDescription("Description")
+                .withBrand("Description")
                 .withPrice(100)
                 .build();
 
@@ -120,7 +117,7 @@ public class OrderItemServiceTest {
         Product product = Product.builder()
                 .withId(1)
                 .withProductName("Name")
-                .withProductDescription("Description")
+                .withBrand("Description")
                 .withPrice(100)
                 .build();
 

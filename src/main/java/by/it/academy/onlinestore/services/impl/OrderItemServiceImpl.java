@@ -2,6 +2,7 @@ package by.it.academy.onlinestore.services.impl;
 
 import by.it.academy.onlinestore.dao.CartDao;
 import by.it.academy.onlinestore.dao.OrderItemDao;
+import by.it.academy.onlinestore.entities.OrderItem;
 import by.it.academy.onlinestore.services.OrderItemService;
 import by.it.academy.onlinestore.services.exeption.EntityNotFoundException;
 
@@ -18,6 +19,13 @@ public class OrderItemServiceImpl implements OrderItemService {
     public OrderItemServiceImpl(OrderItemDao orderItemDao, CartDao cartDao) {
         this.orderItemDao = orderItemDao;
         this.cartDao = cartDao;
+    }
+
+    @Override
+    public void createOrderItem(OrderItem orderItem) {
+        orderItemDao.save(orderItem);
+
+        lOGGER.info("Product successfully creates.");
     }
 
     @Override

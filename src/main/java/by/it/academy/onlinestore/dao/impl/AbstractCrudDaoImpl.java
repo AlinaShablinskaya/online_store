@@ -167,6 +167,10 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
         }
     }
 
+    protected Optional<E> findByStringParameter (String parameter, String query) {
+        return findByParam(parameter, query, STRING_CONSUMER);
+    }
+
     protected List<E> findAllByIntParameter(Integer parameter, String query) {
         return findAllByParameter(parameter, query, INTEGER_CONSUMER);
     }
@@ -175,7 +179,21 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
         return findAllByParameter(parameter, query, STRING_CONSUMER);
     }
 
-    protected <P> List<E> findAllByParameter(P parameter, String query, BiConsumer<PreparedStatement, P> consumer) {
+    private <P> Optional<E> findByParam(P param, String query,
+                                        BiConsumer<PreparedStatement, P> consumer) {
+        try (Connection connection = connector.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            consumer.accept(preparedStatement, param);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                return resultSet.next() ? Optional.ofNullable(mapResultSetToEntity(resultSet))
+                        : Optional.empty();
+            }
+        } catch (SQLException e) {
+            throw new DataBaseRuntimeException(e);
+        }
+    }
+
+    private  <P> List<E> findAllByParameter(P parameter, String query, BiConsumer<PreparedStatement, P> consumer) {
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             List<E> entities = new ArrayList<>();

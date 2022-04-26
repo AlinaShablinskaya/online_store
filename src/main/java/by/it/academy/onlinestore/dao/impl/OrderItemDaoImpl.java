@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 public class OrderItemDaoImpl extends AbstractCrudDaoImpl<OrderItem> implements OrderItemDao {
     private static final String SAVE_QUERY =
-            "INSERT INTO online_store.order_item(id, amount, product_id) VALUES (?, ?, ?)";
+            "INSERT INTO online_store.order_item(amount, product_id) VALUES (?, ?)";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM online_store.order_item " +
             "LEFT OUTER JOIN online_store.product ON online_store.order_item.product_id = online_store.product.id " +
             "WHERE online_store.order_item.id = ?";
@@ -37,7 +37,8 @@ public class OrderItemDaoImpl extends AbstractCrudDaoImpl<OrderItem> implements 
         Product product = Product.builder()
                 .withId(resultSet.getInt("product_id"))
                 .withProductName(resultSet.getString("product_name"))
-                .withProductDescription(resultSet.getString("product_description"))
+                .withBrand(resultSet.getString("brand"))
+                .withPhoto(resultSet.getString("photo"))
                 .withPrice(resultSet.getInt("price"))
                 .build();
 
@@ -50,9 +51,8 @@ public class OrderItemDaoImpl extends AbstractCrudDaoImpl<OrderItem> implements 
 
     @Override
     protected void insert(PreparedStatement preparedStatement, OrderItem orderItem) throws SQLException {
-        preparedStatement.setInt(1, orderItem.getId());
-        preparedStatement.setInt(2, orderItem.getAmount());
-        preparedStatement.setInt(3, orderItem.getProduct().getId());
+        preparedStatement.setInt(1, orderItem.getAmount());
+        preparedStatement.setInt(2, orderItem.getProduct().getId());
     }
 
     @Override

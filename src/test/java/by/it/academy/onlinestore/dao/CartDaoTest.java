@@ -10,6 +10,7 @@ import by.it.academy.onlinestore.dao.impl.CustomerAddressDaoImpl;
 import by.it.academy.onlinestore.dao.impl.UserDaoImpl;
 import by.it.academy.onlinestore.entities.Cart;
 import by.it.academy.onlinestore.entities.CustomerAddress;
+import by.it.academy.onlinestore.entities.Role;
 import by.it.academy.onlinestore.entities.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,7 +48,7 @@ public class CartDaoTest {
                 .withId(1)
                 .withFirstName("FirstUser")
                 .withLastName("LastName")
-                .withLogin("Login")
+                .withEmail("Login")
                 .withPassword("12345")
                 .build();
 
@@ -70,7 +71,7 @@ public class CartDaoTest {
                 .withId(1)
                 .withFirstName("FirstUser")
                 .withLastName("LastName")
-                .withLogin("Login")
+                .withEmail("Login")
                 .withPassword("12345")
                 .build();
 
@@ -78,7 +79,7 @@ public class CartDaoTest {
                 .withId(1)
                 .withFirstName("FirstUser")
                 .withLastName("LastName")
-                .withLogin("Login")
+                .withEmail("Login")
                 .withPassword("12345")
                 .build();
 
@@ -104,7 +105,7 @@ public class CartDaoTest {
                 .withId(1)
                 .withFirstName("FirstUser")
                 .withLastName("LastName")
-                .withLogin("Login")
+                .withEmail("Login")
                 .withPassword("12345")
                 .build();
 
@@ -126,7 +127,7 @@ public class CartDaoTest {
                 .withId(1)
                 .withFirstName("FirstUser")
                 .withLastName("LastName")
-                .withLogin("Login")
+                .withEmail("Login")
                 .withPassword("12345")
                 .build();
 
@@ -134,7 +135,7 @@ public class CartDaoTest {
                 .withId(2)
                 .withFirstName("SecondUser")
                 .withLastName("LastName")
-                .withLogin("SecondLogin")
+                .withEmail("SecondLogin")
                 .withPassword("78954")
                 .build();
 
@@ -160,7 +161,7 @@ public class CartDaoTest {
                 .withId(1)
                 .withFirstName("FirstUser")
                 .withLastName("LastName")
-                .withLogin("Login")
+                .withEmail("Login")
                 .withPassword("12345")
                 .build();
 
@@ -195,22 +196,26 @@ public class CartDaoTest {
 
         addressDao.save(customerAddress);
 
+        Role role = new Role("USER");
+
         User firstUser = User.builder()
                 .withId(1)
                 .withFirstName("FirstUser")
                 .withLastName("LastName")
-                .withLogin("Login")
+                .withEmail("Login")
                 .withPassword("12345")
                 .withAddress(customerAddress)
+                .withRole(role)
                 .build();
 
         User secondUser = User.builder()
                 .withId(2)
                 .withFirstName("SecondUser")
                 .withLastName("LastName")
-                .withLogin("SecondLogin")
+                .withEmail("SecondLogin")
                 .withPassword("78954")
                 .withAddress(customerAddress)
+                .withRole(role)
                 .build();
 
         userDao.save(firstUser);

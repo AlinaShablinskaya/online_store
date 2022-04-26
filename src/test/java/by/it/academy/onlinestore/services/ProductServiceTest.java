@@ -34,7 +34,7 @@ public class ProductServiceTest {
         Product product = Product.builder()
                 .withId(1)
                 .withProductName("Whiskey")
-                .withProductDescription("Description")
+                .withBrand("Description")
                 .withPrice(100)
                 .build();
 
@@ -48,11 +48,11 @@ public class ProductServiceTest {
         Product product = Product.builder()
                 .withId(1)
                 .withProductName("Whiskey")
-                .withProductDescription("Description")
+                .withBrand("Description")
                 .withPrice(100)
                 .build();
 
-        when(productDao.findById(product.getId())).thenReturn(Optional.of(product));
+        when(productDao.findByName(product.getProductName())).thenReturn(Optional.of(product));
         assertThrows(EntityAlreadyExistException.class, () -> productService.addProduct(product));
         verifyNoMoreInteractions(productDao);
     }
@@ -62,7 +62,7 @@ public class ProductServiceTest {
         Product product = Product.builder()
                 .withId(1)
                 .withProductName("Whiskey")
-                .withProductDescription("Description")
+                .withBrand("Description")
                 .withPrice(100)
                 .build();
 
@@ -76,7 +76,7 @@ public class ProductServiceTest {
         Product product = Product.builder()
                 .withId(1)
                 .withProductName("Whiskey")
-                .withProductDescription("Description")
+                .withBrand("Description")
                 .withPrice(100)
                 .build();
 
@@ -95,14 +95,14 @@ public class ProductServiceTest {
         product.add(Product.builder()
                 .withId(1)
                 .withProductName("Whiskey")
-                .withProductDescription("Description")
+                .withBrand("Description")
                 .withPrice(100)
                 .build());
 
         product.add(Product.builder()
                 .withId(2)
                 .withProductName("Whiskey")
-                .withProductDescription("Description")
+                .withBrand("Description")
                 .withPrice(100)
                 .build());
 
@@ -116,7 +116,7 @@ public class ProductServiceTest {
         Product product = Product.builder()
                 .withId(1)
                 .withProductName("Whiskey")
-                .withProductDescription("Description")
+                .withBrand("Description")
                 .withPrice(100)
                 .build();
 
@@ -131,7 +131,7 @@ public class ProductServiceTest {
         Product product = Product.builder()
                 .withId(1)
                 .withProductName("Whiskey")
-                .withProductDescription("Description")
+                .withBrand("Description")
                 .withPrice(100)
                 .build();
 

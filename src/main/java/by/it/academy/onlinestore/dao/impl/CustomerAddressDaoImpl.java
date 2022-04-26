@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 public class CustomerAddressDaoImpl extends AbstractCrudDaoImpl<CustomerAddress> implements CustomerAddressDao {
     private static final String SAVE_QUERY =
-            "INSERT INTO online_store.customer_address(id, zipcode, country, street) VALUES (?, ?, ?, ?)";
+            "INSERT INTO online_store.customer_address(zipcode, country, street) VALUES (?, ?, ?)";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM online_store.customer_address WHERE id = ?";
     private static final String FIND_ALL_QUERY = "SELECT * FROM online_store.customer_address limit ? offset ?";
     private static final String UPDATE_QUERY =
@@ -33,10 +33,9 @@ public class CustomerAddressDaoImpl extends AbstractCrudDaoImpl<CustomerAddress>
 
     @Override
     protected void insert(PreparedStatement preparedStatement, CustomerAddress customerAddress) throws SQLException {
-        preparedStatement.setInt(1, customerAddress.getId());
-        preparedStatement.setString(2, customerAddress.getZipcode());
-        preparedStatement.setString(3, customerAddress.getCountry());
-        preparedStatement.setString(4, customerAddress.getStreet());
+        preparedStatement.setString(1, customerAddress.getZipcode());
+        preparedStatement.setString(2, customerAddress.getCountry());
+        preparedStatement.setString(3, customerAddress.getStreet());
     }
 
     @Override

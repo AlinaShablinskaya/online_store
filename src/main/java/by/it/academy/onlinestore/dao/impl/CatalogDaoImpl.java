@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CatalogDaoImpl extends AbstractCrudDaoImpl<Catalog> implements CatalogDao {
-    private static final String SAVE_QUERY = "INSERT INTO online_store.catalog(id, group_name) VALUES (?, ?)";
+    private static final String SAVE_QUERY = "INSERT INTO online_store.catalog(group_name) VALUES (?)";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM online_store.catalog WHERE id = ?";
     private static final String FIND_ALL_QUERY = "SELECT * FROM online_store.catalog limit ? offset ?";
     private static final String UPDATE_QUERY =
@@ -40,8 +40,7 @@ public class CatalogDaoImpl extends AbstractCrudDaoImpl<Catalog> implements Cata
 
     @Override
     protected void insert(PreparedStatement preparedStatement, Catalog catalog) throws SQLException {
-        preparedStatement.setInt(1, catalog.getId());
-        preparedStatement.setString(2, catalog.getGroupName());
+        preparedStatement.setString(1, catalog.getGroupName());
     }
 
     @Override

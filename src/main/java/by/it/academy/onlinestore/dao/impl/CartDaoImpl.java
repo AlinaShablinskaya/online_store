@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CartDaoImpl extends AbstractCrudDaoImpl<Cart> implements CartDao {
-    private static final String SAVE_QUERY = "INSERT INTO online_store.cart(id, user_id) VALUES (?, ?)";
+    private static final String SAVE_QUERY = "INSERT INTO online_store.cart(user_id) VALUES (?)";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM online_store.cart " +
             "LEFT OUTER JOIN online_store.user ON online_store.cart.user_id = online_store.user.id " +
             "WHERE online_store.cart.id = ?";
@@ -31,7 +31,7 @@ public class CartDaoImpl extends AbstractCrudDaoImpl<Cart> implements CartDao {
                 .withId(resultSet.getInt("user_id"))
                 .withFirstName(resultSet.getString("first_name"))
                 .withLastName(resultSet.getString("last_name"))
-                .withLogin(resultSet.getString("login"))
+                .withEmail(resultSet.getString("email"))
                 .withPassword(resultSet.getString("password"))
                 .build();
 
@@ -43,8 +43,7 @@ public class CartDaoImpl extends AbstractCrudDaoImpl<Cart> implements CartDao {
 
     @Override
     protected void insert(PreparedStatement preparedStatement, Cart cart) throws SQLException {
-        preparedStatement.setInt(1, cart.getId());
-        preparedStatement.setInt(2, cart.getUser().getId());
+        preparedStatement.setInt(1, cart.getUser().getId());
     }
 
     @Override

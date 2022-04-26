@@ -6,7 +6,7 @@ import by.it.academy.onlinestore.services.*;
 import by.it.academy.onlinestore.services.impl.*;
 
 public class ApplicationInjector {
-    private static final String PROPERTIES = "src/main/resources/database.properties";
+    private static final String PROPERTIES = "/database.properties";
     private static final ApplicationInjector INSTANCE = new ApplicationInjector();
     private static final DBConnector CONNECTOR = new DBConnector(PROPERTIES);
     private static final CartDao CART_DAO = new CartDaoImpl(CONNECTOR);
@@ -20,7 +20,8 @@ public class ApplicationInjector {
     private static final AddressService ADDRESS_SERVICE = new AddressServiceImpl(CUSTOMER_ADDRESS_DAO);
     private static final OrderItemService ORDER_ITEM_SERVICE = new OrderItemServiceImpl(ORDER_ITEM_DAO, CART_DAO);
     private static final ProductService PRODUCT_SERVICE = new ProductServiceImpl(PRODUCT_DAO, CATALOG_DAO);
-    private static final UserService USER_SERVICE = new UserServiceImpl(USER_DAO);
+    private static final PasswordEncryptor PASSWORD_ENCRYPTOR = new PasswordEncryptor();
+    private static final UserService USER_SERVICE = new UserServiceImpl(USER_DAO, PASSWORD_ENCRYPTOR);
 
     private ApplicationInjector() {
     }

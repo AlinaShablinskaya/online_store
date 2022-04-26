@@ -39,7 +39,7 @@ public class CartServiceTest {
                 .withId(1)
                 .withFirstName("firstName")
                 .withLastName("lastName")
-                .withLogin("login")
+                .withEmail("login")
                 .withPassword("1111")
                 .build();
 
@@ -59,7 +59,7 @@ public class CartServiceTest {
                 .withId(1)
                 .withFirstName("firstName")
                 .withLastName("lastName")
-                .withLogin("login")
+                .withEmail("login")
                 .withPassword("1111")
                 .build();
 
@@ -79,7 +79,7 @@ public class CartServiceTest {
                 .withId(1)
                 .withFirstName("firstName")
                 .withLastName("lastName")
-                .withLogin("login")
+                .withEmail("login")
                 .withPassword("1111")
                 .build();
 
@@ -99,7 +99,7 @@ public class CartServiceTest {
                 .withId(1)
                 .withFirstName("firstName")
                 .withLastName("lastName")
-                .withLogin("login")
+                .withEmail("login")
                 .withPassword("1111")
                 .build();
 
@@ -119,7 +119,7 @@ public class CartServiceTest {
                 .withId(1)
                 .withFirstName("firstName")
                 .withLastName("lastName")
-                .withLogin("login")
+                .withEmail("login")
                 .withPassword("1111")
                 .build();
 

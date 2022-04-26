@@ -7,6 +7,7 @@ import by.it.academy.onlinestore.dao.exception.DataBaseRuntimeException;
 import by.it.academy.onlinestore.dao.impl.CustomerAddressDaoImpl;
 import by.it.academy.onlinestore.dao.impl.UserDaoImpl;
 import by.it.academy.onlinestore.entities.CustomerAddress;
+import by.it.academy.onlinestore.entities.Role;
 import by.it.academy.onlinestore.entities.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,12 +46,15 @@ public class UserDaoTest {
                 .withStreet("Oxford Street")
                 .build();
 
+        Role role = new Role("USER");
+
         User expected = User.builder()
                 .withId(3)
                 .withFirstName("FirstUser")
                 .withLastName("LastName")
-                .withLogin("Login")
+                .withEmail("Login")
                 .withPassword("12345")
+                .withRole(role)
                 .withAddress(firstAddress)
                 .build();
 
@@ -78,12 +82,15 @@ public class UserDaoTest {
                 .withStreet("Piccadilly Street")
                 .build();
 
+        Role role = new Role("USER");
+
         expected.add(User.builder()
                 .withId(3)
                 .withFirstName("FirstUser")
                 .withLastName("LastName")
-                .withLogin("Login")
+                .withEmail("Login")
                 .withPassword("12345")
+                .withRole(role)
                 .withAddress(firstAddress)
                 .build());
 
@@ -91,8 +98,9 @@ public class UserDaoTest {
                 .withId(4)
                 .withFirstName("FirstUser")
                 .withLastName("LastName")
-                .withLogin("Login")
+                .withEmail("Login")
                 .withPassword("12345")
+                .withRole(role)
                 .withAddress(firstAddress)
                 .build());
 
@@ -111,12 +119,15 @@ public class UserDaoTest {
                 .withStreet("Oxford Street")
                 .build();
 
+        Role role = new Role("USER");
+
         User expected = User.builder()
                 .withId(1)
                 .withFirstName("FirstUser")
                 .withLastName("LastName")
-                .withLogin("Login")
+                .withEmail("Login")
                 .withPassword("12345")
+                .withRole(role)
                 .withAddress(firstAddress)
                 .build();
 
@@ -143,12 +154,15 @@ public class UserDaoTest {
                 .withStreet("Piccadilly Street")
                 .build();
 
+        Role role = new Role("USER");
+
         expected.add(User.builder()
                 .withId(1)
                 .withFirstName("FirstUser")
                 .withLastName("LastName")
-                .withLogin("Login")
+                .withEmail("Login")
                 .withPassword("12345")
+                .withRole(role)
                 .withAddress(firstAddress)
                 .build());
 
@@ -156,8 +170,9 @@ public class UserDaoTest {
                 .withId(2)
                 .withFirstName("SecondUser")
                 .withLastName("LastName")
-                .withLogin("SecondLogin")
+                .withEmail("SecondLogin")
                 .withPassword("78954")
+                .withRole(role)
                 .withAddress(secondAddress)
                 .build());
 
@@ -175,17 +190,46 @@ public class UserDaoTest {
                 .withStreet("Oxford Street")
                 .build();
 
+        Role role = new Role("USER");
+
         User expected = User.builder()
                 .withId(1)
                 .withFirstName("NewName")
                 .withLastName("NewLastName")
-                .withLogin("NewLogin")
+                .withEmail("NewLogin")
                 .withPassword("12345")
+                .withRole(role)
                 .withAddress(firstAddress)
                 .build();
 
         userDao.update(expected);
         User actual = userDao.findById(1).orElse(null);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void findByEmailShouldReturnUserWhenGetEmail() {
+        CustomerAddress firstAddress = CustomerAddress.builder()
+                .withId(1)
+                .withZipcode("123654")
+                .withCountry("England")
+                .withStreet("Oxford Street")
+                .build();
+
+        Role role = new Role("USER");
+
+        User expected = User.builder()
+                .withId(1)
+                .withFirstName("FirstUser")
+                .withLastName("LastName")
+                .withEmail("Login")
+                .withPassword("12345")
+                .withRole(role)
+                .withAddress(firstAddress)
+                .build();
+
+        User actual = userDao.findByEmail(expected.getEmail()).get();
 
         assertEquals(expected, actual);
     }
@@ -215,6 +259,8 @@ public class UserDaoTest {
                 .withStreet("Piccadilly Street")
                 .build();
 
+        Role role = new Role("USER");
+
         addressDao.save(firstAddress);
         addressDao.save(secondAddress);
 
@@ -222,8 +268,9 @@ public class UserDaoTest {
                 .withId(1)
                 .withFirstName("FirstUser")
                 .withLastName("LastName")
-                .withLogin("Login")
+                .withEmail("Login")
                 .withPassword("12345")
+                .withRole(role)
                 .withAddress(firstAddress)
                 .build());
 
@@ -231,8 +278,9 @@ public class UserDaoTest {
                 .withId(2)
                 .withFirstName("SecondUser")
                 .withLastName("LastName")
-                .withLogin("SecondLogin")
+                .withEmail("SecondLogin")
                 .withPassword("78954")
+                .withRole(role)
                 .withAddress(secondAddress)
                 .build());
     }

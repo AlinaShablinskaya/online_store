@@ -38,7 +38,8 @@ public class ProductDaoTest {
         Product expected = Product.builder()
                 .withId(3)
                 .withProductName("Beer")
-                .withProductDescription("Description")
+                .withBrand("Brand")
+                .withPhoto("photo")
                 .withPrice(5)
                 .build();
 
@@ -55,14 +56,16 @@ public class ProductDaoTest {
         Product firstProduct = Product.builder()
                 .withId(3)
                 .withProductName("Beer")
-                .withProductDescription("Description")
+                .withBrand("Brand")
+                .withPhoto("photo")
                 .withPrice(5)
                 .build();
 
         Product secondProduct = Product.builder()
                 .withId(4)
                 .withProductName("Rum")
-                .withProductDescription("Description")
+                .withBrand("Brand")
+                .withPhoto("photo")
                 .withPrice(5)
                 .build();
 
@@ -80,7 +83,8 @@ public class ProductDaoTest {
         Product expected = Product.builder()
                 .withId(1)
                 .withProductName("Whiskey")
-                .withProductDescription("Description")
+                .withBrand("Brand")
+                .withPhoto("photo")
                 .withPrice(30)
                 .build();
 
@@ -96,14 +100,16 @@ public class ProductDaoTest {
         Product firstProduct = Product.builder()
                 .withId(1)
                 .withProductName("Whiskey")
-                .withProductDescription("Description")
+                .withBrand("Brand")
+                .withPhoto("photo")
                 .withPrice(30)
                 .build();
 
         Product secondProduct = Product.builder()
                 .withId(2)
                 .withProductName("Wine")
-                .withProductDescription("Description")
+                .withBrand("Brand")
+                .withPhoto("photo")
                 .withPrice(20)
                 .build();
 
@@ -120,7 +126,8 @@ public class ProductDaoTest {
         Product expected = Product.builder()
                 .withId(1)
                 .withProductName("Whiskey")
-                .withProductDescription("Description")
+                .withBrand("Brand")
+                .withPhoto("photo")
                 .withPrice(100)
                 .build();
 
@@ -144,13 +151,15 @@ public class ProductDaoTest {
         products.add(Product.builder()
                 .withId(1)
                 .withProductName("Whiskey")
-                .withProductDescription("Description")
+                .withBrand("Brand")
+                .withPhoto("photo")
                 .withPrice(30)
                 .build());
         products.add(Product.builder()
                 .withId(2)
                 .withProductName("Wine")
-                .withProductDescription("Description")
+                .withBrand("Brand")
+                .withPhoto("photo")
                 .withPrice(20)
                 .build());
     }

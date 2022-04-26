@@ -42,7 +42,8 @@ public class OrderItemDaoTest {
         Product firstProduct = Product.builder()
                 .withId(1)
                 .withProductName("Whiskey")
-                .withProductDescription("Description")
+                .withBrand("Brand")
+                .withPhoto("photo")
                 .withPrice(30)
                 .build();
 
@@ -65,15 +66,17 @@ public class OrderItemDaoTest {
         Product firstProduct = Product.builder()
                 .withId(1)
                 .withProductName("Whiskey")
-                .withProductDescription("Description")
+                .withBrand("Brand")
+                .withPhoto("photo")
                 .withPrice(30)
                 .build();
 
         Product secondProduct = Product.builder()
                 .withId(2)
-                .withProductName("Beer")
-                .withProductDescription("Description")
-                .withPrice(5)
+                .withProductName("Wine")
+                .withBrand("Brand")
+                .withPhoto("photo")
+                .withPrice(20)
                 .build();
 
         expected.add(OrderItem.builder()
@@ -99,7 +102,8 @@ public class OrderItemDaoTest {
         Product firstProduct = Product.builder()
                 .withId(1)
                 .withProductName("Whiskey")
-                .withProductDescription("Description")
+                .withBrand("Brand")
+                .withPhoto("photo")
                 .withPrice(30)
                 .build();
 
@@ -121,15 +125,17 @@ public class OrderItemDaoTest {
         Product firstProduct = Product.builder()
                 .withId(1)
                 .withProductName("Whiskey")
-                .withProductDescription("Description")
+                .withBrand("Brand")
+                .withPhoto("photo")
                 .withPrice(30)
                 .build();
 
         Product secondProduct = Product.builder()
                 .withId(2)
-                .withProductName("Beer")
-                .withProductDescription("Description")
-                .withPrice(5)
+                .withProductName("Wine")
+                .withBrand("Brand")
+                .withPhoto("photo")
+                .withPrice(20)
                 .build();
 
         expected.add(OrderItem.builder()
@@ -155,7 +161,8 @@ public class OrderItemDaoTest {
         Product firstProduct = Product.builder()
                 .withId(1)
                 .withProductName("Whiskey")
-                .withProductDescription("Description")
+                .withBrand("Brand")
+                .withPhoto("photo")
                 .withPrice(30)
                 .build();
 
@@ -185,15 +192,17 @@ public class OrderItemDaoTest {
         Product firstProduct = Product.builder()
                 .withId(1)
                 .withProductName("Whiskey")
-                .withProductDescription("Description")
+                .withBrand("Brand")
+                .withPhoto("photo")
                 .withPrice(30)
                 .build();
 
         Product secondProduct = Product.builder()
                 .withId(2)
-                .withProductName("Beer")
-                .withProductDescription("Description")
-                .withPrice(5)
+                .withProductName("Wine")
+                .withBrand("Brand")
+                .withPhoto("photo")
+                .withPrice(20)
                 .build();
 
         productDao.save(firstProduct);
