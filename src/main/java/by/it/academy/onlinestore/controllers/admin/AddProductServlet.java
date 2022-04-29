@@ -42,6 +42,6 @@ public class AddProductServlet extends HttpServlet {
                 .build();
 
         productService.addProduct(product);
-        resp.sendRedirect("/admin/adminpanel.jsp");
+        resp.sendRedirect("/showProducts.jsp");
     }
 }

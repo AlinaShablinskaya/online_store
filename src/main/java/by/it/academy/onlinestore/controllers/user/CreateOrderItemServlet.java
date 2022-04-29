@@ -40,21 +40,20 @@ public class CreateOrderItemServlet extends HttpServlet {
         final int productId = Integer.parseInt(req.getParameter("product_id"));
         final int amount = Integer.parseInt(req.getParameter("amount"));
 
-        Product findProductById = productService.findProductById(productId);
+        Product product = productService.findProductById(productId);
 
         HttpSession session = req.getSession();
 
         User user = (User) session.getAttribute("user");
         Cart cart = (Cart) session.getAttribute("cart");
 
-
         final OrderItem orderItem = OrderItem.builder()
-                    .withProduct(findProductById)
+                    .withProduct(product)
                     .withAmount(amount)
                     .build();
         orderItemService.createOrderItem(orderItem);
 
-        if (cart == null ) {
+        if (cart == null) {
             cart = Cart.builder()
                     .withUser(user)
                     .build();

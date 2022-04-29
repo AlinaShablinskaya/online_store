@@ -18,9 +18,10 @@ public class UserDaoImpl extends AbstractCrudDaoImpl<User> implements UserDao {
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM online_store.user " +
             "LEFT OUTER JOIN online_store.customer_address ON online_store.user.address_id = online_store.customer_address.id " +
             "WHERE online_store.user.id = ?";
-    private static final String FIND_ALL_QUERY = "SELECT * FROM online_store.user " +
+    private static final String FIND_ALL_QUERY_ON_PAGE = "SELECT * FROM online_store.user " +
             "LEFT OUTER JOIN online_store.customer_address ON online_store.user.address_id = online_store.customer_address.id " +
             "limit ? offset ?;";
+    private static final String FIND_ALL_QUERY = "SELECT * FROM online_store.user ORDER BY id";
 
     private static final String FIND_BY_EMAIL_QUERY = "SELECT * FROM online_store.user " +
             "LEFT OUTER JOIN online_store.customer_address ON online_store.user.address_id = online_store.customer_address.id " +
@@ -31,7 +32,7 @@ public class UserDaoImpl extends AbstractCrudDaoImpl<User> implements UserDao {
     private static final String DELETE_BY_ID_QUERY = "DELETE FROM online_store.user WHERE id = ?";
 
     public UserDaoImpl(DBConnector connector) {
-        super(connector, SAVE_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY, DELETE_BY_ID_QUERY);
+        super(connector, SAVE_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY_ON_PAGE, FIND_ALL_QUERY, UPDATE_QUERY, DELETE_BY_ID_QUERY);
     }
 
     @Override

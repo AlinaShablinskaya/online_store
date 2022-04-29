@@ -8,6 +8,7 @@ import by.it.academy.onlinestore.entities.Product;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class OrderItemDaoImpl extends AbstractCrudDaoImpl<OrderItem> implements OrderItemDao {
     private static final String SAVE_QUERY =
@@ -15,21 +16,23 @@ public class OrderItemDaoImpl extends AbstractCrudDaoImpl<OrderItem> implements 
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM online_store.order_item " +
             "LEFT OUTER JOIN online_store.product ON online_store.order_item.product_id = online_store.product.id " +
             "WHERE online_store.order_item.id = ?";
-    private static final String FIND_ALL_QUERY = "SELECT * FROM online_store.order_item " +
+    private static final String FIND_ALL_QUERY_ON_PAGE = "SELECT * FROM online_store.order_item " +
             "LEFT OUTER JOIN online_store.product ON online_store.order_item.product_id = online_store.product.id " +
             "limit ? offset ?";
+    private static final String FIND_ALL_QUERY = "SELECT * FROM online_store.order_item ORDER BY id";
     private static final String UPDATE_QUERY =
             "UPDATE online_store.order_item SET amount = ?, product_id = ? WHERE id = ?";
     private static final String DELETE_BY_ID_QUERY = "DELETE FROM online_store.order_item WHERE id = ?";
-
     private static final String CREATE_CART_ORDER_ITEM_RELATION =
             "INSERT INTO online_store.cart_order_item(cart_id, order_item_id) VALUES (?, ?)";
-
     public static final String REMOVE_ORDER_ITEM_FROM_CART =
             "DELETE FROM online_store.cart_order_item WHERE cart_id = ? AND order_item_id = ?";
+    private static final String FIND_BY_PRODUCT_ID_QUERY = "SELECT * FROM online_store.order_item " +
+            "LEFT OUTER JOIN online_store.product ON online_store.order_item.product_id = online_store.product.id " +
+            "WHERE online_store.order_item.product_id = ?";
 
     public OrderItemDaoImpl(DBConnector connector) {
-        super(connector, SAVE_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY, DELETE_BY_ID_QUERY);
+        super(connector, SAVE_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY_ON_PAGE, FIND_ALL_QUERY, UPDATE_QUERY, DELETE_BY_ID_QUERY);
     }
 
     @Override
@@ -70,5 +73,10 @@ public class OrderItemDaoImpl extends AbstractCrudDaoImpl<OrderItem> implements 
     @Override
     public void removeOrderItemFromCart(Integer orderItemId, Integer cartId) {
         removeRelation(orderItemId, cartId, REMOVE_ORDER_ITEM_FROM_CART);
+    }
+
+    @Override
+    public Optional<OrderItem> findByProductId(Integer productId) {
+        return findByIntParameter(productId, FIND_BY_PRODUCT_ID_QUERY);
     }
 }

@@ -145,4 +145,24 @@ public class OrderItemServiceTest {
         verify(cartDao).findById(cartId);
         verify(orderItemDao).removeOrderItemFromCart(orderItemId, cartId);
     }
+
+    @Test
+    void findOrderItemByProductIdShouldReturnCorrectResult() {
+        Product product = Product.builder()
+                .withId(1)
+                .withProductName("Name")
+                .withBrand("Description")
+                .withPrice(100)
+                .build();
+
+        OrderItem orderItem = OrderItem.builder()
+                .withId(1)
+                .withProduct(product)
+                .withAmount(5)
+                .build();
+
+        when(orderItemDao.findByProductId(product.getId())).thenReturn(Optional.of(orderItem));
+        orderItemService.findOrderItemByProductId(product.getId());
+        verify(orderItemDao).findByProductId(product.getId());
+    }
 }

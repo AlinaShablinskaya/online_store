@@ -38,7 +38,7 @@ public class LoginServlet extends HttpServlet {
             User user = userService.findUserByEmail(email);
             HttpSession session = req.getSession();
             session.setAttribute("user", user);
-            req.getRequestDispatcher("/catalog.html").forward(req, resp);
+            req.getRequestDispatcher("/catalog.jsp").forward(req, resp);
         } else {
             req.getRequestDispatcher("/login.html").forward(req, resp);
         }

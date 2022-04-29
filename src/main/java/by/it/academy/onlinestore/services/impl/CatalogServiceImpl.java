@@ -8,6 +8,8 @@ import by.it.academy.onlinestore.services.exeption.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 public class CatalogServiceImpl implements CatalogService {
     private static final Logger lOGGER = LoggerFactory.getLogger(CatalogServiceImpl.class);
     private static final String CATALOG_ALREADY_EXISTS = "Specified catalog already exists.";
@@ -34,6 +36,11 @@ public class CatalogServiceImpl implements CatalogService {
         return catalogDao.findById(id).orElseThrow(() -> {
             return new EntityNotFoundException(CATALOG_IS_NOT_FOUND);
         });
+    }
+
+    @Override
+    public List<Catalog> showCatalog() {
+        return catalogDao.findAll();
     }
 
     @Override

@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: alina
-  Date: 22.04.2022
-  Time: 22:57
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -59,13 +52,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="header-left">
       <div class="top-menu">
         <ul>
-          <li><a href="index.html">HOME</a></li>
-          <li><a href="catalog.html">MAN</a></li>
+          <li><a href="/home">HOME</a></li>
+          <li><a href="/catalog">CATALOG</a></li>
         </ul>
       </div>
     </div>
     <div class="logo">
-      <a href="index.html"><img src="images/logo.png" alt=""/></a>
+      <a href="/home"><img src="images/logo.png" alt=""/></a>
     </div>
     <div class="header-right">
       <div class="currency">
@@ -78,8 +71,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="cart-sec">
           <a href="cart.html"><img href="cart.html" src="images/cart.png" alt=""/>(0)</a></div>
         <ul>
-          <li><a href="registration.html">REGISTRATION</a> <span></span> &nbsp;</li>
-          <li><a href="login.html"> LOGIN</a></li>
+          <li><a href="/registration">REGISTRATION</a> <span></span> &nbsp;</li>
+          <li><a href="/login"> LOGIN</a></li>
         </ul>
       </div>
     </div>
@@ -131,10 +124,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
       <ul>
         <li><a href="about.html">ABOUT</a></li>
         <li><a href="contact.html">CONTACT</a></li>
-        <li><a href="catalog.html">STORE</a></li>
+        <li><a href="/catalog">STORE</a></li>
         <li><a href="terms.html">TERMS & CONDITION</a></li>
-        <li><a href="catalog.html">SHOW TO BUY</a></li>
-        <li><a href="single.html">SIZE CHART</a></li>
+        <li><a href="/catalog">SHOW TO BUY</a></li>
       </ul>
     </div>
   </div>
@@ -142,7 +134,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!---->
 <div class="footer">
   <div class="container">
-    <p>Copyright &copy; 2015 All rights reserved | Template by  <a href="http://w3layouts.com">  W3layouts</a></p>
+    <p>Copyright &copy; 2022 All rights reserved | Template by  <a href="http://w3layouts.com">  W3layouts</a></p>
     <div class="social">
       <a href="#"><span class="icon1"></span></a>
       <a href="#"><span class="icon2"></span></a>

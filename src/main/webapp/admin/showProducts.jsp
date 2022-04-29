@@ -75,9 +75,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="col-md-9 fashions">
             <div class="title">
                 <div class="pagination">
-                    <a class="active" href='/admin/panel?page=1'>1</a>
-                    <a href='/admin/panel?page=2'>2</a>
-                    <a href='/admin/panel?page=3'>3</a>
+                    <a class="active" href='/admin?page=1'>1</a>
+                    <a href='/admin?page=2'>2</a>
+                    <a href='/admin?page=3'>3</a>
                     <div class="clearfix"></div>
                 </div>
             </div>

@@ -14,7 +14,8 @@ public class ProductDaoImpl extends AbstractCrudDaoImpl<Product> implements Prod
     private static final String SAVE_QUERY =
             "INSERT INTO online_store.product(product_name, brand, photo, price) VALUES (?, ?, ?, ?)";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM online_store.product WHERE id = ?";
-    private static final String FIND_ALL_QUERY = "SELECT * FROM online_store.product limit ? offset ?";
+    private static final String FIND_ALL_QUERY_ON_PAGE = "SELECT * FROM online_store.product limit ? offset ?";
+    private static final String FIND_ALL_QUERY = "SELECT * FROM online_store.product ORDER BY id";
     private static final String UPDATE_QUERY =
             "UPDATE online_store.product SET product_name = ?, brand = ?, photo = ?, price = ? WHERE id = ?";
     private static final String DELETE_BY_ID_QUERY = "DELETE FROM online_store.product WHERE id = ?";
@@ -25,16 +26,15 @@ public class ProductDaoImpl extends AbstractCrudDaoImpl<Product> implements Prod
     public static final String REMOVE_PRODUCT_FROM_CATALOG =
             "DELETE FROM online_store.catalog_product WHERE catalog_id = ? AND product_id = ?";
 
-    public static final String FIND_ALL_PRODUCT_BY_GROUP_NAME = "SELECT * FROM online_store.product WHERE product_id IN"
+    public static final String FIND_ALL_PRODUCT_BY_GROUP_NAME = "SELECT * FROM online_store.product WHERE id IN "
             + "(SELECT product_id FROM online_store.catalog_product WHERE catalog_id IN "
-            + "(SELECT catalog_id FROM online_store.catalog WHERE group_name = ?)) ORDER BY product_id";
+            + "(SELECT id FROM online_store.catalog WHERE group_name = ?)) ORDER BY id";
 
     private static final String FIND_BY_NAME_QUERY = "SELECT * FROM online_store.product WHERE product_name = ?";
 
     public ProductDaoImpl(DBConnector connector) {
-        super(connector, SAVE_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY, DELETE_BY_ID_QUERY);
+        super(connector, SAVE_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY_ON_PAGE, FIND_ALL_QUERY, UPDATE_QUERY, DELETE_BY_ID_QUERY);
     }
-
 
     @Override
     protected Product mapResultSetToEntity(ResultSet resultSet) throws SQLException {

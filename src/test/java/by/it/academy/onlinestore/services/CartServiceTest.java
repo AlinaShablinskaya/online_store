@@ -132,4 +132,24 @@ public class CartServiceTest {
         cartService.deleteCart(cart.getId());
         verify(cartDao).deleteById(cart.getId());
     }
+
+    @Test
+    void findCartByCustomerIdShouldReturnCorrectResult() {
+        User user = User.builder()
+                .withId(1)
+                .withFirstName("firstName")
+                .withLastName("lastName")
+                .withEmail("login")
+                .withPassword("1111")
+                .build();
+
+        Cart cart = Cart.builder()
+                .withId(1)
+                .withUser(user)
+                .build();
+
+        when(cartDao.findByCustomerId(user.getId())).thenReturn(Optional.of(cart));
+        cartService.findCartByCustomerId(user.getId());
+        verify(cartDao).findByCustomerId(user.getId());
+    }
 }

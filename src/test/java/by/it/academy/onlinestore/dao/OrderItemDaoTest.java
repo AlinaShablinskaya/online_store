@@ -186,6 +186,27 @@ public class OrderItemDaoTest {
         assertThat(actual).isNull();
     }
 
+    @Test
+    void findByProductIdShouldReturnOrderItemWhenGetProductId() {
+        Product firstProduct = Product.builder()
+                .withId(1)
+                .withProductName("Whiskey")
+                .withBrand("Brand")
+                .withPhoto("photo")
+                .withPrice(30)
+                .build();
+
+        OrderItem expected = OrderItem.builder()
+                .withId(1)
+                .withAmount(3)
+                .withProduct(firstProduct)
+                .build();
+
+        OrderItem actual = orderItemDao.findByProductId(1).get();
+
+        assertEquals(expected, actual);
+    }
+
     private void createTestData() {
         tableCreator.runScript(SCRIPT_SQL);
 

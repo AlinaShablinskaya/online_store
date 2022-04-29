@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
 <title>Shopper an E-Commerce online Shopping Category Flat Bootstarp responsive Website Template| single :: w3layouts</title>
@@ -26,13 +27,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		 <div class="header-left">
 			 <div class="top-menu">
 				 <ul>
-				 <li><a href="index.html">HOME</a></li>
-				 <li class="active"><a href="catalog.html">MAN</a></li>
+				 <li><a href="/home">HOME</a></li>
+				 <li class="active"><a href="/catalog">CATALOG</a></li>
 				 </ul>
 			 </div>
 		 </div>
 		 <div class="logo">
-			 <a href="index.html"><img src="images/logo.png" alt=""/></a>
+			 <a href="/home"><img src="images/logo.png" alt=""/></a>
 		 </div>
 		 <div class="header-right">
 			 <div class="currency">			 
@@ -45,8 +46,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				  <div class="cart-sec">
 				  <a href="cart.html"><img href="cart.html" src="images/cart.png" alt=""/>(0)</a></div>
 				  <ul>
-					 <li><a href="registration.html">REGISTRATION</a> <span>/<span> &nbsp;</li>
-					 <li><a href="login.html"> LOGIN</a></li>
+					 <li><a href="/registration">REGISTRATION</a> <span>/<span> &nbsp;</li>
+					 <li><a href="/login"> LOGIN</a></li>
 				 </ul>			 
 			 </div>
 		 </div>
@@ -68,37 +69,34 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
   </script>
     <script src="js/responsiveslides.min.js"></script>
 <div class="single-section">
+	<form action="/detail" method="get">
 	 <div class="col-md-8 fashions2">			 
 			<div class="slider2">
 				<ul class="rslides rslider" id="slider2">				  
-				  <li><img src="images/.jpg" alt=""></li>
-				  <li><img src="images/.jpg" alt=""></li>
-				  <li><img src="images/.jpg" alt=""></li>
-				  <li><img src="images/.jpg" alt=""></li>
+				  <li><img src="${product.photo}" alt=""></li>
 				</ul>
 		   </div>
 	  </div> 
 	<div class="col-md-4 side-bar2">
 		  <div class="product-price">
 			   <div class="product-name">
-				 <h2>PRODUCT NAME</h2>
-					<p>hooded short fit reconstructed shuba jacket removable faux fur lining and hood</p>
-					<span>430.00 &euro;</span>
+				 <h2> ${product.productName} </h2>
+					<span>${product.price} &euro;</span>
 					<div class="clearfix"></div>
 					<h4>AVAILABLE</h4>
 			  </div>
-				 <p>PRODUCT ID : <a href="#">D35TSJ69NU</a></p>
+				 <p>Brand : <a href="#">${product.brand}</a></p>
 				 <a class="add" href="cart.html">ADD TO BAG</a>
 			 </div>
 		 </div>
       </div>
-	      	 
+
 	 <div class="clearfix"></div>
 </div>
 <!---->
 <div class="footer">
 	 <div class="container">
-		 <p>Copyright &copy; 2015 All rights reserved | Template by  <a href="http://w3layouts.com">  W3layouts</a></p>
+		 <p>Copyright &copy; 2022 All rights reserved | Template by  <a href="http://w3layouts.com">  W3layouts</a></p>
 		 <div class="social">
 			 <a href="#"><span class="icon1"></span></a>
 			 <a href="#"><span class="icon2"></span></a>

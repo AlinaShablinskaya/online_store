@@ -45,4 +45,11 @@ public class CartServiceImpl implements CartService {
 
         lOGGER.info("Cart successfully deleted.");
     }
+
+    @Override
+    public Cart findCartByCustomerId(Integer customerId) {
+        return cartDao.findByCustomerId(customerId).orElseThrow(() -> {
+            return new EntityNotFoundException(CART_IS_NOT_FOUND);
+        });
+    }
 }

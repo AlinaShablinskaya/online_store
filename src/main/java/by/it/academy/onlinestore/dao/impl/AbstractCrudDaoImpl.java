@@ -17,15 +17,17 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
     protected final DBConnector connector;
     private final String saveQuery;
     private final String findByIdQuery;
+    private final String findAllQueryOnPage;
     private final String findAllQuery;
     private final String updateQuery;
     private final String deleteByIdQuery;
 
-    public AbstractCrudDaoImpl(DBConnector connector, String saveQuery, String findByIdQuery, String findAllQuery,
-                               String updateQuery, String deleteByIdQuery) {
+    public AbstractCrudDaoImpl(DBConnector connector, String saveQuery, String findByIdQuery, String findAllQueryOnPage,
+                               String findAllQuery, String updateQuery, String deleteByIdQuery) {
         this.connector = connector;
         this.saveQuery = saveQuery;
         this.findByIdQuery = findByIdQuery;
+        this.findAllQueryOnPage = findAllQueryOnPage;
         this.findAllQuery = findAllQuery;
         this.updateQuery = updateQuery;
         this.deleteByIdQuery = deleteByIdQuery;
@@ -90,11 +92,28 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
     @Override
     public List<E> findAll(int page, int itemsPerPage) {
         try (Connection connection = connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(findAllQuery)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(findAllQueryOnPage)) {
             List<E> entities = new ArrayList<>();
             preparedStatement.setInt(1, itemsPerPage);
             preparedStatement.setInt(2, page);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    entities.add(mapResultSetToEntity(resultSet));
+                }
+                return entities;
+
+            }
+        } catch (SQLException e) {
+            throw new DataBaseRuntimeException("Found not give result!", e);
+        }
+    }
+
+    @Override
+    public List<E> findAll() {
+        try (Connection connection = connector.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(findAllQuery)) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                List<E> entities = new ArrayList<>();
                 while (resultSet.next()) {
                     entities.add(mapResultSetToEntity(resultSet));
                 }
@@ -169,6 +188,10 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
 
     protected Optional<E> findByStringParameter (String parameter, String query) {
         return findByParam(parameter, query, STRING_CONSUMER);
+    }
+
+    protected Optional<E> findByIntParameter (Integer parameter, String query) {
+        return findByParam(parameter, query, INTEGER_CONSUMER);
     }
 
     protected List<E> findAllByIntParameter(Integer parameter, String query) {

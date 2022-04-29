@@ -8,4 +8,6 @@ public interface CartService {
     Cart findCartById(Integer id);
 
     void deleteCart(Integer id);
+
+    Cart findCartByCustomerId(Integer customerId);
 }

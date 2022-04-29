@@ -90,7 +90,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <p><span></span> <c:out value="${product.price}"/> &euro;</p>
                             </div>
                         </a>
-
                         <div class="fashion-view"><span></span>
                             <div class="clearfix"></div>
                             <h4><a href="/detail?product_id=${product.id}">Quick View</a></h4>

@@ -11,7 +11,8 @@ import java.sql.SQLException;
 public class CatalogDaoImpl extends AbstractCrudDaoImpl<Catalog> implements CatalogDao {
     private static final String SAVE_QUERY = "INSERT INTO online_store.catalog(group_name) VALUES (?)";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM online_store.catalog WHERE id = ?";
-    private static final String FIND_ALL_QUERY = "SELECT * FROM online_store.catalog limit ? offset ?";
+    private static final String FIND_ALL_QUERY_ON_PAGE = "SELECT * FROM online_store.catalog limit ? offset ?";
+    private static final String FIND_ALL_QUERY = "SELECT * FROM online_store.catalog ORDER BY id";
     private static final String UPDATE_QUERY =
             "UPDATE online_store.catalog SET group_name = ? WHERE id = ?";
     private static final String DELETE_BY_ID_QUERY = "DELETE FROM online_store.catalog WHERE id = ?";
@@ -22,12 +23,8 @@ public class CatalogDaoImpl extends AbstractCrudDaoImpl<Catalog> implements Cata
     public static final String DELETE_PRODUCT_FROM_CATALOG =
             "DELETE FROM online_store.catalog_product WHERE catalog_id = ? AND product_id = ?";
 
-    public static final String FIND_ALL_PRODUCT_BY_GROUP_NAME = "SELECT * FROM online_store.product WHERE product_id IN"
-            + "(SELECT product_id FROM online_store.catalog_product WHERE catalog_id IN "
-            + "(SELECT catalog_id FROM online_store.catalog WHERE group_name = ?)) ORDER BY product_id";
-
     public CatalogDaoImpl(DBConnector connector) {
-        super(connector, SAVE_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY, UPDATE_QUERY, DELETE_BY_ID_QUERY);
+        super(connector, SAVE_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY_ON_PAGE, FIND_ALL_QUERY, UPDATE_QUERY, DELETE_BY_ID_QUERY);
     }
 
     @Override

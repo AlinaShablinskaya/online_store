@@ -25,7 +25,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     public void createOrderItem(OrderItem orderItem) {
         orderItemDao.save(orderItem);
 
-        lOGGER.info("Product successfully creates.");
+        lOGGER.info("Order item successfully creates.");
     }
 
     @Override
@@ -56,5 +56,12 @@ public class OrderItemServiceImpl implements OrderItemService {
         orderItemDao.removeOrderItemFromCart(orderItemId, cartId);
 
         lOGGER.info("Successfully remove order from cart");
+    }
+
+    @Override
+    public OrderItem findOrderItemByProductId(Integer productId) {
+        return orderItemDao.findByProductId(productId).orElseThrow(() -> {
+            return new EntityNotFoundException(ORDER_ITEM_IS_NOT_FOUND);
+        });
     }
 }

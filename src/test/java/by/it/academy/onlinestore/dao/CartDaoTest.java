@@ -184,6 +184,26 @@ public class CartDaoTest {
         assertThat(actual).isNull();
     }
 
+    @Test
+    void findByCustomerIdShouldReturnOrderItemWhenGetCustomerId() {
+        User firstUser = User.builder()
+                .withId(1)
+                .withFirstName("FirstUser")
+                .withLastName("LastName")
+                .withEmail("Login")
+                .withPassword("12345")
+                .build();
+
+        Cart expected = Cart.builder()
+                .withId(1)
+                .withUser(firstUser)
+                .build();
+
+        Cart actual = cartDao.findByCustomerId(firstUser.getId()).get();
+
+        assertEquals(expected, actual);
+    }
+
     private void createTestData() {
         tableCreator.runScript(SCRIPT_SQL);
 

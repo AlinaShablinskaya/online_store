@@ -1,4 +1,4 @@
-package by.it.academy.onlinestore.controllers.admin;
+package by.it.academy.onlinestore.controllers.user;
 
 import by.it.academy.onlinestore.ApplicationInjector;
 import by.it.academy.onlinestore.services.ProductService;
@@ -10,24 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/admin/delete")
-public class DeleteProductServlet extends HttpServlet {
+@WebServlet(name = "detail", urlPatterns = "/detail")
+public class ProductDetailServlet extends HttpServlet {
     private final ProductService productService;
 
-    public DeleteProductServlet() {
+    public ProductDetailServlet() {
         ApplicationInjector injector = ApplicationInjector.getInstance();
         this.productService = injector.getProductService();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/showProducts.jsp").forward(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Integer id = Integer.parseInt(req.getParameter("id"));
-        productService.removeProductById(id);
-        resp.sendRedirect("/showProducts.jsp");
+        final Integer productId = Integer.valueOf(req.getParameter("product_id"));
+        req.setAttribute("product", productService.findProductById(productId));
+        req.getRequestDispatcher("/single.jsp").forward(req, resp);
     }
 }
