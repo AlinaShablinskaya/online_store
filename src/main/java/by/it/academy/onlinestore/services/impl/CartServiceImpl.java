@@ -3,10 +3,11 @@ package by.it.academy.onlinestore.services.impl;
 import by.it.academy.onlinestore.dao.CartDao;
 import by.it.academy.onlinestore.entities.Cart;
 import by.it.academy.onlinestore.services.CartService;
-import by.it.academy.onlinestore.services.exeption.EntityAlreadyExistException;
 import by.it.academy.onlinestore.services.exeption.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Optional;
 
 public class CartServiceImpl implements CartService {
     private static final Logger lOGGER = LoggerFactory.getLogger(CartServiceImpl.class);
@@ -20,17 +21,14 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void addCart(Cart cart) {
-        if (cartDao.findById(cart.getId()).isPresent()) {
-            throw new EntityAlreadyExistException(CART_ALREADY_EXISTS);
-        }
-        cartDao.save(cart);
-
-        lOGGER.info("Cart successfully added.");
+    public Optional<Cart> addCart(Cart cart) {
+        lOGGER.info("Adding cart started");
+        return cartDao.save(cart);
     }
 
     @Override
     public Cart findCartById(Integer id) {
+        lOGGER.info("Find cart by id started");
         return cartDao.findById(id).orElseThrow(() -> {
             return new EntityNotFoundException(CART_IS_NOT_FOUND);
         });
@@ -38,18 +36,11 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void deleteCart(Integer id) {
+        lOGGER.info("Cart delete started");
         if (!cartDao.findById(id).isPresent()) {
             throw new EntityNotFoundException(CART_IS_NOT_FOUND);
         }
         cartDao.deleteById(id);
-
         lOGGER.info("Cart successfully deleted.");
-    }
-
-    @Override
-    public Cart findCartByCustomerId(Integer customerId) {
-        return cartDao.findByCustomerId(customerId).orElseThrow(() -> {
-            return new EntityNotFoundException(CART_IS_NOT_FOUND);
-        });
     }
 }

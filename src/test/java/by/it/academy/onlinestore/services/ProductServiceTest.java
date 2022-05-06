@@ -7,16 +7,19 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import by.it.academy.onlinestore.dao.ProductDao;
+import by.it.academy.onlinestore.entities.CustomerAddress;
 import by.it.academy.onlinestore.entities.Product;
 import by.it.academy.onlinestore.services.exeption.EntityAlreadyExistException;
 import by.it.academy.onlinestore.services.exeption.EntityNotFoundException;
 import by.it.academy.onlinestore.services.impl.ProductServiceImpl;
+import by.it.academy.onlinestore.services.validator.Validator;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +28,9 @@ import java.util.Optional;
 public class ProductServiceTest {
     @Mock
     private ProductDao productDao;
+
+    @Mock
+    private Validator<Product> validator;
 
     @InjectMocks
     private ProductServiceImpl productService;
@@ -35,11 +41,14 @@ public class ProductServiceTest {
                 .withId(1)
                 .withProductName("Whiskey")
                 .withBrand("Description")
-                .withPrice(100)
+                .withPrice(new BigDecimal(20.5))
                 .build();
 
-        doNothing().when(productDao).save(product);
+        when(productDao.save(product)).thenReturn(Optional.of(product));
+
         productService.addProduct(product);
+
+        verify(validator).validate(product);
         verify(productDao).save(product);
     }
 
@@ -49,7 +58,7 @@ public class ProductServiceTest {
                 .withId(1)
                 .withProductName("Whiskey")
                 .withBrand("Description")
-                .withPrice(100)
+                .withPrice(new BigDecimal(20.5))
                 .build();
 
         when(productDao.findByName(product.getProductName())).thenReturn(Optional.of(product));
@@ -63,7 +72,7 @@ public class ProductServiceTest {
                 .withId(1)
                 .withProductName("Whiskey")
                 .withBrand("Description")
-                .withPrice(100)
+                .withPrice(new BigDecimal(20.5))
                 .build();
 
         when(productDao.findById(product.getId())).thenReturn(Optional.of(product));
@@ -77,7 +86,7 @@ public class ProductServiceTest {
                 .withId(1)
                 .withProductName("Whiskey")
                 .withBrand("Description")
-                .withPrice(100)
+                .withPrice(new BigDecimal(20.5))
                 .build();
 
         when(productDao.findById(product.getId())).thenReturn(Optional.empty());
@@ -96,14 +105,14 @@ public class ProductServiceTest {
                 .withId(1)
                 .withProductName("Whiskey")
                 .withBrand("Description")
-                .withPrice(100)
+                .withPrice(new BigDecimal(20.5))
                 .build());
 
         product.add(Product.builder()
                 .withId(2)
                 .withProductName("Whiskey")
                 .withBrand("Description")
-                .withPrice(100)
+                .withPrice(new BigDecimal(20.5))
                 .build());
 
         when(productDao.findAll(page, itemsPerPage)).thenReturn(product);
@@ -117,12 +126,17 @@ public class ProductServiceTest {
                 .withId(1)
                 .withProductName("Whiskey")
                 .withBrand("Description")
-                .withPrice(100)
+                .withPrice(new BigDecimal(20.5))
                 .build();
 
         when(productDao.findById(product.getId())).thenReturn(Optional.of(product));
+
+        doNothing().when(validator).validate(product);
         doNothing().when(productDao).update(product);
+
         productService.updateProduct(product);
+
+        verify(validator).validate(product);
         verify(productDao).update(product);
     }
 
@@ -132,7 +146,7 @@ public class ProductServiceTest {
                 .withId(1)
                 .withProductName("Whiskey")
                 .withBrand("Description")
-                .withPrice(100)
+                .withPrice(new BigDecimal(20.5))
                 .build();
 
         when(productDao.findById(product.getId())).thenReturn(Optional.of(product));

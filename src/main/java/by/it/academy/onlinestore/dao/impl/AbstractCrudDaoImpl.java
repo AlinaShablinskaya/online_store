@@ -16,16 +16,18 @@ import java.util.function.BiConsumer;
 public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
     protected final DBConnector connector;
     private final String saveQuery;
+    private final String saveAllQuery;
     private final String findByIdQuery;
     private final String findAllQueryOnPage;
     private final String findAllQuery;
     private final String updateQuery;
     private final String deleteByIdQuery;
 
-    public AbstractCrudDaoImpl(DBConnector connector, String saveQuery, String findByIdQuery, String findAllQueryOnPage,
-                               String findAllQuery, String updateQuery, String deleteByIdQuery) {
+    protected AbstractCrudDaoImpl(DBConnector connector, String saveQuery, String saveAllQuery, String findByIdQuery,
+                                  String findAllQueryOnPage, String findAllQuery, String updateQuery, String deleteByIdQuery) {
         this.connector = connector;
         this.saveQuery = saveQuery;
+        this.saveAllQuery = saveAllQuery;
         this.findByIdQuery = findByIdQuery;
         this.findAllQueryOnPage = findAllQueryOnPage;
         this.findAllQuery = findAllQuery;
@@ -52,11 +54,15 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
     };
 
     @Override
-    public void save(E entity) {
+    public Optional<E> save(E entity) {
        try (Connection connection = connector.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(saveQuery)) {
            insert(preparedStatement, entity);
-           preparedStatement.executeUpdate();
+           try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                resultSet.next();
+                Integer newId = resultSet.getInt(1);
+                return findById(newId);
+           }
        } catch (SQLException e) {
            throw new DataBaseRuntimeException("Insertion is failed", e);
        }
@@ -65,7 +71,7 @@ public abstract class AbstractCrudDaoImpl<E> implements CrudDao<E, Integer> {
     @Override
     public void saveAll(List<E> entities) {
         try (Connection connection = connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(saveQuery)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(saveAllQuery)) {
             for (E entity : entities) {
                 insert(preparedStatement, entity);
                 preparedStatement.addBatch();

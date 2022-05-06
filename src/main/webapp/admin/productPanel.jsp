@@ -4,6 +4,7 @@
 <head>
     <title>Shopper an E-Commerce online Shopping Category Flat Bootstarp responsive Website Template| Man :: w3layouts</title>
     <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link href="css/buttonstyle.css" rel='stylesheet' type='text/css' />
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="js/jquery.min.js"></script>
     <!-- Custom Theme files -->
@@ -42,8 +43,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="header-left">
             <div class="top-menu">
                 <ul>
-                    <li><a href="index.html">HOME</a></li>
-                    <li class="active"><a href="catalog.html">CATALOG</a></li>
+                    <li><a href="/home">HOME</a></li>
+                    <li class="active"><a href="catalog.jsp">CATALOG</a></li>
                 </ul>
             </div>
         </div>
@@ -61,41 +62,35 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="cart-sec">
                     <a href="cart.html"><img href="cart.html" src="images/cart.png" alt=""/>(0)</a></div>
                 <ul>
-                    <li><a href="registration.html">REGISTRATION</a> <span>/<span> &nbsp;</li>
-                    <li><a href="login.html"> LOGIN</a></li>
+                    <li><a href="/registration">REGISTRATION</a> <span></span> &nbsp;</li>
+                    <li><a href="/login"> LOGIN</a></li>
                 </ul>
             </div>
         </div>
         <div class="clearfix"></div>
     </div>
 </div>
-<!---->
 <div class="men-fashions">
     <div class="container">
         <div class="col-md-9 fashions">
+                    <h4><a class="button28" href="/addProduct">Add product</a></h4>
             <div class="title">
-                <div class="pagination">
-                    <a class="active" href='/admin?page=1'>1</a>
-                    <a href='/admin?page=2'>2</a>
-                    <a href='/admin?page=3'>3</a>
-                    <div class="clearfix"></div>
-                </div>
             </div>
             <div class="fashion-section">
                 <div class="fashion-grid1">
+                    <jsp:useBean id="products" scope="request" type="java.util.List"/>
                     <c:forEach var="product" items="${products}">
                     <div class="col-md-4 fashion-grid">
-                        <a href="single.html"><img src="<c:out value="${product.photo}"/>" alt=""/>
+                        <a href="/single"><img src="<c:out value="${product.photo}"/>" alt=""/>
                             <div class="product">
                                 <h3><c:out value="${product.productName}"/></h3>
                                 <p><span></span> <c:out value="${product.price}"/> &euro;</p>
                             </div>
                         </a>
-                        <form action="/admin/panel" method="post">
-                            <input type="hidden" name="product_id" value="${product.id}">
-                                <div class="fashion-view"><span></span>
-                                <div class="clearfix"></div>
-                                    <h4><a href="/admin/delete?id=${product.id}" class="btn btn-dark">Удалить</a>></h4>
+                        <div class="fashion-view"><span></span>
+                            <div class="clearfix"></div>
+                            <h4><a href="${pageContext.request.contextPath}/deleteProduct?product_id=${product.id}">Delete</a></h4>
+                            <h4><a href="${pageContext.request.contextPath}/update?product_id=${product.id}">Update</a></h4>
                         </div>
                     </div>
                     </c:forEach>
@@ -106,18 +101,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="categories">
                 <h3>CATEGORIES</h3>
                 <ul>
-                    <li><a href="#">ВИСКИ</a></li>
-                    <li><a href="#">ВИНО</a></li>
-                    <li><a href="#">РОМ</a></li>
-                    <li><a href="#">ШАМПАНСКОЕ И ИГРИСТОЕ ВИНО</a></li>
-                    <li><a href="#">ПИВО</a></li>
+                    <c:forEach var="catalog" items="${catalog}">
+                        <li><a href=""><c:out value="${catalog.groupName}"/></a></li>
+                    </c:forEach>
                 </ul>
+                <br>
+                <h4><a class="button28" href="${pageContext.request.contextPath}/addCatalog">Add category</a></h4>
             </div>
         </div>
         <div class="clearfix"></div>
     </div>
 </div>
-<!---->
 <div class="footer">
     <div class="container">
         <p>Copyright &copy; 2022 All rights reserved | Template by  <a href="http://w3layouts.com">  W3layouts</a></p>

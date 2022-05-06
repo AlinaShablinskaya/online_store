@@ -43,7 +43,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="top-menu">
                 <ul>
                     <li><a href="/home">HOME</a></li>
-                    <li class="active"><a href="catalog.jsp">CATALOG</a></li>
+                    <li class="active"><a href="/catalog">CATALOG</a></li>
                 </ul>
             </div>
         </div>
@@ -59,7 +59,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </div>
             <div class="signin">
                 <div class="cart-sec">
-                    <a href="cart.html"><img href="cart.html" src="images/cart.png" alt=""/>(0)</a></div>
+                    <a href=cart"><img href="/cart" src="images/cart.png" alt=""/>(0)</a></div>
                 <ul>
                     <li><a href="/registration">REGISTRATION</a> <span></span> &nbsp;</li>
                     <li><a href="/login"> LOGIN</a></li>

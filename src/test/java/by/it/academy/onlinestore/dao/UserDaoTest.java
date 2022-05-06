@@ -101,7 +101,7 @@ public class UserDaoTest {
                 .withEmail("Login")
                 .withPassword("12345")
                 .withRole(role)
-                .withAddress(firstAddress)
+                .withAddress(secondAddress)
                 .build());
 
         userDao.saveAll(expected);
@@ -244,25 +244,25 @@ public class UserDaoTest {
 
     private void createTestData() {
         tableCreator.runScript(SCRIPT_SQL);
+        List<CustomerAddress> addresses = new ArrayList<>();
 
-        CustomerAddress firstAddress = CustomerAddress.builder()
+        addresses.add(CustomerAddress.builder()
                 .withId(1)
                 .withZipcode("123654")
                 .withCountry("England")
                 .withStreet("Oxford Street")
-                .build();
+                .build());
 
-        CustomerAddress secondAddress = CustomerAddress.builder()
+        addresses.add(CustomerAddress.builder()
                 .withId(2)
                 .withZipcode("1564822")
                 .withCountry("England")
                 .withStreet("Piccadilly Street")
-                .build();
+                .build());
 
         Role role = new Role("USER");
 
-        addressDao.save(firstAddress);
-        addressDao.save(secondAddress);
+        addressDao.saveAll(addresses);
 
         users.add(User.builder()
                 .withId(1)
@@ -271,7 +271,7 @@ public class UserDaoTest {
                 .withEmail("Login")
                 .withPassword("12345")
                 .withRole(role)
-                .withAddress(firstAddress)
+                .withAddress(addresses.get(0))
                 .build());
 
         users.add(User.builder()
@@ -281,7 +281,7 @@ public class UserDaoTest {
                 .withEmail("SecondLogin")
                 .withPassword("78954")
                 .withRole(role)
-                .withAddress(secondAddress)
+                .withAddress(addresses.get(1))
                 .build());
     }
 

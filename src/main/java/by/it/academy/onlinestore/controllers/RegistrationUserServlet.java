@@ -1,6 +1,8 @@
 package by.it.academy.onlinestore.controllers;
 
 import by.it.academy.onlinestore.ApplicationInjector;
+import by.it.academy.onlinestore.constants.Path;
+import by.it.academy.onlinestore.constants.ServletContent;
 import by.it.academy.onlinestore.entities.Role;
 import by.it.academy.onlinestore.entities.User;
 import by.it.academy.onlinestore.services.UserService;
@@ -15,6 +17,8 @@ import java.util.Objects;
 
 @WebServlet(name = "registration", urlPatterns = "/registration")
 public class RegistrationUserServlet extends HttpServlet {
+    private static final String REPEAT_PASSWORD = "repeat_password";
+    private static final String USER_ROLE = "USER";
     private final UserService userService;
 
     public RegistrationUserServlet() {
@@ -24,19 +28,19 @@ public class RegistrationUserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/registration.jsp").forward(req, resp);
+        req.getRequestDispatcher(Path.PATH_TO_REGISTRATION_PAGE).forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        final String firstName = req.getParameter("firstName");
-        final String lastName = req.getParameter("lastName");
-        final String email = req.getParameter("email");
-        final String password = req.getParameter("password");
-        final String repeatPassword = req.getParameter("repeatPassword");
+        final String firstName = req.getParameter(ServletContent.FIRST_NAME);
+        final String lastName = req.getParameter(ServletContent.LAST_NAME);
+        final String email = req.getParameter(ServletContent.EMAIL);
+        final String password = req.getParameter(ServletContent.PASSWORD);
+        final String repeatPassword = req.getParameter(REPEAT_PASSWORD);
 
         if (!Objects.equals(password, repeatPassword)) {
-            req.getRequestDispatcher("/registration.jsp").forward(req, resp);
+            req.getRequestDispatcher(Path.PATH_TO_REGISTRATION_PAGE).forward(req, resp);
         }
 
         final User user = User.builder()
@@ -44,11 +48,11 @@ public class RegistrationUserServlet extends HttpServlet {
                 .withLastName(lastName)
                 .withEmail(email)
                 .withPassword(password)
-                .withRole(new Role("USER"))
+                .withRole(new Role(USER_ROLE))
                 .build();
 
         userService.createUser(user);
 
-        req.getRequestDispatcher("/login.html").forward(req, resp);
+        resp.sendRedirect(Path.URL_TO_LOGIN);
     }
 }

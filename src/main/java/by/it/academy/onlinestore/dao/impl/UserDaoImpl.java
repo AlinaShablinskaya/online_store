@@ -14,6 +14,9 @@ import java.util.Optional;
 public class UserDaoImpl extends AbstractCrudDaoImpl<User> implements UserDao {
     private static final String SAVE_QUERY =
             "INSERT INTO online_store.user(first_name, last_name, email, password, role_name, address_id) " +
+                    "VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
+    private static final String SAVE_ALL_QUERY =
+            "INSERT INTO online_store.user(first_name, last_name, email, password, role_name, address_id) " +
                     "VALUES (?, ?, ?, ?, ?, ?)";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM online_store.user " +
             "LEFT OUTER JOIN online_store.customer_address ON online_store.user.address_id = online_store.customer_address.id " +
@@ -32,7 +35,8 @@ public class UserDaoImpl extends AbstractCrudDaoImpl<User> implements UserDao {
     private static final String DELETE_BY_ID_QUERY = "DELETE FROM online_store.user WHERE id = ?";
 
     public UserDaoImpl(DBConnector connector) {
-        super(connector, SAVE_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY_ON_PAGE, FIND_ALL_QUERY, UPDATE_QUERY, DELETE_BY_ID_QUERY);
+        super(connector, SAVE_QUERY, SAVE_ALL_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY_ON_PAGE, FIND_ALL_QUERY,
+                UPDATE_QUERY, DELETE_BY_ID_QUERY);
     }
 
     @Override
@@ -66,7 +70,8 @@ public class UserDaoImpl extends AbstractCrudDaoImpl<User> implements UserDao {
 
         Role role = new Role(resultSet.getString("role_name"));
 
-        return User.builder().withId(resultSet.getInt("id"))
+        return User.builder()
+                .withId(resultSet.getInt("id"))
                 .withFirstName(resultSet.getString("first_name"))
                 .withLastName(resultSet.getString("last_name"))
                 .withEmail(resultSet.getString("email"))

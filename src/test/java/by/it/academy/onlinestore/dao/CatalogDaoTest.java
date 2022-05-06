@@ -37,7 +37,7 @@ public class CatalogDaoTest {
 
         Catalog expected = Catalog.builder()
                 .withId(3)
-                .withName("Wine")
+                .withGroupName("Wine")
                 .build();
 
         catalogDao.save(expected);
@@ -52,12 +52,12 @@ public class CatalogDaoTest {
 
         expected.add(Catalog.builder()
                 .withId(3)
-                .withName("Wine")
+                .withGroupName("Wine")
                 .build());
 
         expected.add(Catalog.builder()
                 .withId(4)
-                .withName("Wine")
+                .withGroupName("Wine")
                 .build());
 
         catalogDao.saveAll(expected);
@@ -70,10 +70,22 @@ public class CatalogDaoTest {
     void findByIdShouldReturnProductWhenGetId() {
         Catalog expected = Catalog.builder()
                 .withId(1)
-                .withName("Rum")
+                .withGroupName("Rum")
                 .build();
 
         Catalog actual = catalogDao.findById(1).orElse(null);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void findByGroupNameShouldReturnProductWhenGetGroupName() {
+        Catalog expected = Catalog.builder()
+                .withId(1)
+                .withGroupName("Rum")
+                .build();
+
+        Catalog actual = catalogDao.findByGroupName(expected.getGroupName()).get();
 
         assertEquals(expected, actual);
     }
@@ -84,12 +96,12 @@ public class CatalogDaoTest {
 
         expected.add(Catalog.builder()
                 .withId(1)
-                .withName("Rum")
+                .withGroupName("Rum")
                 .build());
 
         expected.add(Catalog.builder()
                 .withId(2)
-                .withName("Beer")
+                .withGroupName("Beer")
                 .build());
 
         List<Catalog> actual = catalogDao.findAll(0, 2);
@@ -101,7 +113,7 @@ public class CatalogDaoTest {
     void updateShouldUpdateProduct() {
         Catalog expected = Catalog.builder()
                 .withId(1)
-                .withName("Whiskey")
+                .withGroupName("Whiskey")
                 .build();
 
         catalogDao.update(expected);
@@ -123,12 +135,12 @@ public class CatalogDaoTest {
 
         catalogs.add(Catalog.builder()
                 .withId(1)
-                .withName("Rum")
+                .withGroupName("Rum")
                 .build());
 
         catalogs.add(Catalog.builder()
                 .withId(2)
-                .withName("Beer")
+                .withGroupName("Beer")
                 .build());
     }
 

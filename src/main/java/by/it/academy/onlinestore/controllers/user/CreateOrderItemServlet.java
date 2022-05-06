@@ -1,6 +1,8 @@
 package by.it.academy.onlinestore.controllers.user;
 
 import by.it.academy.onlinestore.ApplicationInjector;
+import by.it.academy.onlinestore.constants.Path;
+import by.it.academy.onlinestore.constants.ServletContent;
 import by.it.academy.onlinestore.entities.Cart;
 import by.it.academy.onlinestore.entities.OrderItem;
 import by.it.academy.onlinestore.entities.Product;
@@ -17,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet(name = "addOrderItem", urlPatterns = "/addOrderItem")
+@WebServlet(urlPatterns = "/createOrder")
 public class CreateOrderItemServlet extends HttpServlet {
     private final OrderItemService orderItemService;
     private final ProductService productService;
@@ -32,35 +34,44 @@ public class CreateOrderItemServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/catalog").forward(req, resp);
+        req.getRequestDispatcher(Path.URT_TO_DETAIL).forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        final int productId = Integer.parseInt(req.getParameter("product_id"));
-        final int amount = Integer.parseInt(req.getParameter("amount"));
+        final HttpSession session = req.getSession();
+        User user = (User) session.getAttribute(ServletContent.USER);
+        Cart cart = (Cart) session.getAttribute(ServletContent.CART);
+
+        if (user != null) {
+            final OrderItem orderItemBuilder = createOrderItem(req);
+            OrderItem orderItem = orderItemService.addOrderItem(orderItemBuilder).get();
+
+            if (cart == null) {
+                Cart cartBuilder = createCart(user);
+                cart = cartService.addCart(cartBuilder).get();
+                session.setAttribute(ServletContent.CART, cart);
+            }
+            orderItemService.addOrderItemToCart(orderItem.getId(), cart.getId());
+        }
+        resp.sendRedirect(Path.URL_TO_CART);
+    }
+
+    private OrderItem createOrderItem(HttpServletRequest req) {
+        final int productId = Integer.parseInt(req.getParameter(ServletContent.PRODUCT_ID));
+        final int amount = Integer.parseInt(req.getParameter(ServletContent.AMOUNT));
 
         Product product = productService.findProductById(productId);
 
-        HttpSession session = req.getSession();
-
-        User user = (User) session.getAttribute("user");
-        Cart cart = (Cart) session.getAttribute("cart");
-
-        final OrderItem orderItem = OrderItem.builder()
+            return OrderItem.builder()
                     .withProduct(product)
                     .withAmount(amount)
                     .build();
-        orderItemService.createOrderItem(orderItem);
+    }
 
-        if (cart == null) {
-            cart = Cart.builder()
-                    .withUser(user)
-                    .build();
-            cartService.addCart(cart);
-            session.setAttribute("cart", cart);
-        }
-
-        orderItemService.addOrderItemOnCart(orderItem.getId(), cart.getId());
+    private Cart createCart (User user) {
+        return Cart.builder()
+                .withUser(user)
+                .build();
     }
 }

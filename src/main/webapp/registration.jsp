@@ -69,7 +69,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
       </div>
       <div class="signin">
         <div class="cart-sec">
-          <a href="cart.html"><img href="cart.html" src="images/cart.png" alt=""/>(0)</a></div>
+          <a href="/cart"><img href="/cart" src="images/cart.png" alt=""/>(0)</a></div>
         <ul>
           <li><a href="/registration">REGISTRATION</a> <span></span> &nbsp;</li>
           <li><a href="/login"> LOGIN</a></li>
@@ -82,30 +82,30 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!---->
 <div class="registration-form">
   <div class="container">
-    <h2>Регистрация</h2>
+    <h2>Registration</h2>
     <div class="col-md-6 reg-form">
       <div class="reg">
-        <p>Заполните Ваши данные для продолжения</p>
+        <p>Welcome, please fill out the form to continue.</p>
         <form action="/registration" method="post">
           <ul>
             <li class="text-info">First Name: </li>
-            <li><input type="text" name="firstName"></li>
+            <li><input type="text" name="first_name" required pattern="^[a-zA-Z]+$"></li>
           </ul>
           <ul>
             <li class="text-info">Last Name: </li>
-            <li><input type="text" name="lastName"></li>
+            <li><input type="text" name="last_name" required pattern="^[a-zA-Z]+$"></li>
           </ul>
           <ul>
             <li class="text-info">Email: </li>
-            <li><input type="text" name="email"></li>
+            <li><input type="text" name="email" required pattern="^[\w-\+]+(\.[\w]+)*@[\w-]+(\.[\w]+)*(\.[a-z]{2,})$"></li>
           </ul>
           <ul>
             <li class="text-info">Password: </li>
-            <li><input type="password" name="password"></li>
+            <li><input type="password" name="password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"></li>
           </ul>
           <ul>
             <li class="text-info">Re-enter Password:</li>
-            <li><input type="password" name="repeatPassword"></li>
+            <li><input type="password" name="repeat_password" required></li>
           </ul>
           <input type="submit" class="btn btn-dark" value="Register Now">
           <p class="click">By clicking this button, you agree to my modern style <a>Pollicy Terms and Conditions</a> to Use</p>

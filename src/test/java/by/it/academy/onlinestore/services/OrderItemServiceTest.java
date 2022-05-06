@@ -19,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -39,7 +40,7 @@ public class OrderItemServiceTest {
                 .withId(1)
                 .withProductName("Name")
                 .withBrand("Description")
-                .withPrice(100)
+                .withPrice(new BigDecimal(20.5))
                 .build();
 
         OrderItem orderItem = OrderItem.builder()
@@ -60,56 +61,11 @@ public class OrderItemServiceTest {
         when(cartDao.findById(cartId)).thenReturn(Optional.of(cart));
         doNothing().when(orderItemDao).addOrderItemOnCart(orderItemId, cartId);
 
-        orderItemService.addOrderItemOnCart(orderItemId, cartId);
+        orderItemService.addOrderItemToCart(orderItemId, cartId);
 
         verify(orderItemDao).findById(orderItemId);
         verify(cartDao).findById(cartId);
         verify(orderItemDao).addOrderItemOnCart(orderItemId, cartId);
-    }
-
-    @Test
-    void addOrderItemOnCartShouldReturnExceptionWhenSpecifiedOrderItemNotExists() {
-        Integer orderItemId = 2;
-        Integer cartId = 4;
-
-        when(orderItemDao.findById(orderItemId)).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> orderItemService.addOrderItemOnCart(orderItemId, cartId));
-        verifyNoMoreInteractions(orderItemDao);
-    }
-
-    @Test
-    void addOrderItemOnCartShouldReturnExceptionWhenSpecifiedCartNotExists() {
-        Product product = Product.builder()
-                .withId(1)
-                .withProductName("Name")
-                .withBrand("Description")
-                .withPrice(100)
-                .build();
-
-        OrderItem orderItem = OrderItem.builder()
-                .withId(1)
-                .withProduct(product)
-                .withAmount(5)
-                .build();
-
-        Cart cart = Cart.builder()
-                .withId(1)
-                .withOrderItems(new ArrayList<>())
-                .build();
-
-        Integer orderItemId = orderItem.getId();
-        Integer cartId = cart.getId();
-
-        when(orderItemDao.findById(orderItemId)).thenReturn(Optional.of(orderItem));
-        when(cartDao.findById(cartId)).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> orderItemService.addOrderItemOnCart(orderItemId, cartId));
-
-        verify(orderItemDao).findById(orderItemId);
-        verify(cartDao).findById(cartId);
-        verifyNoMoreInteractions(orderItemDao);
-        verifyNoMoreInteractions(cartDao);
     }
 
     @Test
@@ -118,7 +74,7 @@ public class OrderItemServiceTest {
                 .withId(1)
                 .withProductName("Name")
                 .withBrand("Description")
-                .withPrice(100)
+                .withPrice(new BigDecimal(20.5))
                 .build();
 
         OrderItem orderItem = OrderItem.builder()
@@ -144,25 +100,5 @@ public class OrderItemServiceTest {
         verify(orderItemDao).findById(orderItemId);
         verify(cartDao).findById(cartId);
         verify(orderItemDao).removeOrderItemFromCart(orderItemId, cartId);
-    }
-
-    @Test
-    void findOrderItemByProductIdShouldReturnCorrectResult() {
-        Product product = Product.builder()
-                .withId(1)
-                .withProductName("Name")
-                .withBrand("Description")
-                .withPrice(100)
-                .build();
-
-        OrderItem orderItem = OrderItem.builder()
-                .withId(1)
-                .withProduct(product)
-                .withAmount(5)
-                .build();
-
-        when(orderItemDao.findByProductId(product.getId())).thenReturn(Optional.of(orderItem));
-        orderItemService.findOrderItemByProductId(product.getId());
-        verify(orderItemDao).findByProductId(product.getId());
     }
 }

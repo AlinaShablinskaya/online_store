@@ -1,13 +1,16 @@
 package by.it.academy.onlinestore.dao;
 
 import by.it.academy.onlinestore.dao.exception.DataBaseRuntimeException;
+import by.it.academy.onlinestore.dao.impl.CatalogDaoImpl;
 import by.it.academy.onlinestore.dao.impl.ProductDaoImpl;
+import by.it.academy.onlinestore.entities.Catalog;
 import by.it.academy.onlinestore.entities.Product;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,15 +22,18 @@ public class ProductDaoTest {
     private final static String SCRIPT_SQL = "src/test/resources/schema.sql";
 
     private List<Product> products = new ArrayList<>();
+    private List<Catalog> catalog = new ArrayList<>();
     private DBConnector connector;
     private TableCreator tableCreator;
     private ProductDao productDao;
+    private CatalogDao catalogDao;
 
     @BeforeEach
     private void prepareTables() {
         connector = new DBConnector(PROPERTIES);
         tableCreator = new TableCreator(connector);
         productDao = new ProductDaoImpl(connector);
+        catalogDao = new CatalogDaoImpl(connector);
 
         createTestData();
         insertTestDataToDB();
@@ -40,7 +46,7 @@ public class ProductDaoTest {
                 .withProductName("Beer")
                 .withBrand("Brand")
                 .withPhoto("photo")
-                .withPrice(5)
+                .withPrice(new BigDecimal(5))
                 .build();
 
         productDao.save(expected);
@@ -58,7 +64,7 @@ public class ProductDaoTest {
                 .withProductName("Beer")
                 .withBrand("Brand")
                 .withPhoto("photo")
-                .withPrice(5)
+                .withPrice(new BigDecimal(5))
                 .build();
 
         Product secondProduct = Product.builder()
@@ -66,7 +72,7 @@ public class ProductDaoTest {
                 .withProductName("Rum")
                 .withBrand("Brand")
                 .withPhoto("photo")
-                .withPrice(5)
+                .withPrice(new BigDecimal(5))
                 .build();
 
         expected.add(firstProduct);
@@ -85,7 +91,7 @@ public class ProductDaoTest {
                 .withProductName("Whiskey")
                 .withBrand("Brand")
                 .withPhoto("photo")
-                .withPrice(30)
+                .withPrice(new BigDecimal(30))
                 .build();
 
         Product actual = productDao.findById(1).orElse(null);
@@ -102,7 +108,7 @@ public class ProductDaoTest {
                 .withProductName("Whiskey")
                 .withBrand("Brand")
                 .withPhoto("photo")
-                .withPrice(30)
+                .withPrice(new BigDecimal(30))
                 .build();
 
         Product secondProduct = Product.builder()
@@ -110,7 +116,7 @@ public class ProductDaoTest {
                 .withProductName("Wine")
                 .withBrand("Brand")
                 .withPhoto("photo")
-                .withPrice(20)
+                .withPrice(new BigDecimal(20))
                 .build();
 
         expected.add(firstProduct);
@@ -122,13 +128,29 @@ public class ProductDaoTest {
     }
 
     @Test
+    void findAllProductsByCategoryNameShouldReturnListOfProducts() {
+        List<Product> expected = new ArrayList<>();
+
+        expected.add(Product.builder()
+                .withId(1)
+                .withProductName("Whiskey")
+                .withBrand("Brand")
+                .withPhoto("photo")
+                .withPrice(new BigDecimal(30))
+                .build());
+
+        List <Product> actual = productDao.findAllProductsByCategoryName("group");
+        assertEquals(expected, actual);
+    }
+
+    @Test
     void updateShouldUpdateProduct() {
         Product expected = Product.builder()
                 .withId(1)
                 .withProductName("Whiskey")
                 .withBrand("Brand")
                 .withPhoto("photo")
-                .withPrice(100)
+                .withPrice(new BigDecimal(100))
                 .build();
 
         productDao.update(expected);
@@ -153,18 +175,26 @@ public class ProductDaoTest {
                 .withProductName("Whiskey")
                 .withBrand("Brand")
                 .withPhoto("photo")
-                .withPrice(30)
+                .withPrice(new BigDecimal(30))
                 .build());
         products.add(Product.builder()
                 .withId(2)
                 .withProductName("Wine")
                 .withBrand("Brand")
                 .withPhoto("photo")
-                .withPrice(20)
+                .withPrice(new BigDecimal(20))
                 .build());
+
+        catalog.add(Catalog.builder()
+                .withId(1)
+                .withGroupName("group")
+                .build());
+
+        catalogDao.saveAll(catalog);
     }
 
     private void insertTestDataToDB() throws DataBaseRuntimeException {
         productDao.saveAll(products);
+        productDao.addProductOnCatalog(catalog.get(0).getId(), products.get(0).getId());
     }
 }

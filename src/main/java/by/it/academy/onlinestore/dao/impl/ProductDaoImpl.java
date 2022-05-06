@@ -12,6 +12,8 @@ import java.util.Optional;
 
 public class ProductDaoImpl extends AbstractCrudDaoImpl<Product> implements ProductDao {
     private static final String SAVE_QUERY =
+            "INSERT INTO online_store.product(product_name, brand, photo, price) VALUES (?, ?, ?, ?) RETURNING id";
+    private static final String SAVE_ALL_QUERY =
             "INSERT INTO online_store.product(product_name, brand, photo, price) VALUES (?, ?, ?, ?)";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM online_store.product WHERE id = ?";
     private static final String FIND_ALL_QUERY_ON_PAGE = "SELECT * FROM online_store.product limit ? offset ?";
@@ -33,7 +35,8 @@ public class ProductDaoImpl extends AbstractCrudDaoImpl<Product> implements Prod
     private static final String FIND_BY_NAME_QUERY = "SELECT * FROM online_store.product WHERE product_name = ?";
 
     public ProductDaoImpl(DBConnector connector) {
-        super(connector, SAVE_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY_ON_PAGE, FIND_ALL_QUERY, UPDATE_QUERY, DELETE_BY_ID_QUERY);
+        super(connector, SAVE_QUERY, SAVE_ALL_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY_ON_PAGE, FIND_ALL_QUERY,
+                UPDATE_QUERY, DELETE_BY_ID_QUERY);
     }
 
     @Override
@@ -43,7 +46,7 @@ public class ProductDaoImpl extends AbstractCrudDaoImpl<Product> implements Prod
                 .withProductName(resultSet.getString("product_name"))
                 .withBrand(resultSet.getString("brand"))
                 .withPhoto(resultSet.getString("photo"))
-                .withPrice(resultSet.getInt("price"))
+                .withPrice(resultSet.getBigDecimal("price"))
                 .build();
     }
 
@@ -52,7 +55,7 @@ public class ProductDaoImpl extends AbstractCrudDaoImpl<Product> implements Prod
         preparedStatement.setString(1, product.getProductName());
         preparedStatement.setString(2, product.getBrand());
         preparedStatement.setString(3, product.getPhoto());
-        preparedStatement.setInt(4, product.getPrice());
+        preparedStatement.setBigDecimal(4, product.getPrice());
     }
 
     @Override
@@ -60,7 +63,7 @@ public class ProductDaoImpl extends AbstractCrudDaoImpl<Product> implements Prod
         preparedStatement.setString(1, product.getProductName());
         preparedStatement.setString(2, product.getBrand());
         preparedStatement.setString(3, product.getPhoto());
-        preparedStatement.setInt(4, product.getPrice());
+        preparedStatement.setBigDecimal(4, product.getPrice());
         preparedStatement.setInt(5, product.getId());
     }
 

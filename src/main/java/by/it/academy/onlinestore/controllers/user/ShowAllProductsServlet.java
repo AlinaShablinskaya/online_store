@@ -1,7 +1,8 @@
 package by.it.academy.onlinestore.controllers.user;
 
 import by.it.academy.onlinestore.ApplicationInjector;
-import by.it.academy.onlinestore.entities.Catalog;
+import by.it.academy.onlinestore.constants.Path;
+import by.it.academy.onlinestore.constants.ServletContent;
 import by.it.academy.onlinestore.services.CatalogService;
 import by.it.academy.onlinestore.services.ProductService;
 
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "catalog", urlPatterns = "/catalog")
+@WebServlet(urlPatterns = "/catalog")
 public class ShowAllProductsServlet extends HttpServlet {
     private static final int ITEMS_PER_PAGE = 6;
     private final ProductService productService;
@@ -28,17 +29,17 @@ public class ShowAllProductsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         int defaultPage = 1;
-        String pageParameter = req.getParameter("page");
+        String pageParameter = req.getParameter(ServletContent.PAGE);
 
         if (pageParameter != null) {
-            defaultPage = Integer.parseInt(req.getParameter("page"));
+            defaultPage = Integer.parseInt(req.getParameter(ServletContent.PAGE));
         }
 
         int pageNumber = (defaultPage - 1) * ITEMS_PER_PAGE;
 
-        req.setAttribute("products", productService.findAllProduct(pageNumber, ITEMS_PER_PAGE));
-        req.setAttribute("catalog", catalogService.showCatalog());
+        req.setAttribute(ServletContent.PRODUCTS, productService.findAllProduct(pageNumber, ITEMS_PER_PAGE));
+        req.setAttribute(ServletContent.CATALOG, catalogService.showCatalog());
 
-        req.getRequestDispatcher("/catalog.jsp").forward(req, resp);
+        req.getRequestDispatcher(Path.PATH_TO_CATALOG_PAGE).forward(req, resp);
     }
 }

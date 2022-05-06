@@ -64,7 +64,7 @@ public class CartDaoTest {
     }
 
     @Test
-    void saveShouldAddListOfCartToTheDatabase() {
+    void saveAllShouldAddListOfCartToTheDatabase() {
         List<Cart> expected = new ArrayList<>();
 
         User firstUser = User.builder()
@@ -184,71 +184,52 @@ public class CartDaoTest {
         assertThat(actual).isNull();
     }
 
-    @Test
-    void findByCustomerIdShouldReturnOrderItemWhenGetCustomerId() {
-        User firstUser = User.builder()
-                .withId(1)
-                .withFirstName("FirstUser")
-                .withLastName("LastName")
-                .withEmail("Login")
-                .withPassword("12345")
-                .build();
-
-        Cart expected = Cart.builder()
-                .withId(1)
-                .withUser(firstUser)
-                .build();
-
-        Cart actual = cartDao.findByCustomerId(firstUser.getId()).get();
-
-        assertEquals(expected, actual);
-    }
-
     private void createTestData() {
         tableCreator.runScript(SCRIPT_SQL);
+        List<CustomerAddress> addresses = new ArrayList<>();
+        List<User> users = new ArrayList<>();
 
-        CustomerAddress customerAddress = CustomerAddress.builder()
+        addresses.add(CustomerAddress.builder()
                 .withId(1)
                 .withZipcode("123654")
                 .withCountry("England")
                 .withStreet("Oxford Street")
-                .build();
+                .build());
 
-        addressDao.save(customerAddress);
+        addressDao.saveAll(addresses);
 
         Role role = new Role("USER");
 
-        User firstUser = User.builder()
+        users.add(User.builder()
                 .withId(1)
                 .withFirstName("FirstUser")
                 .withLastName("LastName")
                 .withEmail("Login")
                 .withPassword("12345")
-                .withAddress(customerAddress)
+                .withAddress(addresses.get(0))
                 .withRole(role)
-                .build();
+                .build());
 
-        User secondUser = User.builder()
+        users.add(User.builder()
                 .withId(2)
                 .withFirstName("SecondUser")
                 .withLastName("LastName")
                 .withEmail("SecondLogin")
                 .withPassword("78954")
-                .withAddress(customerAddress)
                 .withRole(role)
-                .build();
+                .withAddress(addresses.get(0))
+                .build());
 
-        userDao.save(firstUser);
-        userDao.save(secondUser);
+        userDao.saveAll(users);
 
         carts.add(Cart.builder()
                 .withId(1)
-                .withUser(firstUser)
+                .withUser(users.get(0))
                 .build());
 
         carts.add(Cart.builder()
                 .withId(2)
-                .withUser(secondUser)
+                .withUser(users.get(1))
                 .build());
     }
 

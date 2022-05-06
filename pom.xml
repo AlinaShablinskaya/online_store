@@ -19,6 +19,7 @@
     <maven.surefire.plugin.version>2.22.0</maven.surefire.plugin.version>
     <servlet.version>4.0.1</servlet.version>
     <servlet.jsp.version>2.3.3</servlet.jsp.version>
+    <servlet.jstl.version>1.2</servlet.jstl.version>
     <junit-jupiter.version>5.7.1</junit-jupiter.version>
     <assertj-core.version>3.20.1</assertj-core.version>
     <postgresql.version>42.3.3</postgresql.version>
@@ -29,6 +30,7 @@
     <hikari.version>3.4.5</hikari.version>
     <slf4j.version>1.7.25</slf4j.version>
     <mockito.version>3.12.4</mockito.version>
+    <lombok.version>1.18.24</lombok.version>
   </properties>
 
   <dependencies>
@@ -49,7 +51,7 @@
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>jstl</artifactId>
-      <version>1.2</version>
+      <version>${servlet.jstl.version}</version>
     </dependency>
 
     <dependency>
@@ -140,6 +142,14 @@
       <artifactId>slf4j-simple</artifactId>
       <version>${slf4j.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
   </dependencies>
 
   <build>

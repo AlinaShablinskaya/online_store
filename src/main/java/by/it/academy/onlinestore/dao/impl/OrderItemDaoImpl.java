@@ -8,10 +8,13 @@ import by.it.academy.onlinestore.entities.Product;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 public class OrderItemDaoImpl extends AbstractCrudDaoImpl<OrderItem> implements OrderItemDao {
     private static final String SAVE_QUERY =
+            "INSERT INTO online_store.order_item(amount, product_id) VALUES (?, ?) RETURNING id";
+    private static final String SAVE_ALL_QUERY =
             "INSERT INTO online_store.order_item(amount, product_id) VALUES (?, ?)";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM online_store.order_item " +
             "LEFT OUTER JOIN online_store.product ON online_store.order_item.product_id = online_store.product.id " +
@@ -24,15 +27,17 @@ public class OrderItemDaoImpl extends AbstractCrudDaoImpl<OrderItem> implements 
             "UPDATE online_store.order_item SET amount = ?, product_id = ? WHERE id = ?";
     private static final String DELETE_BY_ID_QUERY = "DELETE FROM online_store.order_item WHERE id = ?";
     private static final String CREATE_CART_ORDER_ITEM_RELATION =
-            "INSERT INTO online_store.cart_order_item(cart_id, order_item_id) VALUES (?, ?)";
+            "INSERT INTO online_store.cart_order_item(order_item_id, cart_id) VALUES (?, ?)";
     public static final String REMOVE_ORDER_ITEM_FROM_CART =
-            "DELETE FROM online_store.cart_order_item WHERE cart_id = ? AND order_item_id = ?";
-    private static final String FIND_BY_PRODUCT_ID_QUERY = "SELECT * FROM online_store.order_item " +
+            "DELETE FROM online_store.cart_order_item WHERE order_item_id = ? AND cart_id = ?";
+    private static final String FIND_BY_CART_ID_QUERY = "SELECT * FROM online_store.order_item " +
             "LEFT OUTER JOIN online_store.product ON online_store.order_item.product_id = online_store.product.id " +
-            "WHERE online_store.order_item.product_id = ?";
+            "WHERE online_store.order_item.id IN (SELECT order_item_id FROM online_store.cart_order_item WHERE cart_id IN " +
+            "(SELECT id FROM online_store.cart WHERE id = ?)) ORDER BY online_store.order_item.id ";
 
     public OrderItemDaoImpl(DBConnector connector) {
-        super(connector, SAVE_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY_ON_PAGE, FIND_ALL_QUERY, UPDATE_QUERY, DELETE_BY_ID_QUERY);
+        super(connector, SAVE_QUERY, SAVE_ALL_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY_ON_PAGE, FIND_ALL_QUERY,
+                UPDATE_QUERY, DELETE_BY_ID_QUERY);
     }
 
     @Override
@@ -42,7 +47,7 @@ public class OrderItemDaoImpl extends AbstractCrudDaoImpl<OrderItem> implements 
                 .withProductName(resultSet.getString("product_name"))
                 .withBrand(resultSet.getString("brand"))
                 .withPhoto(resultSet.getString("photo"))
-                .withPrice(resultSet.getInt("price"))
+                .withPrice(resultSet.getBigDecimal("price"))
                 .build();
 
         return OrderItem.builder()
@@ -76,7 +81,7 @@ public class OrderItemDaoImpl extends AbstractCrudDaoImpl<OrderItem> implements 
     }
 
     @Override
-    public Optional<OrderItem> findByProductId(Integer productId) {
-        return findByIntParameter(productId, FIND_BY_PRODUCT_ID_QUERY);
+    public List<OrderItem> findByCartId(Integer cartId) {
+        return findAllByIntParameter(cartId, FIND_BY_CART_ID_QUERY);
     }
 }

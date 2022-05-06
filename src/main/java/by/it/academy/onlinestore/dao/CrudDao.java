@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CrudDao<E, ID> {
-    void save(E entity);
+    Optional<E> save(E entity);
 
     void saveAll(List<E> entities);
 

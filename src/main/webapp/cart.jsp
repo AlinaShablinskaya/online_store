@@ -1,8 +1,12 @@
-<!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
 <title>Shopper an E-Commerce online Shopping Category Flat Bootstarp responsive Website Template| Cart :: w3layouts</title>
 <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <!-- Custom Theme files -->
@@ -44,7 +48,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			 </div>		 
 			 <div class="signin">
 				  <div class="cart-sec">
-				  <a href="cart.html"><img href="cart.html" src="images/cart.png" alt=""/>(0)</a></div>
+				  <a href="/cart"><img href="/cart" src="images/cart.png" alt=""/>(0)</a></div>
 				  <ul>
 					 <li><a href="/registration">REGISTRATION</a> <span>/<span> &nbsp;</li>
 					 <li><a href="/login"> LOGIN</a></li>
@@ -58,7 +62,26 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="cart">
 	 <div class="container">
 		 <div class="cart-info">
-		 <h3>There are no items in the cart(0)</h3>
+			 <div class="row">
+				 <c:forEach var="order_item" items="${order_items}">
+				 <div class="col-lg-3 col-sm-3 col-xs-12" style="height: 100px; line-height: 100px;">
+					 <img src="<c:out value="${order_item.product.photo}"/>" alt="" style="width: 80px; height: 80px;  " />
+				 </div>
+				 <div  class="col-lg-3 col-sm-3 col-xs-12 mob-fix" style="height: 100px; line-height: 100px;">
+					 <c:out value="${order_item.product.productName}"/>
+				 </div>
+				 <div class="col-lg-2 col-sm-2 col-xs-12 mob-fix" style="height: 100px; line-height: 100px;">
+					 <c:out value="${order_item.product.price}"/>
+				 </div>
+				 <div class="col-lg-1 col-sm-2 col-xs-12 mob-fix" style="height: 100px; line-height: 100px;">
+					 <c:out value="${order_item.amount}"/>
+				 </div>
+				 <div class="col-lg-3 col-sm-2 col-xs-12 mob-fix">
+					 <a href="${pageContext.request.contextPath}/deleteOrder?order_item_id=${order_item.id}">Удалить</a>
+				 </div>
+				 </c:forEach>
+			 </div>
+		 <h3></h3>
 		 <a href="/catalog">CONTINUE SHOPPING</a>
 		 </div>
 	 <div class="cart-list">

@@ -2,8 +2,13 @@ package by.it.academy.onlinestore;
 
 import by.it.academy.onlinestore.dao.*;
 import by.it.academy.onlinestore.dao.impl.*;
+import by.it.academy.onlinestore.entities.Catalog;
+import by.it.academy.onlinestore.entities.CustomerAddress;
+import by.it.academy.onlinestore.entities.Product;
+import by.it.academy.onlinestore.entities.User;
 import by.it.academy.onlinestore.services.*;
 import by.it.academy.onlinestore.services.impl.*;
+import by.it.academy.onlinestore.services.validator.*;
 
 public class ApplicationInjector {
     private static final String PROPERTIES = "/database.properties";
@@ -15,13 +20,17 @@ public class ApplicationInjector {
     private static final OrderItemDao ORDER_ITEM_DAO = new OrderItemDaoImpl(CONNECTOR);
     private static final ProductDao PRODUCT_DAO = new ProductDaoImpl(CONNECTOR);
     private static final UserDao USER_DAO = new UserDaoImpl(CONNECTOR);
+    private static final Validator<CustomerAddress> ADDRESS_VALIDATOR = new CustomerAddressValidator();
+    private static final Validator<Catalog> CATALOG_VALIDATOR = new CatalogValidator();
+    private static final Validator<Product> PRODUCT_VALIDATOR = new ProductValidator();
+    private static final Validator<User> USER_VALIDATOR = new UserValidator();
     private static final CartService CART_SERVICE = new CartServiceImpl(CART_DAO);
-    private static final CatalogService CATALOG_SERVICE = new CatalogServiceImpl(CATALOG_DAO);
-    private static final AddressService ADDRESS_SERVICE = new AddressServiceImpl(CUSTOMER_ADDRESS_DAO);
+    private static final CatalogService CATALOG_SERVICE = new CatalogServiceImpl(CATALOG_DAO, CATALOG_VALIDATOR);
+    private static final AddressService ADDRESS_SERVICE = new AddressServiceImpl(CUSTOMER_ADDRESS_DAO, ADDRESS_VALIDATOR);
     private static final OrderItemService ORDER_ITEM_SERVICE = new OrderItemServiceImpl(ORDER_ITEM_DAO, CART_DAO);
-    private static final ProductService PRODUCT_SERVICE = new ProductServiceImpl(PRODUCT_DAO, CATALOG_DAO);
+    private static final ProductService PRODUCT_SERVICE = new ProductServiceImpl(PRODUCT_DAO, CATALOG_DAO, PRODUCT_VALIDATOR);
     private static final PasswordEncryptor PASSWORD_ENCRYPTOR = new PasswordEncryptor();
-    private static final UserService USER_SERVICE = new UserServiceImpl(USER_DAO, PASSWORD_ENCRYPTOR);
+    private static final UserService USER_SERVICE = new UserServiceImpl(USER_DAO, PASSWORD_ENCRYPTOR, USER_VALIDATOR);
 
     private ApplicationInjector() {
     }

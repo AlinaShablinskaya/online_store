@@ -9,11 +9,13 @@ import static org.mockito.Mockito.when;
 import by.it.academy.onlinestore.dao.CatalogDao;
 import by.it.academy.onlinestore.dao.ProductDao;
 import by.it.academy.onlinestore.entities.Catalog;
+import by.it.academy.onlinestore.entities.CustomerAddress;
 import by.it.academy.onlinestore.entities.Product;
 import by.it.academy.onlinestore.services.exeption.EntityAlreadyExistException;
 import by.it.academy.onlinestore.services.exeption.EntityNotFoundException;
 import by.it.academy.onlinestore.services.impl.CatalogServiceImpl;
 import by.it.academy.onlinestore.services.impl.ProductServiceImpl;
+import by.it.academy.onlinestore.services.validator.Validator;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -29,6 +31,9 @@ public class CatalogServiceTest {
     @Mock
     private CatalogDao catalogDao;
 
+    @Mock
+    private Validator<Catalog> validator;
+
     @InjectMocks
     private CatalogServiceImpl productService;
 
@@ -36,11 +41,14 @@ public class CatalogServiceTest {
     void createNewCatalogShouldReturnCorrectResult() {
         Catalog catalog = Catalog.builder()
                 .withId(1)
-                .withName("Group")
+                .withGroupName("Group")
                 .build();
 
-        doNothing().when(catalogDao).save(catalog);
+        when(catalogDao.save(catalog)).thenReturn(Optional.of(catalog));
+
         productService.createNewCatalog(catalog);
+
+        verify(validator).validate(catalog);
         verify(catalogDao).save(catalog);
     }
 
@@ -48,10 +56,10 @@ public class CatalogServiceTest {
     void createNewCatalogShouldReturnExceptionWhenGetIncorrectParameters() {
         Catalog catalog = Catalog.builder()
                 .withId(1)
-                .withName("Group")
+                .withGroupName("Group")
                 .build();
 
-        when(catalogDao.findById(catalog.getId())).thenReturn(Optional.of(catalog));
+        when(catalogDao.findByGroupName(catalog.getGroupName())).thenReturn(Optional.of(catalog));
         assertThrows(EntityAlreadyExistException.class, () -> productService.createNewCatalog(catalog));
         verifyNoMoreInteractions(catalogDao);
     }
@@ -60,7 +68,7 @@ public class CatalogServiceTest {
     void findCatalogByIdShouldReturnCorrectResult() {
         Catalog catalog = Catalog.builder()
                 .withId(1)
-                .withName("Group")
+                .withGroupName("Group")
                 .build();
 
         when(catalogDao.findById(catalog.getId())).thenReturn(Optional.of(catalog));
@@ -72,7 +80,7 @@ public class CatalogServiceTest {
     void findCatalogByIdShouldReturnExceptionWhenGetIncorrectParameters() {
         Catalog catalog = Catalog.builder()
                 .withId(1)
-                .withName("Group")
+                .withGroupName("Group")
                 .build();
 
         when(catalogDao.findById(catalog.getId())).thenReturn(Optional.empty());
@@ -84,12 +92,17 @@ public class CatalogServiceTest {
     void updateCatalogShouldReturnCorrectResult() {
         Catalog catalog = Catalog.builder()
                 .withId(1)
-                .withName("Group")
+                .withGroupName("Group")
                 .build();
 
         when(catalogDao.findById(catalog.getId())).thenReturn(Optional.of(catalog));
+
+        doNothing().when(validator).validate(catalog);
         doNothing().when(catalogDao).update(catalog);
+
         productService.updateCatalog(catalog);
+
+        verify(validator).validate(catalog);
         verify(catalogDao).update(catalog);
     }
 
@@ -97,7 +110,7 @@ public class CatalogServiceTest {
     void removeCatalogByIdShouldReturnCorrectResult() {
         Catalog catalog = Catalog.builder()
                 .withId(1)
-                .withName("Group")
+                .withGroupName("Group")
                 .build();
 
         when(catalogDao.findById(catalog.getId())).thenReturn(Optional.of(catalog));

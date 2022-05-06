@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS online_store.cart_order_item CASCADE;
 
 CREATE TABLE online_store.customer_address
 (
-    id SERIAL NOT NULL,
+    id SERIAL,
     zipcode character varying(255) NOT NULL,
     country character varying(255) NOT NULL,
     street character varying(255) NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE online_store.role
 
 CREATE TABLE online_store.user
 (
-    id SERIAL NOT NULL,
+    id SERIAL,
     first_name character varying(255) NOT NULL,
     last_name character varying(255) NOT NULL,
     email character varying(255) NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE online_store.user
 
 CREATE TABLE online_store.product
 (
-    id SERIAL NOT NULL,
+    id SERIAL,
     product_name character varying(255) NOT NULL,
     brand character varying(255) NOT NULL,
     photo character varying(255) NOT NULL,
@@ -51,14 +51,14 @@ CREATE TABLE online_store.product
 
 CREATE TABLE online_store.catalog
 (
-    id SERIAL NOT NULL,
+    id SERIAL,
     group_name character varying(255) NOT NULL,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE online_store.order_item
 (
-    id SERIAL NOT NULL,
+    id SERIAL,
     amount integer NOT NULL,
     product_id integer,
     PRIMARY KEY (id),
@@ -67,7 +67,7 @@ CREATE TABLE online_store.order_item
 
 CREATE TABLE online_store.cart
 (
-    id SERIAL NOT NULL,
+    id SERIAL,
     user_id integer,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES online_store.user ON DELETE SET NULL

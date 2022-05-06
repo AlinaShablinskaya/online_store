@@ -10,6 +10,9 @@ import java.sql.SQLException;
 
 public class CustomerAddressDaoImpl extends AbstractCrudDaoImpl<CustomerAddress> implements CustomerAddressDao {
     private static final String SAVE_QUERY =
+            "INSERT INTO online_store.customer_address(zipcode, country, street) VALUES (?, ?, ?) " +
+                    "RETURNING id";
+    private static final String SAVE_ALL_QUERY =
             "INSERT INTO online_store.customer_address(zipcode, country, street) VALUES (?, ?, ?)";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM online_store.customer_address WHERE id = ?";
     private static final String FIND_ALL_QUERY_ON_PAGE = "SELECT * FROM online_store.customer_address limit ? offset ?";
@@ -19,7 +22,8 @@ public class CustomerAddressDaoImpl extends AbstractCrudDaoImpl<CustomerAddress>
     private static final String DELETE_BY_ID_QUERY = "DELETE FROM online_store.customer_address WHERE id = ?";
 
     public CustomerAddressDaoImpl(DBConnector connector) {
-        super(connector, SAVE_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY_ON_PAGE, FIND_ALL_QUERY, UPDATE_QUERY, DELETE_BY_ID_QUERY);
+        super(connector, SAVE_QUERY, SAVE_ALL_QUERY, FIND_BY_ID_QUERY, FIND_ALL_QUERY_ON_PAGE, FIND_ALL_QUERY,
+                UPDATE_QUERY, DELETE_BY_ID_QUERY);
     }
 
     @Override

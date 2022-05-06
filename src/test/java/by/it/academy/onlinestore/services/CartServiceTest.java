@@ -7,14 +7,11 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import by.it.academy.onlinestore.dao.CartDao;
-import by.it.academy.onlinestore.dao.ProductDao;
 import by.it.academy.onlinestore.entities.Cart;
-import by.it.academy.onlinestore.entities.Product;
 import by.it.academy.onlinestore.entities.User;
 import by.it.academy.onlinestore.services.exeption.EntityAlreadyExistException;
 import by.it.academy.onlinestore.services.exeption.EntityNotFoundException;
 import by.it.academy.onlinestore.services.impl.CartServiceImpl;
-import by.it.academy.onlinestore.services.impl.ProductServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -48,29 +45,9 @@ public class CartServiceTest {
                 .withUser(user)
                 .build();
 
-        doNothing().when(cartDao).save(cart);
+        when(cartDao.save(cart)).thenReturn(Optional.of(cart));
         cartService.addCart(cart);
         verify(cartDao).save(cart);
-    }
-
-    @Test
-    void addNewCartShouldReturnExceptionWhenGetIncorrectParameters() {
-        User user = User.builder()
-                .withId(1)
-                .withFirstName("firstName")
-                .withLastName("lastName")
-                .withEmail("login")
-                .withPassword("1111")
-                .build();
-
-        Cart cart = Cart.builder()
-                .withId(1)
-                .withUser(user)
-                .build();
-
-        when(cartDao.findById(cart.getId())).thenReturn(Optional.of(cart));
-        assertThrows(EntityAlreadyExistException.class, () -> cartService.addCart(cart));
-        verifyNoMoreInteractions(cartDao);
     }
 
     @Test
@@ -131,25 +108,5 @@ public class CartServiceTest {
         when(cartDao.findById(cart.getId())).thenReturn(Optional.of(cart));
         cartService.deleteCart(cart.getId());
         verify(cartDao).deleteById(cart.getId());
-    }
-
-    @Test
-    void findCartByCustomerIdShouldReturnCorrectResult() {
-        User user = User.builder()
-                .withId(1)
-                .withFirstName("firstName")
-                .withLastName("lastName")
-                .withEmail("login")
-                .withPassword("1111")
-                .build();
-
-        Cart cart = Cart.builder()
-                .withId(1)
-                .withUser(user)
-                .build();
-
-        when(cartDao.findByCustomerId(user.getId())).thenReturn(Optional.of(cart));
-        cartService.findCartByCustomerId(user.getId());
-        verify(cartDao).findByCustomerId(user.getId());
     }
 }

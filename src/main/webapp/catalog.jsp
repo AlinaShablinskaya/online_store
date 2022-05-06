@@ -59,7 +59,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </div>
             <div class="signin">
                 <div class="cart-sec">
-                    <a href="cart.html"><img href="cart.html" src="images/cart.png" alt=""/>(0)</a></div>
+                    <a href="/cart"><img href="/cart" src="images/cart.png" alt=""/>(0)</a></div>
                 <ul>
                     <li><a href="/registration">REGISTRATION</a> <span></span> &nbsp;</li>
                     <li><a href="/login"> LOGIN</a></li>
@@ -76,7 +76,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="pagination">
                     <a class="active" href='/catalog?page=1'>1</a>
                     <a href='/catalog?page=2'>2</a>
-                    <a href='/catalog?page=3'>3</a>
                     <div class="clearfix"></div>
                 </div>
             </div>
@@ -93,7 +92,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                         <div class="fashion-view"><span></span>
                             <div class="clearfix"></div>
-                            <h4><a href="/detail?product_id=${product.id}">Quick View</a></h4>
+                            <h4><a href="${pageContext.request.contextPath}/detail?product_id=${product.id}">Quick View</a></h4>
                         </div>
                     </div>
                     </c:forEach>
@@ -105,7 +104,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <h3>CATEGORIES</h3>
                 <ul>
                     <c:forEach var="catalog" items="${catalog}">
-                        <li><a href="/searchCatalog?group_name=${catalog.groupName}"><c:out value="${catalog.groupName}"/></a></li>
+                        <li><a href="${pageContext.request.contextPath}/searchCatalog?group_name=${catalog.groupName}"><c:out value="${catalog.groupName}"/></a></li>
                     </c:forEach>
                 </ul>
             </div>

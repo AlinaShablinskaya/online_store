@@ -13,6 +13,7 @@ import by.it.academy.onlinestore.entities.Product;
 import by.it.academy.onlinestore.services.exeption.EntityAlreadyExistException;
 import by.it.academy.onlinestore.services.impl.AddressServiceImpl;
 import by.it.academy.onlinestore.services.impl.ProductServiceImpl;
+import by.it.academy.onlinestore.services.validator.Validator;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -28,6 +29,9 @@ public class AddressServiceTest {
     @Mock
     private CustomerAddressDao addressDao;
 
+    @Mock
+    private Validator<CustomerAddress> validator;
+
     @InjectMocks
     private AddressServiceImpl addressService;
 
@@ -40,8 +44,9 @@ public class AddressServiceTest {
                 .withStreet("Street")
                 .build();
 
-        doNothing().when(addressDao).save(address);
+        when(addressDao.save(address)).thenReturn(Optional.of(address));
         addressService.addCustomerAddress(address);
+        verify(validator).validate(address);
         verify(addressDao).save(address);
     }
 
@@ -69,8 +74,13 @@ public class AddressServiceTest {
                 .build();
 
         when(addressDao.findById(address.getId())).thenReturn(Optional.of(address));
+
+        doNothing().when(validator).validate(address);
         doNothing().when(addressDao).update(address);
+
         addressService.updateCustomerAddress(address);
+
+        verify(validator).validate(address);
         verify(addressDao).update(address);
     }
 

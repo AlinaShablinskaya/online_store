@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
   <title>Shopper an E-Commerce online Shopping Category Flat Bootstarp responsive Website Template| Registration :: w3layouts</title>
@@ -53,7 +54,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
       <div class="top-menu">
         <ul>
           <li><a href="index.html">HOME</a></li>
-          <li><a href="catalog.html">MAN</a></li>
+          <li><a href="catalog.html">CATALOG</a></li>
         </ul>
       </div>
     </div>
@@ -82,28 +83,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!---->
 <div class="registration-form">
   <div class="container">
-    <h2>Управление товаром</h2>
+    <h2>Updating product</h2>
     <div class="col-md-6 reg-form">
       <div class="reg">
-        <p>Заполните Ваши данные для продолжения</p>
-        <form action="/admin/addproduct" method="post">
+        <p>Fill out the form</p>
+        <form action="/update" method="post">
           <ul>
-            <li class="text-info">Название товара: </li>
-            <li><input type="text" name="productName"></li>
+            <li class="text-info">Product name: </li>
+            <li><input type="text" name="productName" value=${product.productName}></li>
           </ul>
           <ul>
-            <li class="text-info">Марка: </li>
-            <li><input type="text" name="brand"></li>
+            <li class="text-info">Brand: </li>
+            <li><input type="text" name="brand" value="${product.brand}"></li>
           </ul>
           <ul>
-            <li class="text-info">Изображение: </li>
-            <li><input type="text" name="photo"></li>
+            <li class="text-info">Photo: </li>
+            <li><input type="text" name="photo" value="${product.photo}"></li>
           </ul>
           <ul>
-            <li class="text-info">Цена: </li>
-            <li><input type="text" name="price"></li>
+            <li class="text-info">Price: </li>
+            <li><input type="text" name="price" value="${product.price}"></li>
           </ul>
-          <input type="submit" class="btn btn-dark" value="Добавить">
+          <input type="submit" class="btn btn-dark" value="Update">
           <p class="click">By clicking this button, you agree to my modern style <a>Pollicy Terms and Conditions</a> to Use</p>
         </form>
       </div>

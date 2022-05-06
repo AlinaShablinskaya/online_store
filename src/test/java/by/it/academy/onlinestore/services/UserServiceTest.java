@@ -7,9 +7,11 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import by.it.academy.onlinestore.dao.UserDao;
+import by.it.academy.onlinestore.entities.CustomerAddress;
 import by.it.academy.onlinestore.entities.User;
 import by.it.academy.onlinestore.services.exeption.EntityNotFoundException;
 import by.it.academy.onlinestore.services.impl.UserServiceImpl;
+import by.it.academy.onlinestore.services.validator.Validator;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -25,6 +27,9 @@ public class UserServiceTest {
     @Mock
     private UserDao userDao;
 
+    @Mock
+    private Validator<User> validator;
+
     @InjectMocks
     private UserServiceImpl userService;
 
@@ -38,8 +43,11 @@ public class UserServiceTest {
                 .withPassword("1111")
                 .build();
 
-        doNothing().when(userDao).save(user);
+        when(userDao.save(user)).thenReturn(Optional.of(user));
+
         userService.createUser(user);
+
+        verify(validator).validate(user);
         verify(userDao).save(user);
     }
 

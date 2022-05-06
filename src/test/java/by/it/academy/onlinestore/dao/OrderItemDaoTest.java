@@ -3,13 +3,15 @@ package by.it.academy.onlinestore.dao;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import by.it.academy.onlinestore.dao.exception.DataBaseRuntimeException;
+import by.it.academy.onlinestore.dao.impl.CartDaoImpl;
 import by.it.academy.onlinestore.dao.impl.OrderItemDaoImpl;
 import by.it.academy.onlinestore.dao.impl.ProductDaoImpl;
-import by.it.academy.onlinestore.entities.OrderItem;
-import by.it.academy.onlinestore.entities.Product;
+import by.it.academy.onlinestore.dao.impl.UserDaoImpl;
+import by.it.academy.onlinestore.entities.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +22,13 @@ public class OrderItemDaoTest {
     private final static String SCRIPT_SQL = "src/test/resources/schema.sql";
 
     private List<OrderItem> orderItems = new ArrayList<>();
+    private List<Cart> carts = new ArrayList<>();
     private DBConnector connector;
     private TableCreator tableCreator;
     private OrderItemDao orderItemDao;
     private ProductDao productDao;
+    private CartDao cartDao;
+    private UserDao userDao;
 
     @BeforeEach
     private void prepareTables() {
@@ -31,6 +36,8 @@ public class OrderItemDaoTest {
         tableCreator = new TableCreator(connector);
         orderItemDao = new OrderItemDaoImpl(connector);
         productDao = new ProductDaoImpl(connector);
+        cartDao = new CartDaoImpl(connector);
+        userDao = new UserDaoImpl(connector);
 
         createTestData();
         insertTestDataToDB();
@@ -44,7 +51,7 @@ public class OrderItemDaoTest {
                 .withProductName("Whiskey")
                 .withBrand("Brand")
                 .withPhoto("photo")
-                .withPrice(30)
+                .withPrice(new BigDecimal(30))
                 .build();
 
         OrderItem expected = OrderItem.builder()
@@ -68,7 +75,7 @@ public class OrderItemDaoTest {
                 .withProductName("Whiskey")
                 .withBrand("Brand")
                 .withPhoto("photo")
-                .withPrice(30)
+                .withPrice(new BigDecimal(30))
                 .build();
 
         Product secondProduct = Product.builder()
@@ -76,7 +83,7 @@ public class OrderItemDaoTest {
                 .withProductName("Wine")
                 .withBrand("Brand")
                 .withPhoto("photo")
-                .withPrice(20)
+                .withPrice(new BigDecimal(20))
                 .build();
 
         expected.add(OrderItem.builder()
@@ -104,7 +111,7 @@ public class OrderItemDaoTest {
                 .withProductName("Whiskey")
                 .withBrand("Brand")
                 .withPhoto("photo")
-                .withPrice(30)
+                .withPrice(new BigDecimal(30))
                 .build();
 
         OrderItem expected = OrderItem.builder()
@@ -127,7 +134,7 @@ public class OrderItemDaoTest {
                 .withProductName("Whiskey")
                 .withBrand("Brand")
                 .withPhoto("photo")
-                .withPrice(30)
+                .withPrice(new BigDecimal(30))
                 .build();
 
         Product secondProduct = Product.builder()
@@ -135,7 +142,7 @@ public class OrderItemDaoTest {
                 .withProductName("Wine")
                 .withBrand("Brand")
                 .withPhoto("photo")
-                .withPrice(20)
+                .withPrice(new BigDecimal(20))
                 .build();
 
         expected.add(OrderItem.builder()
@@ -163,7 +170,7 @@ public class OrderItemDaoTest {
                 .withProductName("Whiskey")
                 .withBrand("Brand")
                 .withPhoto("photo")
-                .withPrice(30)
+                .withPrice(new BigDecimal(30))
                 .build();
 
         OrderItem expected = OrderItem.builder()
@@ -187,62 +194,83 @@ public class OrderItemDaoTest {
     }
 
     @Test
-    void findByProductIdShouldReturnOrderItemWhenGetProductId() {
+    void findAllOrderItemsByCartIdShouldReturnOrderItemWhenGetCartId() {
+        List<OrderItem> expected = new ArrayList<>();
+
         Product firstProduct = Product.builder()
                 .withId(1)
                 .withProductName("Whiskey")
                 .withBrand("Brand")
                 .withPhoto("photo")
-                .withPrice(30)
+                .withPrice(new BigDecimal(30))
                 .build();
 
-        OrderItem expected = OrderItem.builder()
+        expected.add(OrderItem.builder()
                 .withId(1)
                 .withAmount(3)
                 .withProduct(firstProduct)
-                .build();
+                .build());
 
-        OrderItem actual = orderItemDao.findByProductId(1).get();
+        List<OrderItem> actual = orderItemDao.findByCartId(1);
 
         assertEquals(expected, actual);
     }
 
     private void createTestData() {
         tableCreator.runScript(SCRIPT_SQL);
+        List<Product> products = new ArrayList<>();
+        List<User> users = new ArrayList<>();
 
-        Product firstProduct = Product.builder()
+        products.add(Product.builder()
                 .withId(1)
                 .withProductName("Whiskey")
                 .withBrand("Brand")
                 .withPhoto("photo")
-                .withPrice(30)
-                .build();
+                .withPrice(new BigDecimal(30))
+                .build());
 
-        Product secondProduct = Product.builder()
+        products.add(Product.builder()
                 .withId(2)
                 .withProductName("Wine")
                 .withBrand("Brand")
                 .withPhoto("photo")
-                .withPrice(20)
-                .build();
+                .withPrice(new BigDecimal(20))
+                .build());
 
-        productDao.save(firstProduct);
-        productDao.save(secondProduct);
+        productDao.saveAll(products);
 
         orderItems.add(OrderItem.builder()
                 .withId(1)
                 .withAmount(3)
-                .withProduct(firstProduct)
+                .withProduct(products.get(0))
                 .build());
 
         orderItems.add(OrderItem.builder()
                 .withId(2)
                 .withAmount(2)
-                .withProduct(secondProduct)
+                .withProduct(products.get(1))
                 .build());
+
+        users.add(User.builder()
+                .withId(1)
+                .withFirstName("name")
+                .withLastName("name")
+                .withEmail("email@email.ru")
+                .withPassword("Aa123456")
+                .withRole(new Role("USER"))
+                .build());
+
+        userDao.saveAll(users);
+
+        carts.add(Cart.builder()
+                .withId(1)
+                .withUser(users.get(0))
+                .build());
+        cartDao.saveAll(carts);
     }
 
     private void insertTestDataToDB() throws DataBaseRuntimeException {
         orderItemDao.saveAll(orderItems);
+        orderItemDao.addOrderItemOnCart(carts.get(0).getId(), orderItems.get(0).getId());
     }
 }

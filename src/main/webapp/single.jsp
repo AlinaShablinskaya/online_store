@@ -44,7 +44,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			 </div>		 
 			 <div class="signin">
 				  <div class="cart-sec">
-				  <a href="cart.html"><img href="cart.html" src="images/cart.png" alt=""/>(0)</a></div>
+				  <a href="/cart"><img href="/cart" src="images/cart.png" alt=""/>(0)</a></div>
 				  <ul>
 					 <li><a href="/registration">REGISTRATION</a> <span>/<span> &nbsp;</li>
 					 <li><a href="/login"> LOGIN</a></li>
@@ -69,7 +69,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
   </script>
     <script src="js/responsiveslides.min.js"></script>
 <div class="single-section">
-	<form action="/detail" method="get">
+	<form action="/createOrder" method="post">
 	 <div class="col-md-8 fashions2">			 
 			<div class="slider2">
 				<ul class="rslides rslider" id="slider2">				  
@@ -84,9 +84,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<span>${product.price} &euro;</span>
 					<div class="clearfix"></div>
 					<h4>AVAILABLE</h4>
-			  </div>
+			  		</div>
 				 <p>Brand : <a href="#">${product.brand}</a></p>
-				 <a class="add" href="cart.html">ADD TO BAG</a>
+				  <input type="hidden" value="1" name="amount">
+				  <input type="hidden" name="product_id" value="${product.id}">
+				  <h4><input type="submit" class="add" value="Купить"></h4>
 			 </div>
 		 </div>
       </div>
