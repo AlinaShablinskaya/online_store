@@ -32,7 +32,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			 <div class="top-menu">
 				 <ul>
 				 <li class="active"><a href="index.html">HOME</a></li>
-				 <li><a class="scroll" href="catalog.jsp">CATALOG</a></li>
+				 <li><a class="scroll" href="/catalog">CATALOG</a></li>
 				 </ul>
 			 </div>
 		 </div>

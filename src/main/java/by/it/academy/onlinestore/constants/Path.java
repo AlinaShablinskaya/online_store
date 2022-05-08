@@ -16,6 +16,13 @@ public class Path {
     public static final String URL_TO_PRODUCT_PANEL = "/productPanel";
     public static final String URL_TO_CART = "/cart";
     public static final String URL_TO_CATALOG = "/catalog";
+    public static final String URL_TO_ADD_CATALOG = "/addCatalog";
+    public static final String URL_TO_ADD_PRODUCT = "/addProduct";
+    public static final String URL_TO_UPDATE_PRODUCT = "/updateProduct";
+    public static final String URL_TO_PRODUCT_DETAIL = "/detail";
+    public static final String URL_TO_DELETE_PRODUCT = "/deleteProduct";
+    public static final String URL_TO_CREATE_ORDER_ITEM = "/createOrder";
+    public static final String URL_TO_DELETE_ORDER_ITEM = "/deleteOrder";
     public static final String URL_TO_LOGIN = "/login";
     public static final String URT_TO_DETAIL = "/detail";
 

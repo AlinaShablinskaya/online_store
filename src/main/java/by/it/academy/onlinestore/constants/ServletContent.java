@@ -5,7 +5,7 @@ public class ServletContent {
     public static final String PRODUCT_NAME = "productName";
     public static final String PRODUCT_ID = "product_id";
     public static final String ORDER_ITEM_ID = "order_item_id";
-    public static final String ORDER_ITEM = "order_item";
+    public static final String ORDER_ITEM = "order_items";
     public static final String PRODUCTS = "products";
     public static final String PRODUCT = "product";
     public static final String BRAND = "brand";

@@ -14,12 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-@WebServlet(urlPatterns = "/update")
-public class UpdateServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/updateProduct")
+public class UpdateProductServlet extends HttpServlet {
     private final ProductService productService;
     private  int id;
 
-    public UpdateServlet() {
+    public UpdateProductServlet() {
         ApplicationInjector injector = ApplicationInjector.getInstance();
         this.productService = injector.getProductService();
     }

@@ -87,7 +87,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="col-md-6 reg-form">
       <div class="reg">
         <p>Fill out the form</p>
-        <form action="/update" method="post">
+        <form action="/updateProduct" method="post">
           <ul>
             <li class="text-info">Product name: </li>
             <li><input type="text" name="productName" value=${product.productName}></li>
