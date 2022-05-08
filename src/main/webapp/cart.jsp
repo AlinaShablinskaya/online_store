@@ -64,24 +64,27 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		 <div class="cart-info">
 			 <div class="row">
 				 <c:forEach var="order_item" items="${order_items}">
-				 <div class="col-lg-3 col-sm-3 col-xs-12" style="height: 100px; line-height: 100px;">
+				 <div class="col-lg-3 col-sm-3 col-xs-12" style="height: 80px; line-height: 80px;">
 					 <img src="<c:out value="${order_item.product.photo}"/>" alt="" style="width: 80px; height: 80px;  " />
 				 </div>
-				 <div  class="col-lg-3 col-sm-3 col-xs-12 mob-fix" style="height: 100px; line-height: 100px;">
+				 <div  class="col-lg-3 col-sm-3 col-xs-12 mob-fix" style="height: 80px; line-height: 80px;">
 					 <c:out value="${order_item.product.productName}"/>
 				 </div>
-				 <div class="col-lg-2 col-sm-2 col-xs-12 mob-fix" style="height: 100px; line-height: 100px;">
+				 <div class="col-lg-2 col-sm-2 col-xs-12 mob-fix" style="height: 80px; line-height: 80px;">
 					 <c:out value="${order_item.product.price}"/>
 				 </div>
-				 <div class="col-lg-1 col-sm-2 col-xs-12 mob-fix" style="height: 100px; line-height: 100px;">
+				 <div class="col-lg-1 col-sm-2 col-xs-12 mob-fix" style="height: 80px; line-height: 80px;">
 					 <c:out value="${order_item.amount}"/>
 				 </div>
-				 <div class="col-lg-3 col-sm-2 col-xs-12 mob-fix">
+				<div class="col-lg-1 col-sm-2 col-xs-12 mob-fix" style="height: 80px; line-height: 80px;">
+					<c:out value="${order_item.totalPrice}"/>
+				</div>
+				 <div>
 					 <a href="${pageContext.request.contextPath}/deleteOrder?order_item_id=${order_item.id}">Удалить</a>
 				 </div>
 				 </c:forEach>
 			 </div>
-		 <h3></h3>
+		 <h3>Total: ${sum}</h3>
 		 <a href="/catalog">CONTINUE SHOPPING</a>
 		 </div>
 	 <div class="cart-list">

@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 @WebServlet(urlPatterns = "/createOrder")
 public class CreateOrderItemServlet extends HttpServlet {
@@ -62,10 +63,12 @@ public class CreateOrderItemServlet extends HttpServlet {
         final int amount = Integer.parseInt(req.getParameter(ServletContent.AMOUNT));
 
         Product product = productService.findProductById(productId);
+        BigDecimal totalPrice = orderItemService.calculatePrice(amount, product);
 
             return OrderItem.builder()
                     .withProduct(product)
                     .withAmount(amount)
+                    .withTotalPrice(totalPrice)
                     .build();
     }
 

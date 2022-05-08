@@ -5,6 +5,8 @@ import by.it.academy.onlinestore.entities.*;
 import by.it.academy.onlinestore.services.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class OnlineStoreMain {
@@ -21,21 +23,31 @@ public class OnlineStoreMain {
         cartService = injector.getCartService();
         orderItemService = injector.getOrderItemService();
 
-
         OrderItem orderItem3 = OrderItem.builder()
-               .withProduct(productService.findProductById(2)).withAmount(10).build();
+                .withProduct(productService.findProductById(2)).withAmount(10).withTotalPrice(BigDecimal.valueOf(12.0)).build();
 
-        Cart cart1 = Cart.builder().withUser(userService.findUserById(1)).build();
+        List<OrderItem> orderItems = new ArrayList<>();
+        orderItems.add(orderItem3);
 
-        Optional<OrderItem> orderItem = orderItemService.addOrderItem(orderItem3);
+        BigDecimal sum = cartService.calculateSum(orderItems);
 
-        Optional<Cart> cart = cartService.addCart(cart1);
+        Cart cart = Cart.builder().withId(10).withUser(userService.findUserById(1)).withTotalSum(sum).build();
 
-        System.out.println(cart.get().getId());
-        System.out.println(orderItem.get().getId());
+        OrderItem orderItem4 = OrderItem.builder()
+                .withProduct(productService.findProductById(2)).withAmount(20).withTotalPrice(BigDecimal.valueOf(12.0)).build();
 
-       orderItemService.addOrderItemToCart(orderItem.get().getId(), cart.get().getId());
+        List<OrderItem> orderItems1 = new ArrayList<>();
+        orderItems.add(orderItem4);
 
+        BigDecimal sum2 = cartService.calculateSum(orderItems1);
+
+
+
+        System.out.println(cart);
+
+        Cart update = Cart.builder().withId(10).withUser(userService.findUserById(1)).withTotalSum(sum2).build();
+
+        System.out.println(update);
 
     }
 }

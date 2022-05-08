@@ -5,6 +5,7 @@ import by.it.academy.onlinestore.dao.OrderItemDao;
 import by.it.academy.onlinestore.entities.OrderItem;
 import by.it.academy.onlinestore.entities.Product;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,9 +14,9 @@ import java.util.Optional;
 
 public class OrderItemDaoImpl extends AbstractCrudDaoImpl<OrderItem> implements OrderItemDao {
     private static final String SAVE_QUERY =
-            "INSERT INTO online_store.order_item(amount, product_id) VALUES (?, ?) RETURNING id";
+            "INSERT INTO online_store.order_item(amount, product_id, total_price) VALUES (?, ?, ?) RETURNING id";
     private static final String SAVE_ALL_QUERY =
-            "INSERT INTO online_store.order_item(amount, product_id) VALUES (?, ?)";
+            "INSERT INTO online_store.order_item(amount, product_id, total_price) VALUES (?, ?, ?)";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM online_store.order_item " +
             "LEFT OUTER JOIN online_store.product ON online_store.order_item.product_id = online_store.product.id " +
             "WHERE online_store.order_item.id = ?";
@@ -24,7 +25,7 @@ public class OrderItemDaoImpl extends AbstractCrudDaoImpl<OrderItem> implements 
             "limit ? offset ?";
     private static final String FIND_ALL_QUERY = "SELECT * FROM online_store.order_item ORDER BY id";
     private static final String UPDATE_QUERY =
-            "UPDATE online_store.order_item SET amount = ?, product_id = ? WHERE id = ?";
+            "UPDATE online_store.order_item SET amount = ?, product_id = ?, total_price = ?  WHERE id = ?";
     private static final String DELETE_BY_ID_QUERY = "DELETE FROM online_store.order_item WHERE id = ?";
     private static final String CREATE_CART_ORDER_ITEM_RELATION =
             "INSERT INTO online_store.cart_order_item(order_item_id, cart_id) VALUES (?, ?)";
@@ -54,6 +55,7 @@ public class OrderItemDaoImpl extends AbstractCrudDaoImpl<OrderItem> implements 
                 .withId(resultSet.getInt("id"))
                 .withAmount(resultSet.getInt("amount"))
                 .withProduct(product)
+                .withTotalPrice(resultSet.getBigDecimal("total_price"))
                 .build();
     }
 
@@ -61,13 +63,15 @@ public class OrderItemDaoImpl extends AbstractCrudDaoImpl<OrderItem> implements 
     protected void insert(PreparedStatement preparedStatement, OrderItem orderItem) throws SQLException {
         preparedStatement.setInt(1, orderItem.getAmount());
         preparedStatement.setInt(2, orderItem.getProduct().getId());
+        preparedStatement.setBigDecimal(3, orderItem.getTotalPrice());
     }
 
     @Override
     protected void updateValues(PreparedStatement preparedStatement, OrderItem orderItem) throws SQLException {
         preparedStatement.setInt(1, orderItem.getAmount());
         preparedStatement.setInt(2, orderItem.getProduct().getId());
-        preparedStatement.setInt(3, orderItem.getId());
+        preparedStatement.setBigDecimal(3, orderItem.getTotalPrice());
+        preparedStatement.setInt(4, orderItem.getId());
     }
 
     @Override

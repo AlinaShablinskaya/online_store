@@ -2,11 +2,14 @@ package by.it.academy.onlinestore.services.impl;
 
 import by.it.academy.onlinestore.dao.CartDao;
 import by.it.academy.onlinestore.entities.Cart;
+import by.it.academy.onlinestore.entities.OrderItem;
 import by.it.academy.onlinestore.services.CartService;
 import by.it.academy.onlinestore.services.exeption.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 public class CartServiceImpl implements CartService {
@@ -42,5 +45,24 @@ public class CartServiceImpl implements CartService {
         }
         cartDao.deleteById(id);
         lOGGER.info("Cart successfully deleted.");
+    }
+
+    @Override
+    public void updateCart(Cart cart) {
+        lOGGER.info("Updating cart started");
+        if (!cartDao.findById(cart.getId()).isPresent()) {
+            throw new EntityNotFoundException(CART_IS_NOT_FOUND);
+        }
+        cartDao.update(cart);
+        lOGGER.info("Cart successfully updated.");
+    }
+
+    @Override
+    public BigDecimal calculateSum(List<OrderItem> orderItems) {
+        return BigDecimal.valueOf(orderItems
+                .stream()
+                .map(orderItem -> orderItem.getTotalPrice().longValue())
+                .reduce(Long::sum)
+                .orElse(0L));
     }
 }

@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.math.BigDecimal;
+
 @Getter
 @ToString
 @EqualsAndHashCode
@@ -13,4 +15,5 @@ public class OrderItem {
     private final Integer id;
     private final Integer amount;
     private final Product product;
+    private final BigDecimal totalPrice;
 }

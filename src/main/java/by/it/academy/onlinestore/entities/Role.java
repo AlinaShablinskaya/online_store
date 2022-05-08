@@ -1,35 +1,14 @@
 package by.it.academy.onlinestore.entities;
 
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
+@Getter
+@ToString
+@EqualsAndHashCode
+@RequiredArgsConstructor
 public class Role {
     private final String roleName;
-
-    public Role(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Role role = (Role) o;
-        return Objects.equals(roleName, role.roleName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(roleName);
-    }
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "roleName='" + roleName + '\'' +
-                '}';
-    }
 }

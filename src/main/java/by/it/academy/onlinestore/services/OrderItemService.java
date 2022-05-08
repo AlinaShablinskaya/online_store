@@ -1,7 +1,9 @@
 package by.it.academy.onlinestore.services;
 
 import by.it.academy.onlinestore.entities.OrderItem;
+import by.it.academy.onlinestore.entities.Product;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,4 +15,6 @@ public interface OrderItemService {
     void removeOrderItemFromCart(Integer orderItemId, Integer cartId);
 
     List<OrderItem> findAllOrderItemsByCartId(Integer cartId);
+
+    BigDecimal calculatePrice(int amount, Product product);
 }

@@ -20,6 +20,7 @@ public class ServletContent {
     public static final String PASSWORD = "password";
     public static final String USER = "user";
     public static final String CART = "cart";
+    public static final String SUM = "sum";
     public static final String ADMIN_ROLE = "ADMIN";
     public static final String USER_ROLE = "USER";
 

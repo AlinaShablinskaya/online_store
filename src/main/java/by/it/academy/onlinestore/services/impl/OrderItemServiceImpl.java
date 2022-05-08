@@ -3,12 +3,14 @@ package by.it.academy.onlinestore.services.impl;
 import by.it.academy.onlinestore.dao.CartDao;
 import by.it.academy.onlinestore.dao.OrderItemDao;
 import by.it.academy.onlinestore.entities.OrderItem;
+import by.it.academy.onlinestore.entities.Product;
 import by.it.academy.onlinestore.services.OrderItemService;
 import by.it.academy.onlinestore.services.exeption.EntityNotFoundException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,10 +54,19 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     @Override
     public List<OrderItem> findAllOrderItemsByCartId(Integer cartId) {
+        lOGGER.info("Find all order Item by cart id started");
         if (!cartDao.findById(cartId).isPresent()) {
             throw new EntityNotFoundException(CART_IS_NOT_FOUND);
         }
-        lOGGER.info("Find all product order items by cart id started");
         return orderItemDao.findByCartId(cartId);
+    }
+
+    @Override
+    public BigDecimal calculatePrice(int amount, Product product) {
+        BigDecimal price = product.getPrice();
+        if (amount == 0 || price.compareTo(BigDecimal.ZERO) == 0) {
+            throw new IllegalArgumentException("Amount can't be 0");
+        }
+        return  price.multiply(BigDecimal.valueOf(amount));
     }
 }
