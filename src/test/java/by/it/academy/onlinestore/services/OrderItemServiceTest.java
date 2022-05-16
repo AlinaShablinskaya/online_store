@@ -57,14 +57,8 @@ public class OrderItemServiceTest {
         Integer orderItemId = orderItem.getId();
         Integer cartId = cart.getId();
 
-        when(orderItemDao.findById(orderItemId)).thenReturn(Optional.of(orderItem));
-        when(cartDao.findById(cartId)).thenReturn(Optional.of(cart));
         doNothing().when(orderItemDao).addOrderItemOnCart(orderItemId, cartId);
-
         orderItemService.addOrderItemToCart(orderItemId, cartId);
-
-        verify(orderItemDao).findById(orderItemId);
-        verify(cartDao).findById(cartId);
         verify(orderItemDao).addOrderItemOnCart(orderItemId, cartId);
     }
 

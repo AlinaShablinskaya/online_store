@@ -1,10 +1,8 @@
 package by.it.academy.onlinestore.filters;
 
-import by.it.academy.onlinestore.ApplicationInjector;
 import by.it.academy.onlinestore.constants.Path;
 import by.it.academy.onlinestore.constants.ServletContent;
 import by.it.academy.onlinestore.entities.User;
-import by.it.academy.onlinestore.services.UserService;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

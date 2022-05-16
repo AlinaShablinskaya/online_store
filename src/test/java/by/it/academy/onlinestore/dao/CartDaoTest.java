@@ -18,12 +18,11 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartDaoTest {
+class CartDaoTest {
     private final static String PROPERTIES = "src/test/resources/h2.properties";
     private final static String SCRIPT_SQL = "src/test/resources/schema.sql";
 
-    private List<Cart> carts = new ArrayList<>();
-    private DBConnector connector;
+    private final List<Cart> carts = new ArrayList<>();
     private TableCreator tableCreator;
     private CartDao cartDao;
     private UserDao userDao;
@@ -32,7 +31,7 @@ public class CartDaoTest {
 
     @BeforeEach
     private void prepareTables() {
-        connector = new DBConnector(PROPERTIES);
+        DBConnector connector = new DBConnector(PROPERTIES);
         tableCreator = new TableCreator(connector);
         cartDao = new CartDaoImpl(connector);
         userDao = new UserDaoImpl(connector);
@@ -40,27 +39,6 @@ public class CartDaoTest {
 
         createTestData();
         insertTestDataToDB();
-    }
-
-    @Test
-    void saveShouldAddCartToTheDatabase() {
-        User firstUser = User.builder()
-                .withId(1)
-                .withFirstName("FirstUser")
-                .withLastName("LastName")
-                .withEmail("Login")
-                .withPassword("12345")
-                .build();
-
-        Cart expected = Cart.builder()
-                .withId(3)
-                .withUser(firstUser)
-                .build();
-
-        cartDao.save(expected);
-        Cart actual = cartDao.findById(3).orElse(null);
-
-        assertEquals(expected, actual);
     }
 
     @Test

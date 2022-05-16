@@ -34,22 +34,6 @@ public class AddressDaoTest {
     }
 
     @Test
-    void saveShouldAddProductToTheDatabase() {
-
-        CustomerAddress expected = CustomerAddress.builder()
-                .withId(3)
-                .withZipcode("123654")
-                .withCountry("England")
-                .withStreet("Oxford Street")
-                .build();
-
-        customerAddressDao.save(expected);
-        CustomerAddress actual = customerAddressDao.findById(3).orElse(null);
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
     void saveShouldAddListOfProductToTheDatabase() {
         List<CustomerAddress> expected = new ArrayList<>();
 

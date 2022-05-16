@@ -45,7 +45,7 @@ CREATE TABLE online_store.product
     product_name character varying(255) NOT NULL,
     brand character varying(255) NOT NULL,
     photo character varying(255) NOT NULL,
-    price integer NOT NULL,
+    price decimal NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -61,6 +61,7 @@ CREATE TABLE online_store.order_item
     id SERIAL,
     amount integer NOT NULL,
     product_id integer,
+    total_price decimal,
     PRIMARY KEY (id),
     FOREIGN KEY (product_id) REFERENCES online_store.product ON DELETE SET NULL
 );
@@ -69,6 +70,7 @@ CREATE TABLE online_store.cart
 (
     id SERIAL,
     user_id integer,
+    total_sum decimal,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES online_store.user ON DELETE SET NULL
 );

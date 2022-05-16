@@ -37,34 +37,6 @@ public class UserDaoTest {
     }
 
     @Test
-    void saveShouldAddUserToTheDatabase() {
-
-        CustomerAddress firstAddress = CustomerAddress.builder()
-                .withId(1)
-                .withZipcode("123654")
-                .withCountry("England")
-                .withStreet("Oxford Street")
-                .build();
-
-        Role role = new Role("USER");
-
-        User expected = User.builder()
-                .withId(3)
-                .withFirstName("FirstUser")
-                .withLastName("LastName")
-                .withEmail("Login")
-                .withPassword("12345")
-                .withRole(role)
-                .withAddress(firstAddress)
-                .build();
-
-        userDao.save(expected);
-        User actual = userDao.findById(3).orElse(null);
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
     void saveShouldAddListOfUsersToTheDatabase() {
         List<User> expected = new ArrayList<>();
 

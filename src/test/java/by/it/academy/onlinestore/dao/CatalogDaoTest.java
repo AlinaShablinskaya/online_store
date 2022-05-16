@@ -33,20 +33,6 @@ public class CatalogDaoTest {
     }
 
     @Test
-    void saveShouldAddCatalogToTheDatabase() {
-
-        Catalog expected = Catalog.builder()
-                .withId(3)
-                .withGroupName("Wine")
-                .build();
-
-        catalogDao.save(expected);
-        Catalog actual = catalogDao.findById(3).orElse(null);
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
     void saveShouldAddListOfProductToTheDatabase() {
         List<Catalog> expected = new ArrayList<>();
 

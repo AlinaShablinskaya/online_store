@@ -7,7 +7,7 @@
   <groupId>by.it.academy</groupId>
   <artifactId>onlinestore</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>OnlineStoreDivision</name>
+  <name>OnlineStore</name>
   <packaging>war</packaging>
 
   <properties>

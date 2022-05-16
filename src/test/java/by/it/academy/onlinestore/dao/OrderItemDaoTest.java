@@ -44,29 +44,6 @@ public class OrderItemDaoTest {
     }
 
     @Test
-    void saveShouldAddOrderItemToTheDatabase() {
-
-        Product firstProduct = Product.builder()
-                .withId(1)
-                .withProductName("Whiskey")
-                .withBrand("Brand")
-                .withPhoto("photo")
-                .withPrice(new BigDecimal(30))
-                .build();
-
-        OrderItem expected = OrderItem.builder()
-                .withId(3)
-                .withAmount(3)
-                .withProduct(firstProduct)
-                .build();
-
-        orderItemDao.save(expected);
-        OrderItem actual = orderItemDao.findById(3).orElse(null);
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
     void saveShouldAddListOfOrderItemToTheDatabase() {
         List<OrderItem> expected = new ArrayList<>();
 

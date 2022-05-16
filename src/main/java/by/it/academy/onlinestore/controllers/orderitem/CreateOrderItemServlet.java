@@ -1,4 +1,4 @@
-package by.it.academy.onlinestore.controllers.user;
+package by.it.academy.onlinestore.controllers.orderitem;
 
 import by.it.academy.onlinestore.ApplicationInjector;
 import by.it.academy.onlinestore.constants.Path;

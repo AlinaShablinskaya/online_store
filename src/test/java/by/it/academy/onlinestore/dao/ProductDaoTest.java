@@ -40,22 +40,6 @@ public class ProductDaoTest {
     }
 
     @Test
-    void saveShouldAddProductToTheDatabase() {
-        Product expected = Product.builder()
-                .withId(3)
-                .withProductName("Beer")
-                .withBrand("Brand")
-                .withPhoto("photo")
-                .withPrice(new BigDecimal(5))
-                .build();
-
-        productDao.save(expected);
-        Product actual = productDao.findById(3).orElse(null);
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
     void saveShouldAddListOfProductToTheDatabase() {
         List<Product> expected = new ArrayList<>();
 
