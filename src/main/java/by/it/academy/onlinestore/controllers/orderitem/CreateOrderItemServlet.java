@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @WebServlet(urlPatterns = "/createOrder")
 public class CreateOrderItemServlet extends HttpServlet {
@@ -44,11 +45,11 @@ public class CreateOrderItemServlet extends HttpServlet {
         User user = (User) session.getAttribute(ServletContent.USER);
         Cart cart = (Cart) session.getAttribute(ServletContent.CART);
 
-        if (user != null) {
+        if (Objects.nonNull(user)) {
             final OrderItem orderItemBuilder = createOrderItem(req);
             OrderItem orderItem = orderItemService.addOrderItem(orderItemBuilder).get();
 
-            if (cart == null) {
+            if (Objects.isNull(cart)) {
                 Cart cartBuilder = createCart(user);
                 cart = cartService.addCart(cartBuilder).get();
                 session.setAttribute(ServletContent.CART, cart);

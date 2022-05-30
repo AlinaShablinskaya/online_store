@@ -15,7 +15,6 @@ import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
     private static final Logger lOGGER = LoggerFactory.getLogger(ProductServiceImpl.class);
-
     private static final String PRODUCT_ALREADY_EXISTS = "Specified product already exists.";
     private static final String PRODUCT_IS_NOT_FOUND = "Specified product is not found.";
     private static final String CATALOG_IS_NOT_FOUND = "Specified catalog is not found.";

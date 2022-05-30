@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 @WebServlet(urlPatterns = "/updateProduct")
 public class UpdateProductServlet extends HttpServlet {
     private final ProductService productService;
-    private  int id;
+    private int id;
 
     public UpdateProductServlet() {
         ApplicationInjector injector = ApplicationInjector.getInstance();

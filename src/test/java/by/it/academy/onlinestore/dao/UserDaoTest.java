@@ -201,7 +201,7 @@ public class UserDaoTest {
                 .withAddress(firstAddress)
                 .build();
 
-        User actual = userDao.findByEmail(expected.getEmail()).get();
+        User actual = userDao.findByEmail(expected.getEmail()).orElse(null);
 
         assertEquals(expected, actual);
     }

@@ -64,11 +64,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean login(String email, String password) {
-        String encryptPassword = passwordEncryptor.encrypt(password);
-
         return userDao.findByEmail(email)
                 .map(User::getPassword)
-                .filter(pass -> pass.equals(encryptPassword))
+                .filter(pass -> pass.equals(password))
                 .isPresent();
     }
 }

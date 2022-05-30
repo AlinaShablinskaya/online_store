@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 @WebServlet(urlPatterns = "/catalog")
 public class ShowAllProductsServlet extends HttpServlet {
@@ -31,7 +32,7 @@ public class ShowAllProductsServlet extends HttpServlet {
         int defaultPage = 1;
         String pageParameter = req.getParameter(ServletContent.PAGE);
 
-        if (pageParameter != null) {
+        if (Objects.nonNull(pageParameter)) {
             defaultPage = Integer.parseInt(req.getParameter(ServletContent.PAGE));
         }
 
