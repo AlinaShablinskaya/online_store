@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import by.it.academy.onlinestore.dao.exception.DataBaseRuntimeException;
-import by.it.academy.onlinestore.dao.impl.CustomerAddressDaoImpl;
-import by.it.academy.onlinestore.dao.impl.UserDaoImpl;
+import by.it.academy.onlinestore.dao.impl.jdbc.CustomerAddressDaoImpl;
+import by.it.academy.onlinestore.dao.impl.jdbc.UserDaoImpl;
 import by.it.academy.onlinestore.entities.CustomerAddress;
 import by.it.academy.onlinestore.entities.Role;
 import by.it.academy.onlinestore.entities.User;

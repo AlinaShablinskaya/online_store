@@ -3,10 +3,10 @@ package by.it.academy.onlinestore.dao;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import by.it.academy.onlinestore.dao.exception.DataBaseRuntimeException;
-import by.it.academy.onlinestore.dao.impl.CartDaoImpl;
-import by.it.academy.onlinestore.dao.impl.OrderItemDaoImpl;
-import by.it.academy.onlinestore.dao.impl.ProductDaoImpl;
-import by.it.academy.onlinestore.dao.impl.UserDaoImpl;
+import by.it.academy.onlinestore.dao.impl.jdbc.CartDaoImpl;
+import by.it.academy.onlinestore.dao.impl.jdbc.OrderItemDaoImpl;
+import by.it.academy.onlinestore.dao.impl.jdbc.ProductDaoImpl;
+import by.it.academy.onlinestore.dao.impl.jdbc.UserDaoImpl;
 import by.it.academy.onlinestore.entities.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

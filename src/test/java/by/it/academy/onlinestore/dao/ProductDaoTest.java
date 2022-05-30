@@ -1,8 +1,8 @@
 package by.it.academy.onlinestore.dao;
 
 import by.it.academy.onlinestore.dao.exception.DataBaseRuntimeException;
-import by.it.academy.onlinestore.dao.impl.CatalogDaoImpl;
-import by.it.academy.onlinestore.dao.impl.ProductDaoImpl;
+import by.it.academy.onlinestore.dao.impl.jdbc.CatalogDaoImpl;
+import by.it.academy.onlinestore.dao.impl.jdbc.ProductDaoImpl;
 import by.it.academy.onlinestore.entities.Catalog;
 import by.it.academy.onlinestore.entities.Product;
 

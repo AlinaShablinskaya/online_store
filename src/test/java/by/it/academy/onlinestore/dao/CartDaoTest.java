@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import by.it.academy.onlinestore.dao.exception.DataBaseRuntimeException;
 
-import by.it.academy.onlinestore.dao.impl.CartDaoImpl;
-import by.it.academy.onlinestore.dao.impl.CustomerAddressDaoImpl;
-import by.it.academy.onlinestore.dao.impl.UserDaoImpl;
+import by.it.academy.onlinestore.dao.impl.jdbc.CartDaoImpl;
+import by.it.academy.onlinestore.dao.impl.jdbc.CustomerAddressDaoImpl;
+import by.it.academy.onlinestore.dao.impl.jdbc.UserDaoImpl;
 import by.it.academy.onlinestore.entities.Cart;
 import by.it.academy.onlinestore.entities.CustomerAddress;
 import by.it.academy.onlinestore.entities.Role;

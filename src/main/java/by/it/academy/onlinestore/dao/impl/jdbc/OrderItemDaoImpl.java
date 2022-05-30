@@ -1,16 +1,14 @@
-package by.it.academy.onlinestore.dao.impl;
+package by.it.academy.onlinestore.dao.impl.jdbc;
 
 import by.it.academy.onlinestore.dao.DBConnector;
 import by.it.academy.onlinestore.dao.OrderItemDao;
 import by.it.academy.onlinestore.entities.OrderItem;
 import by.it.academy.onlinestore.entities.Product;
 
-import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 public class OrderItemDaoImpl extends AbstractCrudDaoImpl<OrderItem> implements OrderItemDao {
     private static final String SAVE_QUERY =

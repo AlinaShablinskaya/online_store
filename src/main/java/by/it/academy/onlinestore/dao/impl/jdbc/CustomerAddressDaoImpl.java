@@ -1,4 +1,4 @@
-package by.it.academy.onlinestore.dao.impl;
+package by.it.academy.onlinestore.dao.impl.jdbc;
 
 import by.it.academy.onlinestore.dao.CustomerAddressDao;
 import by.it.academy.onlinestore.dao.DBConnector;

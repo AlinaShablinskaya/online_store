@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import by.it.academy.onlinestore.dao.exception.DataBaseRuntimeException;
 
-import by.it.academy.onlinestore.dao.impl.CatalogDaoImpl;
+import by.it.academy.onlinestore.dao.impl.jdbc.CatalogDaoImpl;
 import by.it.academy.onlinestore.entities.Catalog;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
