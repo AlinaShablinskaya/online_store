@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OrderItemService {
-    Optional<OrderItem> addOrderItem(OrderItem orderItem);
+    OrderItem addOrderItem(OrderItem orderItem);
 
     void addOrderItemToCart(Integer orderItemId, Integer cartId);
 

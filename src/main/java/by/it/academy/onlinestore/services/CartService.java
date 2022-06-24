@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CartService {
-    Optional<Cart> addCart(Cart cart);
+    Cart addCart(Cart cart);
 
     Cart findCartById(Integer id);
 

@@ -7,14 +7,14 @@ import by.it.academy.onlinestore.services.UserService;
 import by.it.academy.onlinestore.services.exeption.EntityAlreadyExistException;
 import by.it.academy.onlinestore.services.exeption.EntityNotFoundException;
 import by.it.academy.onlinestore.services.validator.Validator;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+@Slf4j
 public class UserServiceImpl implements UserService {
-    private static final Logger lOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
-
     private static final String USER_ALREADY_EXISTS = "Specified user already exists.";
     private static final String USER_IS_NOT_FOUND = "Specified user is not found.";
 
@@ -30,34 +30,37 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(User user) {
-        lOGGER.info("Registration user started");
+        log.info("Registration user started");
         if (userDao.findByEmail(user.getEmail()).isPresent()) {
+            log.error("User {} already exists.", user);
             throw new EntityAlreadyExistException(USER_ALREADY_EXISTS);
         }
-        lOGGER.info("Validating user");
+        log.info("Validating user");
         validator.validate(user);
         userDao.save(user);
-        lOGGER.info("User successfully added.");
+        log.info("User successfully added.");
     }
 
     @Override
     public List<User> findAllUser(int page, int itemsPerPage) {
-        lOGGER.info("Find all user started");
+        log.info("Find all user started");
         return userDao.findAll(page, itemsPerPage);
     }
 
     @Override
     public User findUserById(Integer id) {
-        lOGGER.info("Find user by id started");
+        log.info("Find user by id started");
         return userDao.findById(id).orElseThrow(() -> {
+            log.error("User is not found.");
             return new EntityNotFoundException(USER_IS_NOT_FOUND);
         });
     }
 
     @Override
     public User findUserByEmail(String email) {
-        lOGGER.info("Find user by email started");
+        log.info("Find user by email started");
         return userDao.findByEmail(email).orElseThrow(() -> {
+            log.error("User by email = {} is not found.", email);
             return new EntityNotFoundException(USER_IS_NOT_FOUND);
         });
     }

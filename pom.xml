@@ -31,6 +31,7 @@
     <slf4j.version>1.7.25</slf4j.version>
     <mockito.version>3.12.4</mockito.version>
     <lombok.version>1.18.24</lombok.version>
+    <org.hibernate.version>5.6.9.Final</org.hibernate.version>
   </properties>
 
   <dependencies>
@@ -149,6 +150,24 @@
       <version>${lombok.version}</version>
       <scope>provided</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>${org.hibernate.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+      <version>${org.hibernate.version}</version>
+    </dependency>
+      <dependency>
+          <groupId>org.testng</groupId>
+          <artifactId>testng</artifactId>
+          <version>6.8.21</version>
+          <scope>test</scope>
+      </dependency>
 
   </dependencies>
 

@@ -47,11 +47,11 @@ public class CreateOrderItemServlet extends HttpServlet {
 
         if (Objects.nonNull(user)) {
             final OrderItem orderItemBuilder = createOrderItem(req);
-            OrderItem orderItem = orderItemService.addOrderItem(orderItemBuilder).get();
+            OrderItem orderItem = orderItemService.addOrderItem(orderItemBuilder);
 
             if (Objects.isNull(cart)) {
                 Cart cartBuilder = createCart(user);
-                cart = cartService.addCart(cartBuilder).get();
+                cart = cartService.addCart(cartBuilder);
                 session.setAttribute(ServletContent.CART, cart);
             }
             orderItemService.addOrderItemToCart(orderItem.getId(), cart.getId());

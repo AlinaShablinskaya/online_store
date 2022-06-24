@@ -6,13 +6,14 @@ import by.it.academy.onlinestore.services.CatalogService;
 import by.it.academy.onlinestore.services.exeption.EntityAlreadyExistException;
 import by.it.academy.onlinestore.services.exeption.EntityNotFoundException;
 import by.it.academy.onlinestore.services.validator.Validator;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+@Slf4j
 public class CatalogServiceImpl implements CatalogService {
-    private static final Logger lOGGER = LoggerFactory.getLogger(CatalogServiceImpl.class);
     private static final String CATALOG_ALREADY_EXISTS = "Specified catalog already exists.";
     private static final String CATALOG_IS_NOT_FOUND = "Specified catalog is not found.";
 
@@ -26,49 +27,53 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     public void createNewCatalog(Catalog catalog) {
-        lOGGER.info("Adding catalog started");
+        log.info("Adding catalog {} started", catalog);
         if (catalogDao.findByGroupName(catalog.getGroupName()).isPresent()) {
+            log.error("Catalog {} already exists in database", catalog);
             throw new EntityAlreadyExistException(CATALOG_ALREADY_EXISTS);
         }
-        lOGGER.info("Validating catalog");
+        log.info("Validating catalog: {}", catalog);
         validator.validate(catalog);
         catalogDao.save(catalog);
-        lOGGER.info("Catalog successfully added.");
+        log.info("Catalog {} successfully added.", catalog);
     }
 
     @Override
     public Catalog findCatalogById(Integer id) {
-        lOGGER.info("Find catalog by id started");
+        log.info("Find catalog by id = {} started", id);
         return catalogDao.findById(id).orElseThrow(() -> {
+            log.error("Catalog is not found");
             return new EntityNotFoundException(CATALOG_IS_NOT_FOUND);
         });
     }
 
     @Override
     public List<Catalog> showCatalog() {
-        lOGGER.info("Find all catalog started");
+        log.info("Find all catalog started");
         return catalogDao.findAll();
     }
 
     @Override
     public void removeCatalogById(Integer id) {
-        lOGGER.info("Catalog delete by id started");
+        log.info("Catalog delete by id = {} started", id);
         if (!catalogDao.findById(id).isPresent()) {
+            log.error("Catalog is not found");
             throw new EntityNotFoundException(CATALOG_IS_NOT_FOUND);
         }
         catalogDao.deleteById(id);
-        lOGGER.info("Catalog successfully deleted.");
+        log.info("Catalog successfully deleted by id = {}.", id);
     }
 
     @Override
     public void updateCatalog(Catalog catalog) {
-        lOGGER.info("Updating catalog started");
+        log.info("Updating catalog {} started", catalog);
         if (!catalogDao.findById(catalog.getId()).isPresent()) {
+            log.error("Catalog {} is not found", catalog);
             throw new EntityNotFoundException(CATALOG_IS_NOT_FOUND);
         }
-        lOGGER.info("Validating catalog");
+        log.info("Validating catalog: {}", catalog);
         validator.validate(catalog);
         catalogDao.update(catalog);
-        lOGGER.info("Catalog successfully updated.");
+        log.info("Catalog {} successfully updated.", catalog);
     }
 }

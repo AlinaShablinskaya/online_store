@@ -1,14 +1,22 @@
 package by.it.academy.onlinestore.entities;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import javax.persistence.*;
 
-@Getter
-@ToString
-@EqualsAndHashCode
-@RequiredArgsConstructor
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(setterPrefix = "with")
+@Table(name = "role", schema = "online_store")
 public class Role {
-    private final String roleName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @Column(name = "role_name")
+    private String roleName;
+
+    public Role(String roleName) {
+        this.roleName = roleName;
+    }
 }

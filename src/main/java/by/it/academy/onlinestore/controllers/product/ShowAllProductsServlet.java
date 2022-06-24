@@ -36,9 +36,7 @@ public class ShowAllProductsServlet extends HttpServlet {
             defaultPage = Integer.parseInt(req.getParameter(ServletContent.PAGE));
         }
 
-        int pageNumber = (defaultPage - 1) * ITEMS_PER_PAGE;
-
-        req.setAttribute(ServletContent.PRODUCTS, productService.findAllProduct(pageNumber, ITEMS_PER_PAGE));
+        req.setAttribute(ServletContent.PRODUCTS, productService.findAllProduct(defaultPage, ITEMS_PER_PAGE));
         req.setAttribute(ServletContent.CATALOG, catalogService.showCatalog());
 
         req.getRequestDispatcher(Path.PATH_TO_CATALOG_PAGE).forward(req, resp);

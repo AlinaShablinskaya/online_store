@@ -5,16 +5,15 @@ import by.it.academy.onlinestore.entities.Cart;
 import by.it.academy.onlinestore.entities.OrderItem;
 import by.it.academy.onlinestore.services.CartService;
 import by.it.academy.onlinestore.services.exeption.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
+@Slf4j
 public class CartServiceImpl implements CartService {
-    private static final Logger lOGGER = LoggerFactory.getLogger(CartServiceImpl.class);
-
     private static final String CART_ALREADY_EXISTS = "Specified cart already exists.";
     private static final String CART_IS_NOT_FOUND = "Specified cart is not found.";
     private final CartDao cartDao;
@@ -24,37 +23,43 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Optional<Cart> addCart(Cart cart) {
-        lOGGER.info("Adding cart started");
-        return cartDao.save(cart);
+    public Cart addCart(Cart cart) {
+        log.info("Adding cart {} started", cart);
+        return cartDao.save(cart).orElseThrow(() -> {
+            log.error("Cart {} is not found", cart);
+            return new EntityNotFoundException(CART_IS_NOT_FOUND);
+        });
     }
 
     @Override
     public Cart findCartById(Integer id) {
-        lOGGER.info("Find cart by id started");
+        log.info("Find cart by id = {} started", id);
         return cartDao.findById(id).orElseThrow(() -> {
+            log.error("Cart is not found");
             return new EntityNotFoundException(CART_IS_NOT_FOUND);
         });
     }
 
     @Override
     public void deleteCart(Integer id) {
-        lOGGER.info("Cart delete started");
+        log.info("Cart delete by id = {} started", id);
         if (!cartDao.findById(id).isPresent()) {
+            log.error("Cart is not found");
             throw new EntityNotFoundException(CART_IS_NOT_FOUND);
         }
         cartDao.deleteById(id);
-        lOGGER.info("Cart successfully deleted.");
+        log.info("Cart successfully deleted by id = {}.", id);
     }
 
     @Override
     public void updateCart(Cart cart) {
-        lOGGER.info("Updating cart started");
+        log.info("Updating cart {} started", cart);
         if (!cartDao.findById(cart.getId()).isPresent()) {
+            log.error("Cart is not found");
             throw new EntityNotFoundException(CART_IS_NOT_FOUND);
         }
         cartDao.update(cart);
-        lOGGER.info("Cart successfully updated.");
+        log.info("Cart {} successfully updated.", cart);
     }
 
     @Override

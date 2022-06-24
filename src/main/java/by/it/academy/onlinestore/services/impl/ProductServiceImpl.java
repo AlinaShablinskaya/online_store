@@ -8,13 +8,14 @@ import by.it.academy.onlinestore.services.exeption.EntityAlreadyExistException;
 import by.it.academy.onlinestore.services.exeption.EntityNotFoundException;
 
 import by.it.academy.onlinestore.services.validator.Validator;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+@Slf4j
 public class ProductServiceImpl implements ProductService {
-    private static final Logger lOGGER = LoggerFactory.getLogger(ProductServiceImpl.class);
     private static final String PRODUCT_ALREADY_EXISTS = "Specified product already exists.";
     private static final String PRODUCT_IS_NOT_FOUND = "Specified product is not found.";
     private static final String CATALOG_IS_NOT_FOUND = "Specified catalog is not found.";
@@ -30,88 +31,95 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void addProduct(Product product) {
-        lOGGER.info("Adding product started");
+        log.info("Adding product {} started", product);
         if (productDao.findByName(product.getProductName()).isPresent()) {
+            log.error("Product {} already exists", product);
             throw new EntityAlreadyExistException(PRODUCT_ALREADY_EXISTS);
         }
-        lOGGER.info("Validating product");
+        log.info("Validating product: {}", product);
         validator.validate(product);
         productDao.save(product);
-        lOGGER.info("Product successfully added.");
+        log.info("Product {} successfully added.", product);
     }
 
     @Override
     public Product findProductById(Integer id) {
-        lOGGER.info("Find product by id started");
+        log.info("Find product by id = {} started", id);
         return productDao.findById(id).orElseThrow(() -> {
+            log.error("Product is not found");
             return new EntityNotFoundException(PRODUCT_IS_NOT_FOUND);
         });
     }
 
     @Override
     public List<Product> findAllProduct(int page, int itemsPerPage) {
-        lOGGER.info("Find all product on the page started");
+        log.info("Find all product on the page = {} started", page);
         return productDao.findAll(page, itemsPerPage);
     }
 
     @Override
     public List<Product> findAllProduct() {
-        lOGGER.info("Find all product started");
+        log.info("Find all product started");
         return productDao.findAll();
     }
 
     @Override
     public void updateProduct(Product product) {
-        lOGGER.info("Updating product started");
+        log.info("Updating product {} started", product);
         if (!productDao.findById(product.getId()).isPresent()) {
+            log.error("Product {} is not found", product);
             throw new EntityNotFoundException(PRODUCT_IS_NOT_FOUND);
         }
-        lOGGER.info("Validating product");
+        log.info("Validating product: {}", product);
         validator.validate(product);
         productDao.update(product);
-        lOGGER.info("Product successfully updated.");
+        log.info("Product {} successfully updated.", product);
     }
 
     @Override
     public void removeProductById(Integer id) {
-        lOGGER.info("Product delete started");
+        log.info("Product delete by id = {} started", id);
         if (!productDao.findById(id).isPresent()) {
+            log.error("Product is not found");
             throw new EntityNotFoundException(PRODUCT_IS_NOT_FOUND);
         }
         productDao.deleteById(id);
-
-        lOGGER.info("Product successfully deleted.");
+        log.info("Product {} successfully deleted.", id);
     }
 
     @Override
     public List<Product> findAllByCatalogName(String categoryName) {
-        lOGGER.info("Find all product by catalog started");
+        log.info("Find all product by category name {} started", categoryName);
         return productDao.findAllProductsByCategoryName(categoryName);
     }
 
     @Override
     public void addProductToCatalog(Integer catalogId, Integer productId) {
-        lOGGER.info("Adding product to catalog started");
+        log.info("Adding product id = {} to catalog id = {} started", productId, catalogId);
         if (!productDao.findById(productId).isPresent()) {
+            log.error("Product is not found");
             throw new EntityNotFoundException(PRODUCT_IS_NOT_FOUND);
         }
         if (!catalogDao.findById(catalogId).isPresent()) {
+            log.error("Catalog is not found");
             throw new EntityNotFoundException(CATALOG_IS_NOT_FOUND);
         }
         productDao.addProductOnCatalog(catalogId, productId);
-        lOGGER.info("Successfully added product to catalog");
+        log.info("Product successfully added to catalog");
     }
 
     @Override
     public void removeProductFromCatalog(Integer catalogId, Integer productId) {
-        lOGGER.info("Product from catalog removal started");
+        log.info("Product id = {} from catalog id = {} removal started", productId, catalogId);
         if (!productDao.findById(productId).isPresent()) {
+            log.error("Product is not found");
             throw new EntityNotFoundException(PRODUCT_IS_NOT_FOUND);
         }
         if (!catalogDao.findById(catalogId).isPresent()) {
+            log.error("Catalog is not found");
             throw new EntityNotFoundException(CATALOG_IS_NOT_FOUND);
         }
         productDao.removeProductFromCatalog(catalogId, productId);
-        lOGGER.info("Successfully remove product from catalog");
+        log.info("Product successfully remove from catalog");
     }
 }

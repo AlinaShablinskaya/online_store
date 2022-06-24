@@ -1,18 +1,44 @@
 package by.it.academy.onlinestore.entities;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.Hibernate;
 
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-@Getter
-@ToString
-@EqualsAndHashCode
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder(setterPrefix = "with")
+@Table(name = "catalog", schema = "online_store")
 public class Catalog {
-    private final Integer id;
-    private final String groupName;
-    private final List<Product> products;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @Column(name = "group_name")
+    private String groupName;
+    @ManyToMany
+    @JoinTable(
+            name = "catalog_product", schema = "online_store",
+            joinColumns = {@JoinColumn(name = "catalog_id")},
+            inverseJoinColumns = {@JoinColumn(name = "product_id")}
+    )
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<Product> products = new ArrayList<>();
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public void addProduct(Product product) {
+        this.products.add(product);
+    }
+
+    public void deleteProduct(Product product) {
+        this.products.remove(product);
+    }
 }

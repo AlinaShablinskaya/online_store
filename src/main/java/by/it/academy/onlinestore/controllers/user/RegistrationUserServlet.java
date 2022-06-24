@@ -5,6 +5,7 @@ import by.it.academy.onlinestore.constants.Path;
 import by.it.academy.onlinestore.constants.ServletContent;
 import by.it.academy.onlinestore.entities.Role;
 import by.it.academy.onlinestore.entities.User;
+import by.it.academy.onlinestore.services.RoleService;
 import by.it.academy.onlinestore.services.UserService;
 
 import javax.servlet.ServletException;
@@ -20,10 +21,12 @@ public class RegistrationUserServlet extends HttpServlet {
     private static final String REPEAT_PASSWORD = "repeat_password";
     private static final String USER_ROLE = "USER";
     private final UserService userService;
+    private final RoleService roleService;
 
     public RegistrationUserServlet() {
         ApplicationInjector injector = ApplicationInjector.getInstance();
         this.userService = injector.getUserService();
+        this.roleService = injector.getRoleService();
     }
 
     @Override
@@ -43,12 +46,14 @@ public class RegistrationUserServlet extends HttpServlet {
             req.getRequestDispatcher(Path.PATH_TO_REGISTRATION_PAGE).forward(req, resp);
         }
 
+        Role role = roleService.findByRoleName(USER_ROLE);
+
         final User user = User.builder()
                 .withFirstName(firstName)
                 .withLastName(lastName)
                 .withEmail(email)
                 .withPassword(password)
-                .withRole(new Role(USER_ROLE))
+                .withRole(role)
                 .build();
 
         userService.createUser(user);

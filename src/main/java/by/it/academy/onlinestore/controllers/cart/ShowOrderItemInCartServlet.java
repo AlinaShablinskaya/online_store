@@ -5,6 +5,7 @@ import by.it.academy.onlinestore.constants.Path;
 import by.it.academy.onlinestore.constants.ServletContent;
 import by.it.academy.onlinestore.entities.Cart;
 import by.it.academy.onlinestore.entities.OrderItem;
+import by.it.academy.onlinestore.entities.User;
 import by.it.academy.onlinestore.services.CartService;
 import by.it.academy.onlinestore.services.OrderItemService;
 
@@ -34,6 +35,7 @@ public class ShowOrderItemInCartServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final HttpSession session = req.getSession();
         Cart cart = (Cart) session.getAttribute(ServletContent.CART);
+        User user = (User) session.getAttribute(ServletContent.USER);
 
         List<OrderItem> orderItems = new ArrayList<>(orderItemService.findAllOrderItemsByCartId(cart.getId()));
 
@@ -43,7 +45,9 @@ public class ShowOrderItemInCartServlet extends HttpServlet {
 
         Cart cartBuilder = Cart.builder()
                 .withId(cart.getId())
+                .withUser(user)
                 .withTotalSum(totalSum)
+                .withOrderItems(orderItems)
                 .build();
         cartService.updateCart(cartBuilder);
 
