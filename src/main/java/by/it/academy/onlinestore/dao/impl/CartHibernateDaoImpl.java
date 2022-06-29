@@ -1,4 +1,4 @@
-package by.it.academy.onlinestore.dao.impl.hibernate;
+package by.it.academy.onlinestore.dao.impl;
 
 import by.it.academy.onlinestore.dao.CartDao;
 import by.it.academy.onlinestore.entities.Cart;

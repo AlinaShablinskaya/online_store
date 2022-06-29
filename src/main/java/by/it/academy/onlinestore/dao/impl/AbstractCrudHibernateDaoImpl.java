@@ -1,4 +1,4 @@
-package by.it.academy.onlinestore.dao.impl.hibernate;
+package by.it.academy.onlinestore.dao.impl;
 
 import java.lang.reflect.ParameterizedType;
 import by.it.academy.onlinestore.dao.CrudDao;

@@ -1,4 +1,4 @@
-package by.it.academy.onlinestore.dao.hibernate;
+package by.it.academy.onlinestore.dao;
 
 import by.it.academy.onlinestore.util.HibernateUtil;
 import org.hibernate.Session;

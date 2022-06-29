@@ -1,42 +1,50 @@
 package by.it.academy.onlinestore.dao;
 
 import by.it.academy.onlinestore.dao.exception.DataBaseRuntimeException;
-import by.it.academy.onlinestore.dao.impl.jdbc.CatalogDaoImpl;
-import by.it.academy.onlinestore.dao.impl.jdbc.ProductDaoImpl;
+import by.it.academy.onlinestore.dao.impl.CatalogHibernateDaoImpl;
+import by.it.academy.onlinestore.dao.impl.ProductHibernateDaoImpl;
 import by.it.academy.onlinestore.entities.Catalog;
 import by.it.academy.onlinestore.entities.Product;
-
-import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
-public class ProductDaoTest {
-    private final static String PROPERTIES = "src/test/resources/h2.properties";
-    private final static String SCRIPT_SQL = "src/test/resources/schema.sql";
-
-    private List<Product> products = new ArrayList<>();
-    private List<Catalog> catalog = new ArrayList<>();
-    private DBConnector connector;
-    private TableCreator tableCreator;
+class ProductHibernateDaoTest {
+    private final TestConfig testConfig = new TestConfig();
+    private final List<Product> products = new ArrayList<>();
+    private final List<Catalog> catalog = new ArrayList<>();
     private ProductDao productDao;
     private CatalogDao catalogDao;
 
     @BeforeEach
-    private void prepareTables() {
-        connector = new DBConnector(PROPERTIES);
-        tableCreator = new TableCreator(connector);
-        productDao = new ProductDaoImpl(connector);
-        catalogDao = new CatalogDaoImpl(connector);
-
+    private void prepareTables() throws IOException {
+        testConfig.createTables();
+        productDao = new ProductHibernateDaoImpl();
+        catalogDao = new CatalogHibernateDaoImpl();
         createTestData();
         insertTestDataToDB();
+    }
+
+    @Test
+    void saveShouldAddProductToTheDatabase() {
+        Product product = Product.builder()
+                .withId(3)
+                .withProductName("Beer")
+                .withBrand("Brand")
+                .withPhoto("photo")
+                .withPrice(new BigDecimal(5))
+                .build();
+
+        Product expected = productDao.save(product).get();
+        Product actual = productDao.findById(3).get();
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -84,6 +92,34 @@ public class ProductDaoTest {
     }
 
     @Test
+    void findAllShouldReturnListOfProductOnPageWhenGetParameters() {
+        List<Product> expected = new ArrayList<>();
+
+        Product firstProduct = Product.builder()
+                .withId(1)
+                .withProductName("Whiskey")
+                .withBrand("Brand")
+                .withPhoto("photo")
+                .withPrice(new BigDecimal(30))
+                .build();
+
+        Product secondProduct = Product.builder()
+                .withId(2)
+                .withProductName("Wine")
+                .withBrand("Brand")
+                .withPhoto("photo")
+                .withPrice(new BigDecimal(20))
+                .build();
+
+        expected.add(firstProduct);
+        expected.add(secondProduct);
+
+        List<Product> actual = productDao.findAll(1, 2);
+
+        assertThat(actual).containsAll(expected);
+    }
+
+    @Test
     void findAllShouldReturnListOfProductWhenGetParameters() {
         List<Product> expected = new ArrayList<>();
 
@@ -106,9 +142,23 @@ public class ProductDaoTest {
         expected.add(firstProduct);
         expected.add(secondProduct);
 
-        List<Product> actual = productDao.findAll(0, 2);
+        List<Product> actual = productDao.findAll();
 
         assertThat(actual).containsAll(expected);
+    }
+
+    @Test
+    void findByNameShouldReturnProductWhenGetProductName() {
+        Product expected = Product.builder()
+                .withId(1)
+                .withProductName("Whiskey")
+                .withBrand("Brand")
+                .withPhoto("photo")
+                .withPrice(new BigDecimal(30))
+                .build();
+
+        Product actual = productDao.findByName("Whiskey").orElseThrow(null);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -123,7 +173,7 @@ public class ProductDaoTest {
                 .withPrice(new BigDecimal(30))
                 .build());
 
-        List <Product> actual = productDao.findAllProductsByCategoryName("group");
+        List<Product> actual = productDao.findAllProductsByCategoryName("catalog");
         assertEquals(expected, actual);
     }
 
@@ -152,7 +202,6 @@ public class ProductDaoTest {
     }
 
     private void createTestData() {
-        tableCreator.runScript(SCRIPT_SQL);
 
         products.add(Product.builder()
                 .withId(1)
@@ -171,14 +220,13 @@ public class ProductDaoTest {
 
         catalog.add(Catalog.builder()
                 .withId(1)
-                .withGroupName("group")
+                .withGroupName("catalog")
                 .build());
-
-        catalogDao.saveAll(catalog);
     }
 
     private void insertTestDataToDB() throws DataBaseRuntimeException {
+        catalogDao.saveAll(catalog);
         productDao.saveAll(products);
-        productDao.addProductOnCatalog(catalog.get(0).getId(), products.get(0).getId());
+        productDao.addProductOnCatalog(1, 1);
     }
 }

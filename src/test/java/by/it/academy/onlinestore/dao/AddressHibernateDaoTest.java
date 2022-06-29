@@ -1,39 +1,47 @@
 package by.it.academy.onlinestore.dao;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import by.it.academy.onlinestore.dao.exception.DataBaseRuntimeException;
-import by.it.academy.onlinestore.dao.impl.jdbc.CustomerAddressDaoImpl;
+import by.it.academy.onlinestore.dao.impl.CustomerAddressHibernateDaoImpl;
 import by.it.academy.onlinestore.entities.CustomerAddress;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddressDaoTest {
-    private final static String PROPERTIES = "src/test/resources/h2.properties";
-    private final static String SCRIPT_SQL = "src/test/resources/schema.sql";
-
+class AddressHibernateDaoTest {
+    private final TestConfig testConfig = new TestConfig();
     private List<CustomerAddress> addresses = new ArrayList<>();
-    private DBConnector connector;
-    private TableCreator tableCreator;
     private CustomerAddressDao customerAddressDao;
 
     @BeforeEach
-    private void prepareTables() {
-        connector = new DBConnector(PROPERTIES);
-        tableCreator = new TableCreator(connector);
-        customerAddressDao = new CustomerAddressDaoImpl(connector);
-
+    private void prepareTables() throws IOException {
+        testConfig.createTables();
+        customerAddressDao = new CustomerAddressHibernateDaoImpl();
         createTestData();
         insertTestDataToDB();
     }
 
     @Test
-    void saveShouldAddListOfProductToTheDatabase() {
+    void saveShouldAddAddressToTheDatabase() {
+        CustomerAddress address = CustomerAddress.builder()
+                .withId(3)
+                .withZipcode("123654")
+                .withCountry("England")
+                .withStreet("Oxford Street")
+                .build();
+
+        CustomerAddress expected = customerAddressDao.save(address).get();
+        CustomerAddress actual = customerAddressDao.findById(3).get();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void saveShouldAddListOfAddressToTheDatabase() {
         List<CustomerAddress> expected = new ArrayList<>();
 
         expected.add(CustomerAddress.builder()
@@ -51,7 +59,7 @@ public class AddressDaoTest {
                 .build());
 
         customerAddressDao.saveAll(expected);
-        List<CustomerAddress> actual = customerAddressDao.findAll(2, 2);
+        List<CustomerAddress> actual = customerAddressDao.findAll();
 
         assertThat(actual).containsAll(expected);
     }
@@ -68,6 +76,32 @@ public class AddressDaoTest {
         CustomerAddress actual = customerAddressDao.findById(1).orElse(null);
 
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void findAllShouldReturnListOfProductOnPageWhenGetParameters() {
+        List<CustomerAddress> expected = new ArrayList<>();
+
+        CustomerAddress firstProduct = CustomerAddress.builder()
+                .withId(1)
+                .withZipcode("123654")
+                .withCountry("England")
+                .withStreet("Oxford Street")
+                .build();
+
+        CustomerAddress secondProduct = CustomerAddress.builder()
+                .withId(2)
+                .withZipcode("1564822")
+                .withCountry("England")
+                .withStreet("Piccadilly Street")
+                .build();
+
+        expected.add(firstProduct);
+        expected.add(secondProduct);
+
+        List<CustomerAddress> actual = customerAddressDao.findAll(1, 2);
+
+        assertThat(actual).containsAll(expected);
     }
 
     @Test
@@ -91,7 +125,7 @@ public class AddressDaoTest {
         expected.add(firstProduct);
         expected.add(secondProduct);
 
-        List<CustomerAddress> actual = customerAddressDao.findAll(0, 2);
+        List<CustomerAddress> actual = customerAddressDao.findAll();
 
         assertThat(actual).containsAll(expected);
     }
@@ -120,8 +154,6 @@ public class AddressDaoTest {
     }
 
     private void createTestData() {
-        tableCreator.runScript(SCRIPT_SQL);
-
         addresses.add(CustomerAddress.builder()
                 .withId(1)
                 .withZipcode("123654")

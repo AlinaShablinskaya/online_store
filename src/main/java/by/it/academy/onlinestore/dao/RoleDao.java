@@ -1,6 +1,5 @@
 package by.it.academy.onlinestore.dao;
 
-import by.it.academy.onlinestore.dao.impl.jdbc.AbstractCrudDaoImpl;
 import by.it.academy.onlinestore.entities.Role;
 
 import java.util.Optional;

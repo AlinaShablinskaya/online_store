@@ -1,10 +1,8 @@
-package by.it.academy.onlinestore.dao.hibernate;
+package by.it.academy.onlinestore.dao;
 
-import by.it.academy.onlinestore.dao.OrderItemDao;
-import by.it.academy.onlinestore.dao.ProductDao;
 import by.it.academy.onlinestore.dao.exception.DataBaseRuntimeException;
-import by.it.academy.onlinestore.dao.impl.hibernate.OrderItemHibernateDaoImpl;
-import by.it.academy.onlinestore.dao.impl.hibernate.ProductHibernateDaoImpl;
+import by.it.academy.onlinestore.dao.impl.OrderItemHibernateDaoImpl;
+import by.it.academy.onlinestore.dao.impl.ProductHibernateDaoImpl;
 import by.it.academy.onlinestore.entities.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

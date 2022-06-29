@@ -1,8 +1,7 @@
 package by.it.academy.onlinestore;
 
 import by.it.academy.onlinestore.dao.*;
-import by.it.academy.onlinestore.dao.impl.hibernate.*;
-import by.it.academy.onlinestore.dao.impl.jdbc.*;
+import by.it.academy.onlinestore.dao.impl.*;
 import by.it.academy.onlinestore.entities.Catalog;
 import by.it.academy.onlinestore.entities.CustomerAddress;
 import by.it.academy.onlinestore.entities.Product;

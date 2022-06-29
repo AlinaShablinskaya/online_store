@@ -37,17 +37,27 @@ public class LoginServlet extends HttpServlet {
         final boolean isLogin = userService.login(email, password);
 
         if (isLogin) {
-            User user = userService.findUserByEmail(email);
-            HttpSession session = req.getSession();
-            session.setAttribute(ServletContent.USER, user);
-            String role = user.getRole().getRoleName();
-            if (role.equals(ServletContent.USER_ROLE)) {
-                resp.sendRedirect(Path.URL_TO_CATALOG);
-            } else if (role.equals(ServletContent.ADMIN_ROLE)) {
-                resp.sendRedirect(Path.URL_TO_PRODUCT_PANEL);
-            }
+            User user = getUserByEmailWithSession(email, req);
+            directToPage(resp, user);
         } else {
             resp.sendRedirect(Path.URL_TO_LOGIN);
+        }
+    }
+
+    private User getUserByEmailWithSession(String email, HttpServletRequest req) {
+        User user = userService.findUserByEmail(email);
+        HttpSession session = req.getSession();
+        session.setAttribute(ServletContent.USER, user);
+        return user;
+    }
+
+    private void directToPage(HttpServletResponse resp, User user) throws IOException {
+        String role = user.getRole().getRoleName();
+
+        if (role.equals(ServletContent.USER_ROLE)) {
+            resp.sendRedirect(Path.URL_TO_CATALOG);
+        } else if (role.equals(ServletContent.ADMIN_ROLE)) {
+            resp.sendRedirect(Path.URL_TO_PRODUCT_PANEL);
         }
     }
 }

@@ -1,8 +1,7 @@
-package by.it.academy.onlinestore.dao.hibernate;
+package by.it.academy.onlinestore.dao;
 
-import by.it.academy.onlinestore.dao.UserDao;
 import by.it.academy.onlinestore.dao.exception.DataBaseRuntimeException;
-import by.it.academy.onlinestore.dao.impl.hibernate.UserHibernateDaoImpl;
+import by.it.academy.onlinestore.dao.impl.UserHibernateDaoImpl;
 import by.it.academy.onlinestore.entities.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

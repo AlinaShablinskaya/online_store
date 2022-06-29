@@ -64,16 +64,8 @@ public class OrderItemServiceTest {
 
     @Test
     void removeOrderItemFromCartShouldReturnCorrectResult() {
-        Product product = Product.builder()
-                .withId(1)
-                .withProductName("Name")
-                .withBrand("Description")
-                .withPrice(new BigDecimal(20.5))
-                .build();
-
         OrderItem orderItem = OrderItem.builder()
                 .withId(1)
-                .withProduct(product)
                 .withAmount(5)
                 .build();
 
@@ -87,12 +79,7 @@ public class OrderItemServiceTest {
 
         when(orderItemDao.findById(orderItemId)).thenReturn(Optional.of(orderItem));
         when(cartDao.findById(cartId)).thenReturn(Optional.of(cart));
-        doNothing().when(orderItemDao).removeOrderItemFromCart(orderItemId, cartId);
-
         orderItemService.removeOrderItemFromCart(orderItemId, cartId);
-
-        verify(orderItemDao).findById(orderItemId);
-        verify(cartDao).findById(cartId);
-        verify(orderItemDao).removeOrderItemFromCart(orderItemId, cartId);
+        verify(orderItemDao).deleteById(orderItemId);
     }
 }

@@ -1,7 +1,6 @@
-package by.it.academy.onlinestore.dao.impl.hibernate;
+package by.it.academy.onlinestore.dao.impl;
 
 import by.it.academy.onlinestore.dao.CatalogDao;
-import by.it.academy.onlinestore.dao.exception.DataBaseRuntimeException;
 import by.it.academy.onlinestore.entities.Catalog;
 import by.it.academy.onlinestore.util.HibernateUtil;
 import org.hibernate.Session;
