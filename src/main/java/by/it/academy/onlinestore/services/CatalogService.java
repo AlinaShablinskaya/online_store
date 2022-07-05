@@ -5,7 +5,7 @@ import by.it.academy.onlinestore.entities.Catalog;
 import java.util.List;
 
 public interface CatalogService {
-    void createNewCatalog(Catalog catalog);
+    Catalog createNewCatalog(Catalog catalog);
 
     Catalog findCatalogById(Integer id);
 
@@ -13,5 +13,5 @@ public interface CatalogService {
 
     void removeCatalogById(Integer id);
 
-    void updateCatalog(Catalog catalog);
+    Catalog updateCatalog(Catalog catalog);
 }

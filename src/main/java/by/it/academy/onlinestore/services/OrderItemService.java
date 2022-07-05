@@ -12,9 +12,7 @@ public interface OrderItemService {
 
     void addOrderItemToCart(Integer orderItemId, Integer cartId);
 
-    void removeOrderItemFromCart(Integer orderItemId, Integer cartId);
+    void removeOrderItem(Integer orderItemId);
 
     List<OrderItem> findAllOrderItemsByCartId(Integer cartId);
-
-    BigDecimal calculatePrice(int amount, Product product);
 }

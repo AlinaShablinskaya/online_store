@@ -12,7 +12,6 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(setterPrefix = "with")
 @Table(name = "catalog", schema = "online_store")
 public class Catalog {
     @Id

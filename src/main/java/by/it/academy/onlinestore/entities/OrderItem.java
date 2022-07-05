@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(setterPrefix = "with")
 @Table(name = "order_item", schema = "online_store")
 public class OrderItem {
     @Id

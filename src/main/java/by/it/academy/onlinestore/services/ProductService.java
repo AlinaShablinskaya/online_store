@@ -5,7 +5,7 @@ import by.it.academy.onlinestore.entities.Product;
 import java.util.List;
 
 public interface ProductService {
-    void addProduct(Product product);
+    Product addProduct(Product product);
 
     Product findProductById(Integer id);
 
@@ -13,7 +13,7 @@ public interface ProductService {
 
     List<Product> findAllProduct();
 
-    void updateProduct(Product product);
+    Product updateProduct(Product product);
 
     void removeProductById(Integer id);
 

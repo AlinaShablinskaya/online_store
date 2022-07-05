@@ -5,13 +5,13 @@ import by.it.academy.onlinestore.entities.User;
 import java.util.List;
 
 public interface UserService {
-    void createUser(User user);
+    User createUser(User user);
 
-    List<User> findAllUser(int page, int itemsPerPage);
+    List<User> findAllUser();
 
     User findUserById(Integer id);
 
-    User findUserByEmail(String email);
+//    User findUserByEmail(String email);
 
-    boolean login(String email, String password);
+//    boolean login(String email, String password);
 }

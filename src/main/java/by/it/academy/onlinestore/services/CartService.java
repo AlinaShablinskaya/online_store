@@ -14,7 +14,5 @@ public interface CartService {
 
     void deleteCart(Integer id);
 
-    void updateCart(Cart cart);
-
-    BigDecimal calculateSum(List<OrderItem> orderItems);
+    Cart updateCart(Cart cart);
 }

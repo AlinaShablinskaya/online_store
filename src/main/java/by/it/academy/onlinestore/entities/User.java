@@ -8,7 +8,6 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(setterPrefix = "with")
 @Table(name = "user", schema = "online_store")
 public class User {
     @Id
@@ -25,7 +24,7 @@ public class User {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
     private CustomerAddress address;
-    @ManyToOne
-    @JoinColumn(name = "role_id")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
     private Role role;
 }

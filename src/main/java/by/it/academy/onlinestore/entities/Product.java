@@ -1,7 +1,5 @@
 package by.it.academy.onlinestore.entities;
 
-import by.it.academy.onlinestore.annotation.NotNull;
-import by.it.academy.onlinestore.annotation.ValidBean;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,7 +11,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(setterPrefix = "with")
 @Table(name = "product", schema = "online_store")
 public class Product {
     @Id

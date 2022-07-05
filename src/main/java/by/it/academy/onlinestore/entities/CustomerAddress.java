@@ -7,12 +7,10 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Getter
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@Builder(setterPrefix = "with")
 @Table(name = "customer_address", schema = "online_store")
 public class CustomerAddress {
     @Id
