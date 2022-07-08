@@ -2,11 +2,14 @@ package by.it.academy.onlinestore.services.impl;
 
 import by.it.academy.onlinestore.entities.User;
 import by.it.academy.onlinestore.repositories.UserRepository;
+import by.it.academy.onlinestore.security.SecurityUser;
 import by.it.academy.onlinestore.services.UserService;
 import by.it.academy.onlinestore.services.exeption.EntityAlreadyExistException;
 import by.it.academy.onlinestore.services.exeption.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -21,28 +24,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-        log.info("Registration user {} started", user);
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            log.error("User {} already exists.", user);
             throw new EntityAlreadyExistException(USER_ALREADY_EXISTS);
         }
-        User newUser = userRepository.save(user);
-        log.info("User successfully added.");
-        return newUser;
+        return userRepository.save(user);
     }
 
     @Override
     public List<User> findAllUser() {
-        log.info("Find all user started");
         return userRepository.findAll();
     }
 
     @Override
     public User findUserById(Integer id) {
-        log.info("Find user by id started");
-        return userRepository.findById(id).orElseThrow(() -> {
-            log.error("User is not found.");
-            return new EntityNotFoundException(USER_IS_NOT_FOUND);
-        });
+        return userRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(USER_IS_NOT_FOUND));
     }
 }

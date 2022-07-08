@@ -5,6 +5,7 @@ import by.it.academy.onlinestore.entities.CustomerAddress;
 import by.it.academy.onlinestore.mappers.CustomerAddressMapper;
 import by.it.academy.onlinestore.services.AddressService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ public class CustomerAddressController {
     private final AddressService addressService;
 
     @PostMapping("/")
+    @PreAuthorize("hasAuthority('USER')")
     public CustomerAddressDto saveAddress(@Valid @RequestBody CustomerAddressDto customerAddressDto) {
         CustomerAddress address = addressService.addCustomerAddress
                 (CustomerAddressMapper.INSTANCE.convertToAddress(customerAddressDto));
@@ -25,6 +27,7 @@ public class CustomerAddressController {
     }
 
     @PutMapping("/")
+    @PreAuthorize("hasAuthority('USER')")
     public CustomerAddressDto updateAddress(@Valid @RequestBody CustomerAddressDto customerAddressDto) {
         CustomerAddress customerAddress = addressService.updateCustomerAddress
                 (CustomerAddressMapper.INSTANCE.convertToAddress(customerAddressDto));
@@ -32,6 +35,7 @@ public class CustomerAddressController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('USER')")
     public void deleteAddress(@PathVariable(value = "id") Integer addressId) {
         addressService.removeCustomerAddressById(addressId);
     }

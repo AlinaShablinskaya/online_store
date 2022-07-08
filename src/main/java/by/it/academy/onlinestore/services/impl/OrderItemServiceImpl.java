@@ -26,45 +26,32 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     @Override
     public OrderItem addOrderItem(OrderItem orderItem) {
-        log.info("Adding order item {} started", orderItem);
         orderItem.setTotalPrice(calculatePrice(orderItem.getAmount(), orderItem.getProduct()));
         return orderItemRepository.save(orderItem);
     }
 
     @Override
     public void addOrderItemToCart(Integer orderItemId, Integer cartId) {
-        log.info("Adding order item id = {} to cart id = {} started", orderItemId, cartId);
-        OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(() -> {
-            log.error("Order item id = {} is not found", orderItemId);
-            return new EntityNotFoundException(ORDER_ITEM_IS_NOT_FOUND);
-        });
-        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> {
-            log.error("Cart id = {} is not found", cartId);
-            return new EntityNotFoundException(CART_IS_NOT_FOUND);
-        });
+        OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(() ->
+                new EntityNotFoundException(ORDER_ITEM_IS_NOT_FOUND));
+        Cart cart = cartRepository.findById(cartId).orElseThrow(() ->
+                new EntityNotFoundException(CART_IS_NOT_FOUND));
         cart.addOrderItem(orderItem);
         cartRepository.save(cart);
-        log.info("Order successfully added to cart");
     }
 
     @Override
     public void removeOrderItem(Integer orderItemId) {
-        log.info("Order Item id = {} removal started", orderItemId);
         if (!orderItemRepository.findById(orderItemId).isPresent()) {
-            log.error("Order Item is not found");
             throw new EntityNotFoundException(ORDER_ITEM_IS_NOT_FOUND);
         }
         orderItemRepository.deleteById(orderItemId);
-        log.info("Order successfully remove from cart");
     }
 
     @Override
     public List<OrderItem> findAllOrderItemsByCartId(Integer cartId) {
-        log.info("Find all order Item by cart id = {} started", cartId);
-        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> {
-            log.error("Cart id = {} is not found", cartId);
-            return new EntityNotFoundException(CART_IS_NOT_FOUND);
-        });
+        Cart cart = cartRepository.findById(cartId).orElseThrow(() ->
+                new EntityNotFoundException(CART_IS_NOT_FOUND));
         return cart.getOrderItems();
     }
 

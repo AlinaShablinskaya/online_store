@@ -29,27 +29,20 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product addProduct(Product product) {
-        log.info("Adding product {} started", product);
         if (productRepository.findByProductName(product.getProductName()).isPresent()) {
-            log.error("Product {} already exists", product);
             throw new EntityAlreadyExistException(PRODUCT_ALREADY_EXISTS);
         }
-        log.info("Product {} successfully added.", product);
         return productRepository.save(product);
     }
 
     @Override
     public Product findProductById(Integer id) {
-        log.info("Find product by id = {} started", id);
-        return productRepository.findById(id).orElseThrow(() -> {
-            log.error("Product id = {} is not found", id);
-            return new EntityNotFoundException(PRODUCT_IS_NOT_FOUND);
-        });
+        return productRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(PRODUCT_IS_NOT_FOUND));
     }
 
     @Override
     public List<Product> findAllProduct(int page, int itemsPerPage) {
-        log.info("Find all product on the page = {} started", page);
         Pageable paging = PageRequest.of(page, itemsPerPage);
         Page<Product> allProduct = productRepository.findAll(paging);
         return allProduct.toList();
@@ -57,72 +50,50 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAllProduct() {
-        log.info("Find all product started");
         return productRepository.findAll();
     }
 
     @Override
     public Product updateProduct(Product product) {
-        log.info("Updating product {} started", product);
         if (!productRepository.findById(product.getId()).isPresent()) {
-            log.error("Product {} is not found", product);
             throw new EntityNotFoundException(PRODUCT_IS_NOT_FOUND);
         }
         product = productRepository.save(product);
-        log.info("Product {} successfully updated.", product);
         return product;
     }
 
     @Override
     public void removeProductById(Integer id) {
-        log.info("Product delete by id = {} started", id);
         if (!productRepository.findById(id).isPresent()) {
-            log.error("Product is not found");
             throw new EntityNotFoundException(PRODUCT_IS_NOT_FOUND);
         }
         productRepository.deleteById(id);
-        log.info("Product {} successfully deleted.", id);
     }
 
     @Override
     public List<Product> findAllByCatalogName(String categoryName) {
-        log.info("Find all product by category name {} started", categoryName);
-        Catalog catalog = catalogRepository.findByGroupName(categoryName).orElseThrow(() -> {
-            log.error("Catalog name {} is not found", categoryName);
-            return new EntityNotFoundException(CATALOG_IS_NOT_FOUND);
-        });
+        Catalog catalog = catalogRepository.findByGroupName(categoryName).orElseThrow(() ->
+                new EntityNotFoundException(CATALOG_IS_NOT_FOUND));
         return catalog.getProducts();
     }
 
     @Override
     public void addProductToCatalog(Integer catalogId, Integer productId) {
-        log.info("Adding product id = {} to catalog id = {} started", productId, catalogId);
-        Catalog catalog = catalogRepository.findById(catalogId).orElseThrow(() -> {
-            log.error("Catalog is not found");
-            return new EntityNotFoundException(CATALOG_IS_NOT_FOUND);
-        });
-        Product product = productRepository.findById(productId).orElseThrow(() -> {
-            log.error("Product is not found");
-            return new EntityNotFoundException(PRODUCT_IS_NOT_FOUND);
-        });
+        Catalog catalog = catalogRepository.findById(catalogId).orElseThrow(() ->
+                new EntityNotFoundException(CATALOG_IS_NOT_FOUND));
+        Product product = productRepository.findById(productId).orElseThrow(() ->
+                new EntityNotFoundException(PRODUCT_IS_NOT_FOUND));
         catalog.addProduct(product);
         catalogRepository.save(catalog);
-        log.info("Product successfully added to catalog");
     }
 
     @Override
     public void removeProductFromCatalog(Integer catalogId, Integer productId) {
-        log.info("Product id = {} from catalog id = {} removal started", productId, catalogId);
-        Catalog catalog = catalogRepository.findById(catalogId).orElseThrow(() -> {
-            log.error("Catalog is not found");
-            return new EntityNotFoundException(CATALOG_IS_NOT_FOUND);
-        });
-        Product product = productRepository.findById(productId).orElseThrow(() -> {
-            log.error("Product is not found");
-            return new EntityNotFoundException(PRODUCT_IS_NOT_FOUND);
-        });
+        Catalog catalog = catalogRepository.findById(catalogId).orElseThrow(() ->
+                new EntityNotFoundException(CATALOG_IS_NOT_FOUND));
+        Product product = productRepository.findById(productId).orElseThrow(() ->
+                new EntityNotFoundException(PRODUCT_IS_NOT_FOUND));
         catalog.deleteProduct(product);
         catalogRepository.save(catalog);
-        log.info("Product successfully remove from catalog");
     }
 }

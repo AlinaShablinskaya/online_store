@@ -5,6 +5,7 @@ import by.it.academy.onlinestore.entities.Product;
 import by.it.academy.onlinestore.mappers.ProductMapper;
 import by.it.academy.onlinestore.services.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping("/")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ProductDto saveProduct(@RequestBody ProductDto productDto) {
         Product product = productService.addProduct(ProductMapper.INSTANCE.convertToProduct(productDto));
         return ProductMapper.INSTANCE.convertToProductDto(product);
@@ -45,12 +47,14 @@ public class ProductController {
     }
 
     @PutMapping("/")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ProductDto updateProduct(@RequestBody ProductDto productDto) {
         Product product = productService.updateProduct(ProductMapper.INSTANCE.convertToProduct(productDto));
         return ProductMapper.INSTANCE.convertToProductDto(product);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteProduct(@PathVariable(value = "id") Integer productId) {
         productService.removeProductById(productId);
     }
@@ -64,11 +68,13 @@ public class ProductController {
     }
 
     @PostMapping("/{id}/product")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void addProductToCatalog(@RequestParam("id") Integer productId, @PathVariable("id") Integer catalogId) {
         productService.addProductToCatalog(catalogId, productId);
     }
 
     @DeleteMapping("/{id}/product")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteProductFromCatalog(@RequestParam("id") Integer productId, @PathVariable("id") Integer catalogId) {
         productService.removeProductFromCatalog(catalogId, productId);
     }

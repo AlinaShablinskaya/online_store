@@ -22,41 +22,32 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart addCart(Cart cart) {
-        log.info("Adding cart {} started", cart);
         cart.setTotalSum(calculateSum(cart.getOrderItems()));
         return cartRepository.save(cart);
     }
 
     @Override
     public Cart findCartById(Integer id) {
-        log.info("Find cart by id = {} started", id);
         return cartRepository.findById(id).orElseThrow(() -> {
-            log.error("Cart id = {} is not found", id);
             return new EntityNotFoundException(CART_IS_NOT_FOUND);
         });
     }
 
     @Override
     public void deleteCart(Integer id) {
-        log.info("Cart delete by id = {} started", id);
         if (!cartRepository.findById(id).isPresent()) {
-            log.error("Cart is not found");
             throw new EntityNotFoundException(CART_IS_NOT_FOUND);
         }
         cartRepository.deleteById(id);
-        log.info("Cart successfully deleted by id = {}.", id);
     }
 
     @Override
     public Cart updateCart(Cart cart) {
-        log.info("Updating cart {} started", cart);
         if (!cartRepository.findById(cart.getId()).isPresent()) {
-            log.error("Cart is not found");
             throw new EntityNotFoundException(CART_IS_NOT_FOUND);
         }
         cart.setTotalSum(calculateSum(cart.getOrderItems()));
         cart = cartRepository.save(cart);
-        log.info("Cart {} successfully updated.", cart);
         return cart;
     }
 

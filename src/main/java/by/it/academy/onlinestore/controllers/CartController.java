@@ -5,6 +5,7 @@ import by.it.academy.onlinestore.entities.Cart;
 import by.it.academy.onlinestore.mappers.CartMapper;
 import by.it.academy.onlinestore.services.CartService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,23 +15,27 @@ public class CartController {
     private final CartService cartService;
 
     @PostMapping("/")
+    @PreAuthorize("hasAuthority('USER')")
     public CartDto saveCart(@RequestBody CartDto cartDto) {
         Cart cart = cartService.addCart(CartMapper.INSTANCE.convertToCart(cartDto));
         return CartMapper.INSTANCE.convertToCartDto(cart);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public CartDto findCartById(@PathVariable(value = "id") Integer cartId) {
         Cart cart = cartService.findCartById(cartId);
         return CartMapper.INSTANCE.convertToCartDto(cart);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('USER')")
     public void deleteCartById(@PathVariable(value = "id") Integer cartId) {
         cartService.deleteCart(cartId);
     }
 
     @PutMapping("/")
+    @PreAuthorize("hasAuthority('USER')")
     public CartDto updateCart(@RequestBody CartDto cartDto) {
         Cart cart = cartService.updateCart(CartMapper.INSTANCE.convertToCart(cartDto));
         return CartMapper.INSTANCE.convertToCartDto(cart);

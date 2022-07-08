@@ -5,6 +5,7 @@ import by.it.academy.onlinestore.entities.Catalog;
 import by.it.academy.onlinestore.mappers.CatalogMapper;
 import by.it.academy.onlinestore.services.CatalogService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class CatalogController {
     private final CatalogService catalogService;
 
     @PostMapping("/")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public CatalogDto saveCatalogName(@RequestBody CatalogDto catalogDto) {
         Catalog catalog = catalogService.createNewCatalog(CatalogMapper.INSTANCE.convertToCatalog(catalogDto));
         return CatalogMapper.INSTANCE.convertToCatalogDto(catalog);
@@ -37,11 +39,13 @@ public class CatalogController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteCatalog(@PathVariable(value = "id") Integer catalogId) {
         catalogService.removeCatalogById(catalogId);
     }
 
     @PutMapping("/")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public CatalogDto updateCatalog(@RequestBody CatalogDto catalogDto) {
         Catalog catalog = catalogService.updateCatalog(CatalogMapper.INSTANCE.convertToCatalog(catalogDto));
         return CatalogMapper.INSTANCE.convertToCatalogDto(catalog);
