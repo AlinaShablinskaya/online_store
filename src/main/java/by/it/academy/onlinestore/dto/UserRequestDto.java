@@ -5,7 +5,7 @@ import javax.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
-public class UserDto {
+public class UserRequestDto {
     private Integer id;
     @Pattern(regexp = "^[a-zA-Z]+$",
             message = "Name is less than 2 symbols or contains non-characters")
