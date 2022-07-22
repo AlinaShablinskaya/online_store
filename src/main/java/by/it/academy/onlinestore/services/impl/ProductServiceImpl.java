@@ -42,15 +42,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findAllProduct(int page, int itemsPerPage) {
-        Pageable paging = PageRequest.of(page, itemsPerPage);
-        Page<Product> allProduct = productRepository.findAll(paging);
-        return allProduct.toList();
-    }
-
-    @Override
-    public List<Product> findAllProduct() {
-        return productRepository.findAll();
+    public List<Product> findAllProduct(Pageable pageable) {
+        return productRepository.findAll(pageable).toList();
     }
 
     @Override

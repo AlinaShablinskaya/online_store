@@ -5,6 +5,7 @@ import by.it.academy.onlinestore.entities.Product;
 import by.it.academy.onlinestore.mappers.ProductMapper;
 import by.it.academy.onlinestore.services.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,16 +32,8 @@ public class ProductController {
     }
 
     @GetMapping("/")
-    public List<ProductDto> showAllProduct() {
-        List<Product> products = productService.findAllProduct();
-        return products.stream()
-                .map(ProductMapper.INSTANCE::convertToProductDto)
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping("/{size}/page")
-    public List<ProductDto> showAllProductOnPage(@RequestParam("page") int page, @PathVariable(value = "size") int size) {
-        List<Product> products = productService.findAllProduct(page, size);
+    public List<ProductDto> showAllProductOnPage(Pageable pageable) {
+        List<Product> products = productService.findAllProduct(pageable);
         return products.stream()
                 .map(ProductMapper.INSTANCE::convertToProductDto)
                 .collect(Collectors.toList());

@@ -36,7 +36,7 @@ public class OrderItemController {
         orderItemService.removeOrderItem(orderItemId);
     }
 
-    @GetMapping("/{id}/order")
+    @GetMapping("/{id}/orders")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public List<OrderItemDto> showAllOrderItemInCart(@PathVariable(value = "id") Integer cartId) {
         List<OrderItem> orderItems = orderItemService.findAllOrderItemsByCartId(cartId);

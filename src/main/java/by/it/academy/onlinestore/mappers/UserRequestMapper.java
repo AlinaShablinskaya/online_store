@@ -1,15 +1,15 @@
 package by.it.academy.onlinestore.mappers;
 
-import by.it.academy.onlinestore.dto.UserDto;
+import by.it.academy.onlinestore.dto.UserRequestDto;
 import by.it.academy.onlinestore.entities.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
-public interface UserMapper {
-    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
+public interface UserRequestMapper {
+    UserRequestMapper INSTANCE = Mappers.getMapper(UserRequestMapper.class);
 
-    UserDto convertToUserDto(User user);
+    UserRequestDto convertToUserDto(User user);
 
-    User convertToUser(UserDto userDto);
+    User convertToUser(UserRequestDto userSaveDto);
 }

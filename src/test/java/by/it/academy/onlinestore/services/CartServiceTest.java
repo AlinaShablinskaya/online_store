@@ -2,6 +2,7 @@ package by.it.academy.onlinestore.services;
 
 import by.it.academy.onlinestore.entities.Cart;
 import by.it.academy.onlinestore.repositories.CartRepository;
+import by.it.academy.onlinestore.services.exeption.EntityNotFoundException;
 import by.it.academy.onlinestore.services.impl.CartServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,8 +15,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class CartServiceTest {
@@ -25,7 +25,7 @@ class CartServiceTest {
     private CartServiceImpl cartService;
 
     @Test
-    void addCartShouldReturnCorrectResult() {
+    void addCartShouldCreateNewCart() {
         Cart cart = new Cart();
         cart.setId(1);
         cart.setOrderItems(new ArrayList<>());
@@ -37,39 +37,99 @@ class CartServiceTest {
     }
 
     @Test
-    void findCartByIdShouldReturnCorrectResult() {
+    void findCartByIdShouldReturnCartWithSpecifiedId() {
         Cart cart = new Cart();
         cart.setId(1);
         cart.setOrderItems(new ArrayList<>());
         cart.setTotalSum(BigDecimal.valueOf(20));
 
-        when(cartRepository.findById(1)).thenReturn(Optional.of(cart));
-        cartService.findCartById(1);
-        verify(cartRepository).findById(1);
+        Integer cartId = cart.getId();
+
+        when(cartRepository.findById(cartId)).thenReturn(Optional.of(cart));
+        cartService.findCartById(cartId);
+        verify(cartRepository).findById(cartId);
     }
 
     @Test
-    void deleteCartShouldReturnCorrectResult() {
-        Cart cart = new Cart();
-        cart.setId(1);
-        cart.setOrderItems(new ArrayList<>());
-        cart.setTotalSum(BigDecimal.valueOf(20));
+    void findCartByIdShouldThrowEntityNotFoundExceptionIfNoSuchEntityExists() {
+        Integer nonExistentId = 1;
 
-        when(cartRepository.findById(1)).thenReturn(Optional.of(cart));
-        cartService.deleteCart(1);
-        verify(cartRepository).deleteById(1);
+        when(cartRepository.findById(nonExistentId)).thenReturn(Optional.empty());
+        Exception exception = assertThrows(EntityNotFoundException.class,
+                () -> cartService.findCartById(nonExistentId));
+        String expectedMessage = "Specified cart is not found.";
+        String actualMessage = exception.getMessage();
+
+        assertEquals(expectedMessage, actualMessage);
+
+        verify(cartRepository).findById(nonExistentId);
+        verifyNoMoreInteractions(cartRepository);
     }
 
     @Test
-    void updateCartShouldReturnCorrectResult() {
+    void deleteCartShouldDeleteCart() {
         Cart cart = new Cart();
         cart.setId(1);
         cart.setOrderItems(new ArrayList<>());
         cart.setTotalSum(BigDecimal.valueOf(20));
 
-        when(cartRepository.findById(1)).thenReturn(Optional.of(cart));
-        when(cartRepository.save(cart)).thenReturn(cart);
+        Integer cartId = cart.getId();
+
+        when(cartRepository.findById(cartId)).thenReturn(Optional.of(cart));
+        doNothing().when(cartRepository).deleteById(cartId);
+        cartService.deleteCart(cartId);
+        verify(cartRepository).findById(cartId);
+        verify(cartRepository).deleteById(cartId);
+    }
+
+    @Test
+    void deleteCartShouldThrowEntityNotFoundExceptionIfNoSuchEntityExists() {
+        Integer nonExistentId = 1;
+
+        when(cartRepository.findById(nonExistentId)).thenReturn(Optional.empty());
+        Exception exception = assertThrows(EntityNotFoundException.class,
+                () -> cartService.deleteCart(nonExistentId));
+        String expectedMessage = "Specified cart is not found.";
+        String actualMessage = exception.getMessage();
+
+        assertEquals(expectedMessage, actualMessage);
+
+        verify(cartRepository).findById(nonExistentId);
+        verifyNoMoreInteractions(cartRepository);
+    }
+
+    @Test
+    void updateCartShouldUpdateCart() {
+        Cart cart = new Cart();
+        cart.setId(1);
+        cart.setOrderItems(new ArrayList<>());
+        cart.setTotalSum(BigDecimal.valueOf(20));
+
+        Integer cartId = cart.getId();
+
+        when(cartRepository.findById(cartId)).thenReturn(Optional.of(cart));
         cartService.updateCart(cart);
         verify(cartRepository).save(cart);
+    }
+
+    @Test
+    void updateCartShouldThrowEntityNotFoundExceptionIfNoSuchEntityExists() {
+        Cart cart = new Cart();
+        cart.setId(1);
+        cart.setOrderItems(new ArrayList<>());
+        cart.setTotalSum(BigDecimal.valueOf(20));
+
+        Integer nonExistentId = 1;
+
+        when(cartRepository.findById(nonExistentId)).thenReturn(Optional.empty());
+        Exception exception = assertThrows(EntityNotFoundException.class,
+                () -> cartService.updateCart(cart));
+        String expectedMessage = "Specified cart is not found.";
+        String actualMessage = exception.getMessage();
+
+        assertEquals(expectedMessage, actualMessage);
+
+        verify(cartRepository).findById(nonExistentId);
+        verifyNoMoreInteractions(cartRepository);
     }
 }

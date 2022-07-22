@@ -10,11 +10,11 @@ import org.mapstruct.factory.Mappers;
 public interface CartMapper {
     CartMapper INSTANCE = Mappers.getMapper(CartMapper.class);
 
-    @Mapping(source = "user", target = "userDto")
     @Mapping(source = "orderItems", target = "orderItemsDto")
+    @Mapping(source = "user", target = "userRequestDto")
     CartDto convertToCartDto(Cart cart);
 
-    @Mapping(source = "userDto", target = "user")
     @Mapping(source = "orderItemsDto", target = "orderItems")
+    @Mapping(source = "userRequestDto", target = "user")
     Cart convertToCart(CartDto cartDto);
 }

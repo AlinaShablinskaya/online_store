@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user", schema = "online_store")
+@Table(name = "users", schema = "online_store")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

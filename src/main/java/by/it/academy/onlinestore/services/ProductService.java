@@ -1,6 +1,7 @@
 package by.it.academy.onlinestore.services;
 
 import by.it.academy.onlinestore.entities.Product;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -9,9 +10,7 @@ public interface ProductService {
 
     Product findProductById(Integer id);
 
-    List<Product> findAllProduct(int page, int itemsPerPage);
-
-    List<Product> findAllProduct();
+    List<Product> findAllProduct(Pageable pageable);
 
     Product updateProduct(Product product);
 

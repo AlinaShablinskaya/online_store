@@ -10,8 +10,4 @@ public interface UserService {
     List<User> findAllUser();
 
     User findUserById(Integer id);
-
-//    User findUserByEmail(String email);
-
-//    boolean login(String email, String password);
 }

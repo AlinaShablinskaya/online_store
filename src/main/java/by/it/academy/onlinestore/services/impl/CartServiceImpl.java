@@ -28,9 +28,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart findCartById(Integer id) {
-        return cartRepository.findById(id).orElseThrow(() -> {
-            return new EntityNotFoundException(CART_IS_NOT_FOUND);
-        });
+        return cartRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(CART_IS_NOT_FOUND));
     }
 
     @Override
