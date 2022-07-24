@@ -7,11 +7,7 @@ import lombok.Data;
 @Data
 public class UserRequestDto {
     private Integer id;
-    @Pattern(regexp = "^[a-zA-Z]+$",
-            message = "Name is less than 2 symbols or contains non-characters")
     private String firstName;
-    @Pattern(regexp = "^[a-zA-Z]+$",
-            message = "Name is less than 2 symbols or contains non-characters")
     private String lastName;
     @Pattern(regexp = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$",
             message = "Email invalid")
