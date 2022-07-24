@@ -2,9 +2,10 @@ package by.it.academy.onlinestore.services;
 
 import by.it.academy.onlinestore.entities.User;
 import by.it.academy.onlinestore.repositories.UserRepository;
-import by.it.academy.onlinestore.services.exeption.EntityAlreadyExistException;
-import by.it.academy.onlinestore.services.exeption.EntityNotFoundException;
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import by.it.academy.onlinestore.services.impl.UserServiceImpl;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,6 +27,7 @@ class UserServiceTest {
     private UserServiceImpl userService;
 
     @Test
+    @DisplayName("create user should save new user")
     void createUserShouldSaveNewUser() {
         User user = new User();
         user.setId(1);
@@ -39,6 +41,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("create user throw entity already exist exception if entity already exists")
     void createUserThrowEntityAlreadyExistExceptionIfEntityAlreadyExists() {
         User user = new User();
         user.setId(1);
@@ -47,7 +50,7 @@ class UserServiceTest {
         user.setPassword("pass");
 
         when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
-        Exception exception = assertThrows(EntityAlreadyExistException.class,
+        Exception exception = assertThrows(EntityExistsException.class,
                 () -> userService.createUser(user));
         String expectedMessage = "Specified user already exists.";
         String actualMessage = exception.getMessage();
@@ -59,6 +62,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("find all user should show all users")
     void findAllUserShouldShowAllUsers() {
         List<User> users = new ArrayList<>();
 
@@ -76,6 +80,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("find user by id should return user with specified id")
     void findUserByIdShouldReturnUserWithSpecifiedId() {
         User user = new User();
         user.setId(1);
@@ -89,6 +94,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("find user by id should throw entity not found exception if no such entity exists")
     void findUserByIdShouldThrowEntityNotFoundExceptionIfNoSuchEntityExists() {
         User user = new User();
         user.setId(1);

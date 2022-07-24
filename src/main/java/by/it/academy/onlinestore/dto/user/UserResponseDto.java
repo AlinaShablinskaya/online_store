@@ -1,4 +1,4 @@
-package by.it.academy.onlinestore.dto;
+package by.it.academy.onlinestore.dto.user;
 
 import lombok.Data;
 

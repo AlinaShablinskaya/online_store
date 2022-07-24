@@ -10,13 +10,19 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserDetailsServiceImpl implements UserDetailsService {
+    public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
 
+    /**
+     * Retrieves the user associated with the user email
+     * @param email specified email to find the user
+     * @return retrieve the user if entity exists
+     * @throws UsernameNotFoundException throws exception If user doesn't exist
+     */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email).orElseThrow(() ->
-                new UsernameNotFoundException("User doesn't exists"));
+                new UsernameNotFoundException("User doesn't exist"));
         return SecurityUser.fromUser(user);
     }
 }

@@ -2,9 +2,10 @@ package by.it.academy.onlinestore.services;
 
 import by.it.academy.onlinestore.entities.Catalog;
 import by.it.academy.onlinestore.repositories.CatalogRepository;
-import by.it.academy.onlinestore.services.exeption.EntityAlreadyExistException;
-import by.it.academy.onlinestore.services.exeption.EntityNotFoundException;
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import by.it.academy.onlinestore.services.impl.CatalogServiceImpl;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,6 +27,7 @@ class CatalogServiceTest {
     private CatalogServiceImpl catalogService;
 
     @Test
+    @DisplayName("create new catalog should add catalog")
     void createNewCatalogShouldAddCatalog() {
         Catalog catalog = new Catalog();
         catalog.setId(1);
@@ -41,6 +43,7 @@ class CatalogServiceTest {
     }
 
     @Test
+    @DisplayName("create new catalog throws entity already exist exception if entity already exists")
     void createNewCatalogThrowEntityAlreadyExistExceptionIfEntityAlreadyExists() {
         Catalog catalog = new Catalog();
         catalog.setId(1);
@@ -49,7 +52,7 @@ class CatalogServiceTest {
         String catalogName = catalog.getGroupName();
 
         when(catalogRepository.findByGroupName(catalogName)).thenReturn(Optional.of(catalog));
-        Exception exception = assertThrows(EntityAlreadyExistException.class,
+        Exception exception = assertThrows(EntityExistsException.class,
                 () -> catalogService.createNewCatalog(catalog));
         String expectedMessage = "Specified catalog already exists.";
         String actualMessage = exception.getMessage();
@@ -61,6 +64,7 @@ class CatalogServiceTest {
     }
 
     @Test
+    @DisplayName("find catalog by id should return catalog with specified id")
     void findCatalogByIdShouldReturnCatalogWithSpecifiedId() {
         Catalog catalog = new Catalog();
         catalog.setId(1);
@@ -74,6 +78,7 @@ class CatalogServiceTest {
     }
 
     @Test
+    @DisplayName("find catalog should throw entity not found exception if no such entity exists")
     void findCatalogShouldThrowEntityNotFoundExceptionIfNoSuchEntityExists() {
         Integer nonExistentId = 1;
 
@@ -90,6 +95,7 @@ class CatalogServiceTest {
     }
 
     @Test
+    @DisplayName("show catalog should return all product categories")
     void showCatalogShouldReturnAllProductCategories() {
         List<Catalog> catalogs = new ArrayList<>();
 
@@ -105,6 +111,7 @@ class CatalogServiceTest {
     }
 
     @Test
+    @DisplayName("remove catalog by id should remove catalog")
     void removeCatalogByIdShouldRemoveCatalog() {
         Catalog catalog = new Catalog();
         catalog.setId(1);
@@ -120,6 +127,7 @@ class CatalogServiceTest {
     }
 
     @Test
+    @DisplayName("remove catalog by id should throw entity not found exception if no such entity exists")
     void removeCatalogByIdShouldThrowEntityNotFoundExceptionIfNoSuchEntityExists() {
         Integer nonExistentId = 1;
 
@@ -136,6 +144,7 @@ class CatalogServiceTest {
     }
 
     @Test
+    @DisplayName("update catalog should update catalog")
     void updateCatalogShouldUpdateCatalog() {
         Catalog catalog = new Catalog();
         catalog.setId(1);
@@ -150,6 +159,7 @@ class CatalogServiceTest {
     }
 
     @Test
+    @DisplayName("update catalog should throw entity not found exception if no such entity exists")
     void updateCatalogShouldThrowEntityNotFoundExceptionIfNoSuchEntityExists() {
         Catalog catalog = new Catalog();
         catalog.setId(1);

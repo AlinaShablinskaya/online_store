@@ -1,5 +1,6 @@
-package by.it.academy.onlinestore.dto;
+package by.it.academy.onlinestore.dto.order;
 
+import by.it.academy.onlinestore.dto.product.ProductDto;
 import lombok.Data;
 
 import java.math.BigDecimal;

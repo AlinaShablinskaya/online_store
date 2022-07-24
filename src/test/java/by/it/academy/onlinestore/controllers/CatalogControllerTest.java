@@ -1,6 +1,6 @@
 package by.it.academy.onlinestore.controllers;
 
-import by.it.academy.onlinestore.dto.CatalogDto;
+import by.it.academy.onlinestore.dto.catalog.CatalogDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

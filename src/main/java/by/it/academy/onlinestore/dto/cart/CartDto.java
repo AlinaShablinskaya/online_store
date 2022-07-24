@@ -1,5 +1,6 @@
-package by.it.academy.onlinestore.dto;
+package by.it.academy.onlinestore.dto.cart;
 
+import by.it.academy.onlinestore.dto.user.UserRequestDto;
 import by.it.academy.onlinestore.entities.OrderItem;
 import lombok.Data;
 

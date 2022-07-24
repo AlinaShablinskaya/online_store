@@ -2,8 +2,9 @@ package by.it.academy.onlinestore.services;
 
 import by.it.academy.onlinestore.entities.CustomerAddress;
 import by.it.academy.onlinestore.repositories.CustomerAddressRepository;
-import by.it.academy.onlinestore.services.exeption.EntityNotFoundException;
+import javax.persistence.EntityNotFoundException;
 import by.it.academy.onlinestore.services.impl.AddressServiceImpl;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,6 +25,7 @@ class AddressServiceTest {
 
 
     @Test
+    @DisplayName("add customer address should add new address")
     void addCustomerAddressShouldAddAddress() {
         CustomerAddress address = new CustomerAddress();
         address.setId(1);
@@ -36,6 +38,7 @@ class AddressServiceTest {
     }
 
     @Test
+    @DisplayName("update customer address should update address")
     void updateCustomerAddressShouldUpdateAddress() {
         CustomerAddress address = new CustomerAddress();
         address.setId(1);
@@ -50,6 +53,7 @@ class AddressServiceTest {
     }
 
     @Test
+    @DisplayName("update customer address should throw entity not found exception if no such entity exists")
     void updateCustomerAddressShouldThrowEntityNotFoundExceptionIfNoSuchEntityExists() {
         CustomerAddress address = new CustomerAddress();
         address.setId(1);
@@ -71,6 +75,7 @@ class AddressServiceTest {
     }
 
     @Test
+    @DisplayName("remove customer address by id should remove address")
     void removeCustomerAddressByIdShouldRemoveAddress() {
         CustomerAddress address = new CustomerAddress();
         address.setId(1);
@@ -87,6 +92,7 @@ class AddressServiceTest {
     }
 
     @Test
+    @DisplayName("remove customer address by id should throw entity not found exception if no such entity exists")
     void removeCustomerAddressByIdShouldThrowEntityNotFoundExceptionIfNoSuchEntityExists() {
         Integer nonExistentId = 1;
 

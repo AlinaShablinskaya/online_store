@@ -4,9 +4,10 @@ import by.it.academy.onlinestore.entities.Catalog;
 import by.it.academy.onlinestore.entities.Product;
 import by.it.academy.onlinestore.repositories.CatalogRepository;
 import by.it.academy.onlinestore.repositories.ProductRepository;
-import by.it.academy.onlinestore.services.exeption.EntityAlreadyExistException;
-import by.it.academy.onlinestore.services.exeption.EntityNotFoundException;
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import by.it.academy.onlinestore.services.impl.ProductServiceImpl;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -35,6 +36,7 @@ class ProductServiceTest {
    private ProductServiceImpl productService;
 
     @Test
+    @DisplayName("add product should create new product")
     void addProductShouldCreateNewProduct() {
         Product product = new Product();
         product.setId(1);
@@ -48,6 +50,7 @@ class ProductServiceTest {
     }
 
     @Test
+    @DisplayName("add product throws entity already exist exception if entity already exists")
     void addProductThrowEntityAlreadyExistExceptionIfEntityAlreadyExists() {
         Product product = new Product();
         product.setId(1);
@@ -58,7 +61,7 @@ class ProductServiceTest {
         String productName = product.getProductName();
 
         when(productRepository.findByProductName(productName)).thenReturn(Optional.of(product));
-        Exception exception = assertThrows(EntityAlreadyExistException.class,
+        Exception exception = assertThrows(EntityExistsException.class,
                 () -> productService.addProduct(product));
         String expectedMessage = "Specified product already exists.";
         String actualMessage = exception.getMessage();
@@ -70,6 +73,7 @@ class ProductServiceTest {
     }
 
     @Test
+    @DisplayName("find product by id should return product with specified id")
     void findProductByIdShouldReturnProductWithSpecifiedId() {
         Product product = new Product();
         product.setId(1);
@@ -85,6 +89,7 @@ class ProductServiceTest {
     }
 
     @Test
+    @DisplayName("find product by id should throw entity not found exception if no such entity exists")
     void findProductByIdShouldThrowEntityNotFoundExceptionIfNoSuchEntityExists() {
         Integer nonExistentId = 1;
 
@@ -101,6 +106,7 @@ class ProductServiceTest {
     }
 
     @Test
+    @DisplayName("find all product should show all products")
     void findAllProductShouldShowAllProducts() {
         List<Product> products = new ArrayList<>();
         Pageable paging = PageRequest.of(0, 2);
@@ -128,6 +134,7 @@ class ProductServiceTest {
     }
 
     @Test
+    @DisplayName("update product should update product")
     void updateProductShouldReturnCorrectResult() {
         Product product = new Product();
         product.setId(1);
@@ -142,6 +149,7 @@ class ProductServiceTest {
     }
 
     @Test
+    @DisplayName("update product throw entity not found exception if no such entity exists")
     void updateProductThrowEntityNotFoundExceptionIfNoSuchEntityExists() {
         Product product = new Product();
         product.setId(1);
@@ -164,6 +172,7 @@ class ProductServiceTest {
     }
 
     @Test
+    @DisplayName("remove product by id should remove product")
     void removeProductByIdShouldRemoveProduct() {
         Product product = new Product();
         product.setId(1);
@@ -181,6 +190,7 @@ class ProductServiceTest {
     }
 
     @Test
+    @DisplayName("remove product by id should throw entity not found exception if no such entity exists")
     void removeProductByIdShouldThrowEntityNotFoundExceptionIfNoSuchEntityExists() {
         Integer nonExistentId = 1;
 
@@ -197,6 +207,7 @@ class ProductServiceTest {
     }
 
     @Test
+    @DisplayName("find all by catalog name should show all products by catalog name")
     void findAllByCatalogNameShouldShowAllProductsByCatalogName() {
         List<Product> products = new ArrayList<>();
 
@@ -221,6 +232,7 @@ class ProductServiceTest {
     }
 
     @Test
+    @DisplayName("find all by catalog name should throw entity not found exception if no such entity exists")
     void findAllByCatalogNameShouldThrowEntityNotFoundExceptionIfNoSuchEntityExists() {
         when(catalogRepository.findByGroupName("catalog")).thenReturn(Optional.empty());
         Exception exception = assertThrows(EntityNotFoundException.class,
@@ -235,6 +247,7 @@ class ProductServiceTest {
     }
 
     @Test
+    @DisplayName("add product to catalog should save relationship between product and catalog")
     void addProductToCatalogShouldSaveRelationshipBetweenProductAndCatalog() {
         Product product = new Product();
         product.setId(1);
@@ -257,6 +270,7 @@ class ProductServiceTest {
     }
 
     @Test
+    @DisplayName("add product to catalog should throw entity not found exception if catalog is not exists")
     void addProductToCatalogShouldThrowEntityNotFoundExceptionIfCatalogIsNotExists() {
         Product product = new Product();
         product.setId(1);
@@ -280,6 +294,7 @@ class ProductServiceTest {
     }
 
     @Test
+    @DisplayName("add product to catalog should throw entity not found exception if product is not exists")
     void addProductToCatalogShouldThrowEntityNotFoundExceptionIfProductIsNotExists() {
         Catalog catalog = new Catalog();
         catalog.setId(1);

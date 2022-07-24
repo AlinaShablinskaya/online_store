@@ -10,15 +10,25 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
+/**
+ * Aspect to centralize logging for Controllers
+ */
 @Slf4j
 @Aspect
 @Component
 public class ControllerLogAspect extends BaseAspect {
+    /**
+     * Pointcut that matches all Spring beans in the specified packages.
+     */
     @Pointcut("execution(* by.it.academy.onlinestore.controllers..*(..)) " +
             "&& !@annotation(by.it.academy.onlinestore.aop.ExcludeLog))")
     public void isControllerLayer() {
     }
 
+    /**
+     * Advice that logs when a method is entered.
+     * @param joinPoint join point for advice
+     */
     @Before("isControllerLayer()")
     public void logControllersBefore(JoinPoint joinPoint) {
         HttpServletRequest request =
@@ -30,6 +40,11 @@ public class ControllerLogAspect extends BaseAspect {
                 getArgsWithName(joinPoint));
     }
 
+    /**
+     * Advice that logs when a method is exited.
+     * @param joinPoint join point for advice
+     * @param result the desired result after successful method
+     */
     @AfterReturning(pointcut = "isControllerLayer()", returning = "result")
     public void logControllerAfter(JoinPoint joinPoint, Object result) {
         HttpServletRequest request =

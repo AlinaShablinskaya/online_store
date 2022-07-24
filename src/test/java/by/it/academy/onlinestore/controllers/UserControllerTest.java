@@ -1,6 +1,6 @@
 package by.it.academy.onlinestore.controllers;
 
-import by.it.academy.onlinestore.dto.UserRequestDto;
+import by.it.academy.onlinestore.dto.user.UserRequestDto;
 import by.it.academy.onlinestore.entities.Role;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;

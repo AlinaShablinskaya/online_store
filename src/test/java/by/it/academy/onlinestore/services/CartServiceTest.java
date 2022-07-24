@@ -2,8 +2,9 @@ package by.it.academy.onlinestore.services;
 
 import by.it.academy.onlinestore.entities.Cart;
 import by.it.academy.onlinestore.repositories.CartRepository;
-import by.it.academy.onlinestore.services.exeption.EntityNotFoundException;
+import javax.persistence.EntityNotFoundException;
 import by.it.academy.onlinestore.services.impl.CartServiceImpl;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,6 +26,7 @@ class CartServiceTest {
     private CartServiceImpl cartService;
 
     @Test
+    @DisplayName("add cart should create new cart")
     void addCartShouldCreateNewCart() {
         Cart cart = new Cart();
         cart.setId(1);
@@ -37,6 +39,7 @@ class CartServiceTest {
     }
 
     @Test
+    @DisplayName("find cart by id should return cart with specified id")
     void findCartByIdShouldReturnCartWithSpecifiedId() {
         Cart cart = new Cart();
         cart.setId(1);
@@ -51,6 +54,7 @@ class CartServiceTest {
     }
 
     @Test
+    @DisplayName("find cart by id should throw entity not found exception if no such entity exists")
     void findCartByIdShouldThrowEntityNotFoundExceptionIfNoSuchEntityExists() {
         Integer nonExistentId = 1;
 
@@ -67,6 +71,7 @@ class CartServiceTest {
     }
 
     @Test
+    @DisplayName("delete cart should delete cart")
     void deleteCartShouldDeleteCart() {
         Cart cart = new Cart();
         cart.setId(1);
@@ -83,6 +88,7 @@ class CartServiceTest {
     }
 
     @Test
+    @DisplayName("delete cart should throw entity not found exception if no such entity exists")
     void deleteCartShouldThrowEntityNotFoundExceptionIfNoSuchEntityExists() {
         Integer nonExistentId = 1;
 
@@ -99,6 +105,7 @@ class CartServiceTest {
     }
 
     @Test
+    @DisplayName("update cart should update cart")
     void updateCartShouldUpdateCart() {
         Cart cart = new Cart();
         cart.setId(1);
@@ -113,6 +120,7 @@ class CartServiceTest {
     }
 
     @Test
+    @DisplayName("update cart should throw entity not found exception if no such entity exists")
     void updateCartShouldThrowEntityNotFoundExceptionIfNoSuchEntityExists() {
         Cart cart = new Cart();
         cart.setId(1);

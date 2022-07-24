@@ -5,8 +5,9 @@ import by.it.academy.onlinestore.entities.OrderItem;
 import by.it.academy.onlinestore.entities.Product;
 import by.it.academy.onlinestore.repositories.CartRepository;
 import by.it.academy.onlinestore.repositories.OrderItemRepository;
-import by.it.academy.onlinestore.services.exeption.EntityNotFoundException;
+import javax.persistence.EntityNotFoundException;
 import by.it.academy.onlinestore.services.impl.OrderItemServiceImpl;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,6 +32,7 @@ class OrderItemServiceTest {
     private OrderItemServiceImpl orderItemService;
 
     @Test
+    @DisplayName("add order item should create order item")
     void addOrderItemShouldCreateOrderItem() {
         Product product = new Product();
         product.setId(1);
@@ -49,6 +51,7 @@ class OrderItemServiceTest {
     }
 
     @Test
+    @DisplayName("add order item to cart should save relationship between order item and cart")
     void addOrderItemToCartShouldSaveRelationshipBetweenOrderItemAndCart() {
         OrderItem orderItem = new OrderItem();
         orderItem.setId(1);
@@ -70,6 +73,7 @@ class OrderItemServiceTest {
     }
 
     @Test
+    @DisplayName("add order item to cart should throw entity not found exception if order item is not exists")
     void addOrderItemToCartShouldThrowEntityNotFoundExceptionIfOrderItemIsNotExists() {
         Integer cartId = 1;
         Integer nonExistentId = 1;
@@ -87,6 +91,7 @@ class OrderItemServiceTest {
     }
 
     @Test
+    @DisplayName("add order item to cart should throw entity not found exception if cart is not exists")
     void addOrderItemToCartShouldThrowEntityNotFoundExceptionIfCartIsNotExists() {
         OrderItem orderItem = new OrderItem();
         orderItem.setId(1);
@@ -110,6 +115,7 @@ class OrderItemServiceTest {
     }
 
     @Test
+    @DisplayName("remove order item should remove order item")
     void removeOrderItemShouldRemoveOrderItem() {
         OrderItem orderItem = new OrderItem();
         orderItem.setId(1);
@@ -126,6 +132,7 @@ class OrderItemServiceTest {
     }
 
     @Test
+    @DisplayName("remove order item should throw entity not found exception if no such entity exists")
     void removeOrderItemShouldThrowEntityNotFoundExceptionIfNoSuchEntityExists() {
         Integer nonExistentId = 1;
 
@@ -142,6 +149,7 @@ class OrderItemServiceTest {
     }
 
     @Test
+    @DisplayName("find all order items by cart id")
     void findAllOrderItemsByCartId() {
         List<OrderItem> orderItems = new ArrayList<>();
 
@@ -165,6 +173,7 @@ class OrderItemServiceTest {
     }
 
     @Test
+    @DisplayName("find all order items by cart id should throw entity not found exception if cart is not exists")
     void findAllOrderItemsByCartIdShouldThrowEntityNotFoundExceptionIfCartIsNotExists() {
         Integer nonExistentId = 1;
 
